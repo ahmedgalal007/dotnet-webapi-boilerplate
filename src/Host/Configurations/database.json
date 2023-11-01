@@ -1,6 +1,10 @@
 {
+  //"DatabaseSettings": {
+  //  "DBProvider": "postgresql",
+  //  "ConnectionString": "Host=localhost;Port=5432;Database=fshDb;Username=postgres;Password=admin;Include Error Detail=true"
+  //}
   "DatabaseSettings": {
-    "DBProvider": "postgresql",
-    "ConnectionString": "Host=localhost;Port=5432;Database=fshDb;Username=postgres;Password=admin;Include Error Detail=true"
+    "DBProvider": "mssql",
+    "ConnectionString": "Data Source=DESKTOP-S12TPIH\\MSSQLSERVER2017;Initial Catalog=rootTenantAhlyDb;Integrated Security=True;MultipleActiveResultSets=True"
   }
 }
