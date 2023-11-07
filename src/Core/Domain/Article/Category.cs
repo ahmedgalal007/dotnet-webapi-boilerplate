@@ -18,35 +18,22 @@ public class Category : AuditableEntity, IAggregateRoot
     public virtual LocalizationSet? Description { get; set; }
 
     public Category(){}
-    public Category(string name, string? description, string? color, string cultureCode = "ar")
+    public Category(string name, string? description, string? color, string? cultureCode)
     {
-        this.Name.Localizations.Add(new Localization()
-        {
-            CultureCode = cultureCode,
-            Value = name
-        });
-        this.Description.Localizations.Add(new Localization()
-        {
-            CultureCode = cultureCode,
-            Value = description ?? string.Empty
-        });
+        if (string.IsNullOrWhiteSpace(cultureCode))
+            cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
+        Name.AddOrUpdate(cultureCode, name);
+        Description.AddOrUpdate(cultureCode, description);
         this.Slug = name.TrimStart().TrimEnd().Replace(" ", "-");
         this.Color = color;
     }
 
     public Category Update(string? cultureCode, string? name, string? description, string? color)
     {
-        if (name is not null && Name.Localizations.Any(e => e.CultureCode == cultureCode) is not true)
-        {
-            Name.Localizations.Add(new Localization()
-            {
-                CultureCode = cultureCode!,
-                Value = name
-            });
-        }
-
-        if (name is not null && Name.Localizations.Where(e => e.CultureCode == cultureCode).FirstOrDefault().Value.Equals(name) is not true) Name.Localizations.Where(e => e.CultureCode == cultureCode).FirstOrDefault().Value = name;
-        if (description is not null && Description.Localizations.Where(e => e.CultureCode == cultureCode).FirstOrDefault().Value.Equals(description) is not true) Description.Localizations.Where(e => e.CultureCode == cultureCode).FirstOrDefault().Value = description;
+        if (string.IsNullOrWhiteSpace(cultureCode))
+            cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
+        if (name is not null && Name.HasTraslationEquale(cultureCode, name) is not true) Name.AddOrUpdate(cultureCode, name);
+        if (description is not null && Description.HasTraslationEquale( cultureCode, description) is not true) Description.AddOrUpdate(cultureCode, description);
         if (color is not null && Color?.Equals(color) is not true) Color = color;
         return this;
     }

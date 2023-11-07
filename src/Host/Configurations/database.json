@@ -5,6 +5,6 @@
   //}
   "DatabaseSettings": {
     "DBProvider": "mssql",
-    "ConnectionString": "Data Source=DESKTOP-S12TPIH\\MSSQLSERVER2017;Initial Catalog=rootTenantAhlyDb;Integrated Security=True;MultipleActiveResultSets=True"
+    "ConnectionString": "Data Source=DESKTOP-S12TPIH\\MSSQLSERVER2017;Initial Catalog=rootTenantAhlyDb;Integrated Security=false;User ID=sa;Password=Sico007_;MultipleActiveResultSets=True;TrustServerCertificate=True"
   }
 }
