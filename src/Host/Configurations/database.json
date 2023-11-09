@@ -3,8 +3,15 @@
   //  "DBProvider": "postgresql",
   //  "ConnectionString": "Host=localhost;Port=5432;Database=fshDb;Username=postgres;Password=admin;Include Error Detail=true"
   //}
+
+  // Dell
+  //"DatabaseSettings": {
+  //  "DBProvider": "mssql",
+  //  "ConnectionString": "Data Source=DESKTOP-S12TPIH\\MSSQLSERVER2017;Initial Catalog=rootTenantAhlyDb;Integrated Security=false;User ID=sa;Password=Sico007_;MultipleActiveResultSets=True;TrustServerCertificate=True"
+  //},
+
   "DatabaseSettings": {
     "DBProvider": "mssql",
-    "ConnectionString": "Data Source=DESKTOP-S12TPIH\\MSSQLSERVER2017;Initial Catalog=rootTenantAhlyDb;Integrated Security=false;User ID=sa;Password=Sico007_;MultipleActiveResultSets=True;TrustServerCertificate=True"
+    "ConnectionString": "Data Source=DESKTOP-F9MGF0N;Initial Catalog=rootTenantAhlyDb;Integrated Security=false;User ID=sa;Password=Sico007_;MultipleActiveResultSets=True;TrustServerCertificate=True"
   }
 }
