@@ -1,6 +1,10 @@
-﻿namespace FSH.WebApi.Domain.Common.Localizations;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FSH.WebApi.Domain.Common.Localizations;
 public class LocalizationSet : AuditableEntity
 {
+    [MaxLength(100)]
+    public string FieldPath { get; set; }
     public virtual ICollection<Localization> Localizations { get; set; }
 
 
@@ -11,6 +15,7 @@ public class LocalizationSet : AuditableEntity
 
     public bool HasTraslation(string cultureCode)
     {
+        if (Localizations is null) return false;
         return Localizations.Any(x => x.CultureCode == cultureCode);
     }
 
@@ -22,6 +27,7 @@ public class LocalizationSet : AuditableEntity
     }
     public Localization AddOrUpdate(string cultureCode, string translation)
     {
+        if(Localizations is null) Localizations = new List<Localization>();
         Localization? current = Localizations.FirstOrDefault(x => x.CultureCode == cultureCode);
         if (current is null)
         {

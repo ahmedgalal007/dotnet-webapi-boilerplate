@@ -11,7 +11,7 @@ public class CategoriesBySearchRequestSpec : EntitiesByPaginationFilterSpec<Cate
 {
     public CategoriesBySearchRequestSpec(SearchCategoriesRequest request)
         : base(request) =>
-        Query.OrderBy(c => c.Name, !request.HasOrderBy());
+        Query.OrderBy(c => c.Slug, !request.HasOrderBy());
 }
 
 public class SearchCategoriesRequestHandler : IRequestHandler<SearchCategoriesRequest, PaginationResponse<CategoryDto>>

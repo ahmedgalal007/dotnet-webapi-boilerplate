@@ -15,6 +15,9 @@ namespace Migrators.MSSQL.Migrations.Application
                 name: "Auditing");
 
             migrationBuilder.EnsureSchema(
+                name: "Catalog");
+
+            migrationBuilder.EnsureSchema(
                 name: "Article");
 
             migrationBuilder.EnsureSchema(
@@ -42,8 +45,8 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
-                name: "Brands",
-                schema: "Article",
+                name: "Brand",
+                schema: "Catalog",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -59,7 +62,7 @@ namespace Migrators.MSSQL.Migrations.Application
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Brands", x => x.Id);
+                    table.PrimaryKey("PK_Brand", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,6 +84,7 @@ namespace Migrators.MSSQL.Migrations.Application
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FieldPath = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -91,6 +95,27 @@ namespace Migrators.MSSQL.Migrations.Application
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LocalizationSet", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "News",
+                schema: "Article",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    slug = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    MainImage = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DefaultCulturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_News", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,8 +170,8 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
-                schema: "Article",
+                name: "Product",
+                schema: "Catalog",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -165,12 +190,12 @@ namespace Migrators.MSSQL.Migrations.Application
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Product", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Brands_BrandId",
+                        name: "FK_Product_Brand_BrandId",
                         column: x => x.BrandId,
-                        principalSchema: "Article",
-                        principalTable: "Brands",
+                        principalSchema: "Catalog",
+                        principalTable: "Brand",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -253,19 +278,19 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
-                name: "News",
+                name: "LocalizedNews",
                 schema: "Article",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    slug = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    MainImage = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    TitleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DescriptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SubTitleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SEOTitleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SocialTitleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    BodyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    culturCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    SubTitle = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
+                    SEOTitle = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
+                    SocialTitle = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
+                    Body = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
+                    NewsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -275,43 +300,14 @@ namespace Migrators.MSSQL.Migrations.Application
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_News", x => x.Id);
+                    table.PrimaryKey("PK_LocalizedNews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_News_LocalizationSet_BodyId",
-                        column: x => x.BodyId,
+                        name: "FK_LocalizedNews_News_NewsId",
+                        column: x => x.NewsId,
                         principalSchema: "Article",
-                        principalTable: "LocalizationSet",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_News_LocalizationSet_DescriptionId",
-                        column: x => x.DescriptionId,
-                        principalSchema: "Article",
-                        principalTable: "LocalizationSet",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_News_LocalizationSet_SEOTitleId",
-                        column: x => x.SEOTitleId,
-                        principalSchema: "Article",
-                        principalTable: "LocalizationSet",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_News_LocalizationSet_SocialTitleId",
-                        column: x => x.SocialTitleId,
-                        principalSchema: "Article",
-                        principalTable: "LocalizationSet",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_News_LocalizationSet_SubTitleId",
-                        column: x => x.SubTitleId,
-                        principalSchema: "Article",
-                        principalTable: "LocalizationSet",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_News_LocalizationSet_TitleId",
-                        column: x => x.TitleId,
-                        principalSchema: "Article",
-                        principalTable: "LocalizationSet",
-                        principalColumn: "Id");
+                        principalTable: "News",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -461,8 +457,7 @@ namespace Migrators.MSSQL.Migrations.Application
                 name: "IX_Localization_CultureCode",
                 schema: "Article",
                 table: "Localization",
-                column: "CultureCode",
-                unique: true);
+                column: "CultureCode");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Localization_LocalizationSetId",
@@ -471,45 +466,15 @@ namespace Migrators.MSSQL.Migrations.Application
                 column: "LocalizationSetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_News_BodyId",
+                name: "IX_LocalizedNews_NewsId",
                 schema: "Article",
-                table: "News",
-                column: "BodyId");
+                table: "LocalizedNews",
+                column: "NewsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_News_DescriptionId",
-                schema: "Article",
-                table: "News",
-                column: "DescriptionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_News_SEOTitleId",
-                schema: "Article",
-                table: "News",
-                column: "SEOTitleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_News_SocialTitleId",
-                schema: "Article",
-                table: "News",
-                column: "SocialTitleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_News_SubTitleId",
-                schema: "Article",
-                table: "News",
-                column: "SubTitleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_News_TitleId",
-                schema: "Article",
-                table: "News",
-                column: "TitleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_BrandId",
-                schema: "Article",
-                table: "Products",
+                name: "IX_Product_BrandId",
+                schema: "Catalog",
+                table: "Product",
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
@@ -582,12 +547,12 @@ namespace Migrators.MSSQL.Migrations.Application
                 schema: "Article");
 
             migrationBuilder.DropTable(
-                name: "News",
+                name: "LocalizedNews",
                 schema: "Article");
 
             migrationBuilder.DropTable(
-                name: "Products",
-                schema: "Article");
+                name: "Product",
+                schema: "Catalog");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims",
@@ -618,8 +583,12 @@ namespace Migrators.MSSQL.Migrations.Application
                 schema: "Article");
 
             migrationBuilder.DropTable(
-                name: "Brands",
+                name: "News",
                 schema: "Article");
+
+            migrationBuilder.DropTable(
+                name: "Brand",
+                schema: "Catalog");
 
             migrationBuilder.DropTable(
                 name: "Roles",

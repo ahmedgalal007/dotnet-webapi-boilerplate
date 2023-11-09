@@ -5,16 +5,45 @@ using System.Xml.Linq;
 
 namespace FSH.WebApi.Domain.Article;
 
-public class News : AuditableEntity, IAggregateRoot
+public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
 {
     [MaxLength(150)]
-    public string slug { get; set; }
+    public string? slug { get; set; }
 
     [MaxLength(250)]
-    public string MainImage { get; set; }
+    public string? MainImage { get; set; }
 
-    [MaxLength(2)]
-    public string DefaultCulture { get; set; }
+    public News() { }
+    public News(string title, string description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode)
+    {
+        if (string.IsNullOrWhiteSpace(cultureCode))
+            cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
+
+        DefaultCulturCode = cultureCode;
+        AddOrUpdateLocal(title, description, body, subTitle, seoTitle, socialTitle, cultureCode);
+    }
+
+    public News Update(string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode)
+    {
+        AddOrUpdateLocal(title, description, body, subTitle, seoTitle, socialTitle, cultureCode);
+        return this;
+    }
+
+    public LocalizedNews AddOrUpdateLocal(string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode)
+    {
+        LocalizedNews localizedNews = LocalFactory(cultureCode);
+
+        if (title is not null && localizedNews.Title.Equals(title) is not true) localizedNews.Title = title;
+        if (description is not null && localizedNews.Description.Equals(description) is not true) localizedNews.Description = description;
+        if (subTitle is not null && localizedNews.SubTitle.Equals(subTitle) is not true) localizedNews.SubTitle = subTitle;
+        if (seoTitle is not null && localizedNews.SEOTitle.Equals(seoTitle) is not true) localizedNews.SEOTitle = seoTitle;
+        if (socialTitle is not null && localizedNews.SocialTitle.Equals(socialTitle) is not true) localizedNews.SocialTitle = socialTitle;
+        if (body is not null && localizedNews.Body.Equals(body) is not true) localizedNews.Body = body;
+
+        return localizedNews;
+    }
+
+    /*
     public Guid TitleId { get; set; }
     public Guid DescriptionId { get; set; }
 
@@ -25,7 +54,7 @@ public class News : AuditableEntity, IAggregateRoot
 
     // [ForeignKey(nameof(TitleId))]
 
-    public virtual LocalizationSet Title { get; set; } // = new LocalizationSet();
+    public virtual LocalizationSet Title { get; set; } = new LocalizationSet();
     // [ForeignKey(nameof(DescriptionId))]
     public virtual LocalizationSet Description { get; set; } = new LocalizationSet();
 
@@ -34,13 +63,15 @@ public class News : AuditableEntity, IAggregateRoot
     public virtual LocalizationSet? SocialTitle { get; set; }
     public virtual LocalizationSet? Body { get; set; }
 
-    public News(){}
+    public virtual ICollection<LocalizedNews>? LocalizedNews { get; set; }
+
     public News(string title, string description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode)
     {
         if(string.IsNullOrWhiteSpace(cultureCode))
             cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
 
-        this.slug = this.Id.ToString();
+        DefaultCulture = cultureCode;
+        // this.slug = this.Id.ToString();
         this.Update(title, description, body, subTitle, seoTitle, socialTitle, cultureCode);
     }
 
@@ -49,7 +80,7 @@ public class News : AuditableEntity, IAggregateRoot
         if (string.IsNullOrWhiteSpace(cultureCode))
             cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
 
-        if(title is not null && Title?.HasTraslationEquale(cultureCode,title) is not true)
+        if (title is not null && Title?.HasTraslationEquale(cultureCode,title) is not true)
             this.Title.AddOrUpdate( cultureCode,title);
 
         if (description is not null && Description?.HasTraslationEquale(cultureCode, description) is not true)
@@ -65,4 +96,5 @@ public class News : AuditableEntity, IAggregateRoot
 
         return this;
     }
+    */
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231106102510_AddArticles")]
+    [Migration("20231108083409_AddArticles")]
     partial class AddArticles
     {
         /// <inheritdoc />
@@ -82,14 +82,15 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.ToTable("Categories", "Article");
                 });
 
-            modelBuilder.Entity("FSH.WebApi.Domain.Article.News", b =>
+            modelBuilder.Entity("FSH.WebApi.Domain.Article.LocalizedNews", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BodyId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Body")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -103,8 +104,70 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("DescriptionId")
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("NewsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SEOTitle")
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("SocialTitle")
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("SubTitle")
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("culturCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NewsId");
+
+                    b.ToTable("LocalizedNews", "Article");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Article.News", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DefaultCulturCode")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
@@ -113,40 +176,14 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasColumnType("datetime2");
 
                     b.Property<string>("MainImage")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<Guid?>("SEOTitleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("SocialTitleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("SubTitleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TitleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("slug")
-                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BodyId");
-
-                    b.HasIndex("DescriptionId");
-
-                    b.HasIndex("SEOTitleId");
-
-                    b.HasIndex("SocialTitleId");
-
-                    b.HasIndex("SubTitleId");
-
-                    b.HasIndex("TitleId");
 
                     b.ToTable("News", "Article");
                 });
@@ -190,7 +227,7 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", "Article");
+                    b.ToTable("Brand", "Catalog");
 
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
@@ -246,7 +283,7 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("Products", "Article");
+                    b.ToTable("Product", "Catalog");
 
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
@@ -305,8 +342,7 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CultureCode")
-                        .IsUnique();
+                    b.HasIndex("CultureCode");
 
                     b.HasIndex("LocalizationSetId");
 
@@ -330,6 +366,11 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("FieldPath")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
@@ -692,51 +733,15 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("FSH.WebApi.Domain.Article.News", b =>
+            modelBuilder.Entity("FSH.WebApi.Domain.Article.LocalizedNews", b =>
                 {
-                    b.HasOne("FSH.WebApi.Domain.Common.Localizations.LocalizationSet", "Body")
-                        .WithMany()
-                        .HasForeignKey("BodyId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("FSH.WebApi.Domain.Common.Localizations.LocalizationSet", "Description")
-                        .WithMany()
-                        .HasForeignKey("DescriptionId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                    b.HasOne("FSH.WebApi.Domain.Article.News", "News")
+                        .WithMany("Locals")
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FSH.WebApi.Domain.Common.Localizations.LocalizationSet", "SEOTitle")
-                        .WithMany()
-                        .HasForeignKey("SEOTitleId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("FSH.WebApi.Domain.Common.Localizations.LocalizationSet", "SocialTitle")
-                        .WithMany()
-                        .HasForeignKey("SocialTitleId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("FSH.WebApi.Domain.Common.Localizations.LocalizationSet", "SubTitle")
-                        .WithMany()
-                        .HasForeignKey("SubTitleId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("FSH.WebApi.Domain.Common.Localizations.LocalizationSet", "Title")
-                        .WithMany()
-                        .HasForeignKey("TitleId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Body");
-
-                    b.Navigation("Description");
-
-                    b.Navigation("SEOTitle");
-
-                    b.Navigation("SocialTitle");
-
-                    b.Navigation("SubTitle");
-
-                    b.Navigation("Title");
+                    b.Navigation("News");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Catalog.Product", b =>
@@ -753,8 +758,8 @@ namespace Migrators.MSSQL.Migrations.Application
             modelBuilder.Entity("FSH.WebApi.Domain.Common.Localizations.Localization", b =>
                 {
                     b.HasOne("FSH.WebApi.Domain.Common.Localizations.Culture", "Culture")
-                        .WithOne()
-                        .HasForeignKey("FSH.WebApi.Domain.Common.Localizations.Localization", "CultureCode")
+                        .WithMany()
+                        .HasForeignKey("CultureCode")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -818,6 +823,11 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Article.News", b =>
+                {
+                    b.Navigation("Locals");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Common.Localizations.LocalizationSet", b =>

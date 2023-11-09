@@ -1,0 +1,22 @@
+﻿using FSH.WebApi.Application.Article.News;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FSH.WebApi.Host.Controllers.Article;
+public class NewsController : VersionedApiController
+{
+    [HttpPost("search")]
+    [MustHavePermission(FSHAction.Search, FSHResource.News)]
+    [OpenApiOperation("Search News using available filters.", "")]
+    public Task<PaginationResponse<NewsDto>> SearchAsync(SearchNewsRequest request)
+    {
+        return Mediator.Send(request);
+    }
+
+    [HttpGet("{id:guid}")]
+    [MustHavePermission(FSHAction.View, FSHResource.News)]
+    [OpenApiOperation("Get News details.", "")]
+    public Task<NewsDto> GetAsync(Guid id)
+    {
+        return Mediator.Send(new GetNewsRequest(id));
+    }
+}
