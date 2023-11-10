@@ -12,10 +12,10 @@ public class NewsController : VersionedApiController
         return Mediator.Send(request);
     }
 
-    [HttpGet("{id:guid, cultureCode?:string}")]
+    [HttpGet("{id:guid}/{cultureCode?}")]
     [MustHavePermission(FSHAction.View, FSHResource.News)]
     [OpenApiOperation("Get News details.", "")]
-    public Task<NewsDto> GetAsync(Guid id, string? cultureCode)
+    public Task<NewsDto> GetAsync(Guid id, string? cultureCode = "")
     {
         return Mediator.Send(new GetNewsRequest(id, cultureCode));
     }

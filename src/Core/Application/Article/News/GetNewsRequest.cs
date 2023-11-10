@@ -1,4 +1,5 @@
 using FSH.WebApi.Domain.Article;
+using System.Linq.Expressions;
 
 namespace FSH.WebApi.Application.Article.News;
 
@@ -14,7 +15,9 @@ public class GetNewsRequest : IRequest<NewsDto>
 
 public class NewsByIdSpec : Specification<Domain.Article.News, NewsDto>, ISingleResultSpecification
 {
-  public NewsByIdSpec(Guid id, string cultureCode) => Query.Where(b => b.Id == id).Include(x => x.Locals);
+  public NewsByIdSpec(Guid id, string cultureCode) => Query
+        .Select(x => NewsDto.MapFrom(x, cultureCode))
+        .Where(b => b.Id == id).Include(x => x.Locals);
 }
 
 public class GetNewsRequestHandler : IRequestHandler<GetNewsRequest, NewsDto>
@@ -24,28 +27,28 @@ public class GetNewsRequestHandler : IRequestHandler<GetNewsRequest, NewsDto>
 
   public GetNewsRequestHandler(IRepository<Domain.Article.News> repository, IStringLocalizer<GetNewsRequestHandler> localizer) => (_repository, _t) = (repository, localizer);
 
-  public async Task<NewsDto> Handle(GetNewsRequest request, CancellationToken cancellationToken) {
-      // await _repository.FirstOrDefaultAsync(
-      //    (ISpecification<Domain.Article.News, NewsDto>)new NewsByIdSpec(request.Id), cancellationToken)
-      // ?? throw new NotFoundException(_t["News {0} Not Found.", request.Id]);
+  public async Task<NewsDto> Handle(GetNewsRequest request, CancellationToken cancellationToken) =>
+        await _repository.FirstOrDefaultAsync(
+           (ISpecification<Domain.Article.News, NewsDto>)new NewsByIdSpec(request.Id, request.CultureCode), cancellationToken)
+        ?? throw new NotFoundException(_t["News {0} Not Found.", request.Id]);
 
-      Domain.Article.News? result = await _repository.GetByIdAsync(request.Id);
+        //Domain.Article.News? result = await _repository.GetByIdAsync(request.Id);
 
-      if (result == null) throw new NotFoundException(_t["News {0} Not Found.", request.Id]);
+        //if (result == null) throw new NotFoundException(_t["News {0} Not Found.", request.Id]);
 
-      LocalizedNews? local = result.Locals.FirstOrDefault(x => x.culturCode == result.DefaultCulturCode);
-      return new NewsDto()
-      {
-        Id = result.Id,
-        Slug = result.slug,
-        MainImage = result.MainImage,
-        CultureCode = local.culturCode,
-        Title = local.Title,
-        SubTitle = local.SocialTitle,
-        SeoTitle = local.SocialTitle,
-        SocialTitle = local.SocialTitle,
-        Description = local.Description,
-        Body = local.Body
-      };
-  }
+        //LocalizedNews? local = result.Locals.FirstOrDefault(x => x.culturCode == result.DefaultCulturCode);
+        //return new NewsDto()
+        //{
+        //  Id = result.Id,
+        //  Slug = result.slug,
+        //  MainImage = result.MainImage,
+        //  CultureCode = local.culturCode,
+        //  Title = local.Title,
+        //  SubTitle = local.SocialTitle,
+        //  SeoTitle = local.SocialTitle,
+        //  SocialTitle = local.SocialTitle,
+        //  Description = local.Description,
+        //  Body = local.Body
+        //};
+    
 }

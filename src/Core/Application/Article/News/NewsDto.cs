@@ -19,5 +19,25 @@ public class NewsDto : IDto
     public string? SeoTitle { get; set; }
     public string? SocialTitle { get; set; }
     public string? CultureCode { get; set; }
-    public LocalizedNews? Local { get; set; } = new LocalizedNews();
+    
+
+    public static NewsDto MapFrom(Domain.Article.News news, string? cultureCode = null)
+    {
+        if(cultureCode is null) cultureCode = news.DefaultCulturCode!;
+        LocalizedNews? local = news.Locals.FirstOrDefault(x => x.culturCode == cultureCode);
+
+        return new NewsDto()
+        {
+            Id = news.Id,
+            Slug = news.slug,
+            MainImage = news.MainImage,
+            CultureCode = local.culturCode,
+            Title = local.Title,
+            SubTitle = local.SocialTitle,
+            SeoTitle = local.SocialTitle,
+            SocialTitle = local.SocialTitle,
+            Description = local.Description,
+            Body = local.Body
+        };
+    }
 }
