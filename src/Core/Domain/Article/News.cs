@@ -7,10 +7,7 @@ namespace FSH.WebApi.Domain.Article;
 
 public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
 {
-    [MaxLength(150)]
     public string? slug { get; set; }
-
-    [MaxLength(250)]
     public string? MainImage { get; set; }
 
     public News() { }

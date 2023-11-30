@@ -4,10 +4,12 @@ using FSH.WebApi.Application.Common.Events;
 using FSH.WebApi.Application.Common.Interfaces;
 using FSH.WebApi.Domain.Article;
 using FSH.WebApi.Domain.Catalog;
-using FSH.WebApi.Domain.Common.Localizations;
+using FSH.WebApi.Domain.Storage;
+// using FSH.WebApi.Domain.Common.Localizations;
 using FSH.WebApi.Infrastructure.Persistence.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using File = FSH.WebApi.Domain.Storage.File;
 
 namespace FSH.WebApi.Infrastructure.Persistence.Context;
 
@@ -22,6 +24,8 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<Brand> Brands => Set<Brand>();
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<News> News => Set<News>();
+    public DbSet<Folder> Folders => Set<Folder>();
+    public DbSet<File> Files => Set<Domain.Storage.File>();
     // public DbSet<Culture> Cultures => Set<Culture>();
 
 
@@ -29,10 +33,7 @@ public class ApplicationDbContext : BaseDbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // modelBuilder.HasDefaultSchema(SchemaNames.Catalog);
-        modelBuilder.HasDefaultSchema(SchemaNames.Article);
-        modelBuilder.Entity<Brand>().ToTable(nameof(Brand), nameof(SchemaNames.Catalog));
-        modelBuilder.Entity<Product>().ToTable(nameof(Product), nameof(SchemaNames.Catalog));
+        modelBuilder.HasDefaultSchema(SchemaNames.Catalog);
         // modelBuilder.Entity<Domain.Common.Localizations.Culture>().ToTable("Culture", tableBuilder => { tableBuilder.Property(x => x.Code).HasColumnName("Code"); }).HasKey(x => x.Code);
         // modelBuilder.Entity<Domain.Common.Localizations.Localization>().HasOne(x => x.Culture).WithOne().HasForeignKey<Domain.Common.Localizations.Localization>(x => x.CultureCode);
         // modelBuilder.Entity<LocalizationSet>().HasMany(x => x.Localizations).WithOne(x => x.LocalizationSet).HasForeignKey(x => x.LocalizationSetId).OnDelete(DeleteBehavior.Cascade);

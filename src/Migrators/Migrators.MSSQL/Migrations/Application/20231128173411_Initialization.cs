@@ -6,11 +6,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Migrators.MSSQL.Migrations.Application
 {
     /// <inheritdoc />
-    public partial class AddArticles : Migration
+    public partial class Initialization : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "Storage");
+
             migrationBuilder.EnsureSchema(
                 name: "Auditing");
 
@@ -22,6 +25,26 @@ namespace Migrators.MSSQL.Migrations.Application
 
             migrationBuilder.EnsureSchema(
                 name: "Identity");
+
+            migrationBuilder.CreateTable(
+                name: "Adapter",
+                schema: "Storage",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Adapter", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "AuditTrails",
@@ -66,35 +89,33 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
-                name: "Culture",
-                schema: "Article",
-                columns: table => new
-                {
-                    Code = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Culture", x => x.Code);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LocalizationSet",
+                name: "Category",
                 schema: "Article",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FieldPath = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    ParentId = table.Column<int>(type: "int", nullable: true),
+                    ParentId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DefaultCulturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LocalizationSet", x => x.Id);
+                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Category_Category_ParentId1",
+                        column: x => x.ParentId1,
+                        principalSchema: "Article",
+                        principalTable: "Category",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -105,6 +126,7 @@ namespace Migrators.MSSQL.Migrations.Application
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     slug = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     MainImage = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -170,6 +192,45 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
+                name: "Folder",
+                schema: "Storage",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AdapterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsRoot = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    Path = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    Directory = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Public = table.Column<bool>(type: "bit", nullable: false),
+                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Folder", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Folder_Adapter_AdapterId",
+                        column: x => x.AdapterId,
+                        principalSchema: "Storage",
+                        principalTable: "Adapter",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Folder_Folder_ParentId",
+                        column: x => x.ParentId,
+                        principalSchema: "Storage",
+                        principalTable: "Folder",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Product",
                 schema: "Catalog",
                 columns: table => new
@@ -201,17 +262,16 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "LocalizedCategory",
                 schema: "Article",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Slug = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Color = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    ParentId = table.Column<int>(type: "int", nullable: true),
-                    ParentId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    NameId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    DescriptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    culturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -221,58 +281,12 @@ namespace Migrators.MSSQL.Migrations.Application
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.PrimaryKey("PK_LocalizedCategory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categories_Categories_ParentId1",
-                        column: x => x.ParentId1,
+                        name: "FK_LocalizedCategory_Category_CategoryId",
+                        column: x => x.CategoryId,
                         principalSchema: "Article",
-                        principalTable: "Categories",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Categories_LocalizationSet_DescriptionId",
-                        column: x => x.DescriptionId,
-                        principalSchema: "Article",
-                        principalTable: "LocalizationSet",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Categories_LocalizationSet_NameId",
-                        column: x => x.NameId,
-                        principalSchema: "Article",
-                        principalTable: "LocalizationSet",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Localization",
-                schema: "Article",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LocalizationSetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CultureCode = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Localization", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Localization_Culture_CultureCode",
-                        column: x => x.CultureCode,
-                        principalSchema: "Article",
-                        principalTable: "Culture",
-                        principalColumn: "Code",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Localization_LocalizationSet_LocalizationSetId",
-                        column: x => x.LocalizationSetId,
-                        principalSchema: "Article",
-                        principalTable: "LocalizationSet",
+                        principalTable: "Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -283,7 +297,7 @@ namespace Migrators.MSSQL.Migrations.Application
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    culturCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    culturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     Title = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     SubTitle = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
@@ -291,6 +305,7 @@ namespace Migrators.MSSQL.Migrations.Application
                     SocialTitle = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
                     Body = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
                     NewsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -435,35 +450,65 @@ namespace Migrators.MSSQL.Migrations.Application
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Categories_DescriptionId",
-                schema: "Article",
-                table: "Categories",
-                column: "DescriptionId");
+            migrationBuilder.CreateTable(
+                name: "File",
+                schema: "Storage",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FolderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Public = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                    Extention = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_File", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_File_Folder_FolderId",
+                        column: x => x.FolderId,
+                        principalSchema: "Storage",
+                        principalTable: "Folder",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_NameId",
+                name: "IX_Category_ParentId1",
                 schema: "Article",
-                table: "Categories",
-                column: "NameId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Categories_ParentId1",
-                schema: "Article",
-                table: "Categories",
+                table: "Category",
                 column: "ParentId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Localization_CultureCode",
-                schema: "Article",
-                table: "Localization",
-                column: "CultureCode");
+                name: "IX_File_FolderId",
+                schema: "Storage",
+                table: "File",
+                column: "FolderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Localization_LocalizationSetId",
+                name: "IX_Folder_AdapterId",
+                schema: "Storage",
+                table: "Folder",
+                column: "AdapterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Folder_ParentId",
+                schema: "Storage",
+                table: "Folder",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LocalizedCategory_CategoryId",
                 schema: "Article",
-                table: "Localization",
-                column: "LocalizationSetId");
+                table: "LocalizedCategory",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LocalizedNews_NewsId",
@@ -539,11 +584,11 @@ namespace Migrators.MSSQL.Migrations.Application
                 schema: "Auditing");
 
             migrationBuilder.DropTable(
-                name: "Categories",
-                schema: "Article");
+                name: "File",
+                schema: "Storage");
 
             migrationBuilder.DropTable(
-                name: "Localization",
+                name: "LocalizedCategory",
                 schema: "Article");
 
             migrationBuilder.DropTable(
@@ -575,11 +620,11 @@ namespace Migrators.MSSQL.Migrations.Application
                 schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "Culture",
-                schema: "Article");
+                name: "Folder",
+                schema: "Storage");
 
             migrationBuilder.DropTable(
-                name: "LocalizationSet",
+                name: "Category",
                 schema: "Article");
 
             migrationBuilder.DropTable(
@@ -597,6 +642,10 @@ namespace Migrators.MSSQL.Migrations.Application
             migrationBuilder.DropTable(
                 name: "Users",
                 schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "Adapter",
+                schema: "Storage");
         }
     }
 }
