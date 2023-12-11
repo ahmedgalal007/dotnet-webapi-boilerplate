@@ -10,13 +10,16 @@ public class SearchLocalizedNewsRequest : PaginationFilter, IRequest<PaginationR
 
 public class LocalizedNewsBySearchRequestSpec : EntitiesByPaginationFilterSpec<Domain.Article.LocalizedNews, NewsDto>
 {
-    public LocalizedNewsBySearchRequestSpec(SearchLocalizedNewsRequest request)
-        : base(request) {
-            Query
-                .Where(e => e.culturCode == request.CulturCode)
-                .OrderBy(c => c.Id, !request.HasOrderBy());
-            Query.Select(e => NewsDto.MapFrom(e.News, request.CulturCode));
-        }
+    public LocalizedNewsBySearchRequestSpec(SearchLocalizedNewsRequest request) : base(request)
+    {
+        Query.OrderBy(c => c.Id, !request.HasOrderBy())
+            .Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize);
+
+        if (!string.IsNullOrWhiteSpace(request.CulturCode))
+            Query.Where(e => e.culturCode == request.CulturCode);
+
+        Query.Select(e => NewsDto.MapFrom(e.News, request.CulturCode));
+    }
 }
 
 public class SearchLocalizedNewsRequestHandler : IRequestHandler<SearchLocalizedNewsRequest, PaginationResponse<NewsDto>>
