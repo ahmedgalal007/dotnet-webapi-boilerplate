@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Domain.Article;
-public class LocalizedCategory : AuditableEntity, ILocalizableEntity
+public class LocalizedCategory : AuditableEntity//, ILocalizableEntity
 {
     public string culturCode { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public virtual Category Category { get; set; }
+    public Guid CategoryId { get; set; }
+    // public virtual Category Category { get; set; }
 }

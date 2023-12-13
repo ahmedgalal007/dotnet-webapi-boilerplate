@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Domain.Article;
-public class LocalizedNews : AuditableEntity, ILocalizableEntity, IAggregateRoot
+public class LocalizedNews : AuditableEntity, ILocalizableEntity//, IAggregateRoot
 {
     public string culturCode { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
@@ -16,5 +16,6 @@ public class LocalizedNews : AuditableEntity, ILocalizableEntity, IAggregateRoot
     public string? SEOTitle { get; set; }
     public string? SocialTitle { get; set; }
     public string? Body { get; set; }
-    public virtual News News { get; set; }
+    public Guid NewsId { get; set; }
+    // public virtual News News { get; set; }
 }

@@ -7,9 +7,6 @@ namespace FSH.WebApi.Domain.Article;
 
 public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
 {
-    public string? slug { get; set; }
-    public string? MainImage { get; set; }
-
     public News() { }
     public News(string title, string description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode)
     {
@@ -19,6 +16,8 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
         DefaultCulturCode = cultureCode;
         AddOrUpdateLocal(title, description, body, subTitle, seoTitle, socialTitle, cultureCode);
     }
+    public string? slug { get; set; }
+    public string? MainImage { get; set; }
 
     public News Update(string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode)
     {

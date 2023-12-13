@@ -6,13 +6,8 @@ namespace FSH.WebApi.Domain.Article;
 
 public class Category : LocalizedEntity<LocalizedCategory>, IAggregateRoot
 {
-    public string Slug { get; set; }
-    public string? Color { get; set; }
-    public int? ParentId { get; set; }
 
-    public virtual Category? Parent { get; set; }
-
-    public Category(){}
+    public Category() { }
     public Category(string name, string? description, string? color, string? cultureCode)
     {
         if (string.IsNullOrWhiteSpace(cultureCode))
@@ -22,6 +17,12 @@ public class Category : LocalizedEntity<LocalizedCategory>, IAggregateRoot
         this.Slug = name.TrimStart().TrimEnd().Replace(" ", "-");
         this.Color = color;
     }
+
+    public string Slug { get; set; }
+    public string? Color { get; set; }
+    public int? ParentId { get; set; }
+
+    public virtual Category? Parent { get; set; }
 
     public Category Update(string? name, string? description, string? color, string? cultureCode)
     {
