@@ -202,6 +202,16 @@ And here is the response.
 You will need to pass the `token` in the request headers to authenticate calls to the fullstackhero API!
 
 For further steps and details, [Read the Getting Started Guide](https://fullstackhero.net/dotnet-webapi-boilerplate/general/getting-started/)
+## Database Migrations
+
+### Add Migration Command
+```bash
+dotnet ef migrations add <migration-name> --project .././Migrators/Migrators.<provider>/ --context ApplicationDbContext -o Migrations/Application
+```
+### Apply Migration
+```bash
+dotnet ef database update  --project .././Migrators/Migrators.<provider>/ --context ApplicationDbContext
+```
 
 ## Containerization
 

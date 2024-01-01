@@ -4,6 +4,7 @@ using FSH.WebApi.Application.Common.Events;
 using FSH.WebApi.Application.Common.Interfaces;
 using FSH.WebApi.Domain.Article;
 using FSH.WebApi.Domain.Catalog;
+using FSH.WebApi.Domain.Keywords;
 using FSH.WebApi.Domain.Storage;
 // using FSH.WebApi.Domain.Common.Localizations;
 using FSH.WebApi.Infrastructure.Persistence.Configuration;
@@ -15,9 +16,11 @@ namespace FSH.WebApi.Infrastructure.Persistence.Context;
 
 public class ApplicationDbContext : BaseDbContext
 {
-    public ApplicationDbContext(ITenantInfo currentTenant, DbContextOptions options, ICurrentUser currentUser, ISerializerService serializer, IOptions<DatabaseSettings> dbSettings, IEventPublisher events)
+    private readonly Action<ModelBuilder> _buildAction;
+    public ApplicationDbContext(ITenantInfo currentTenant, DbContextOptions options, ICurrentUser currentUser, ISerializerService serializer, IOptions<DatabaseSettings> dbSettings, IEventPublisher events, Action<ModelBuilder> buildAction)
         : base(currentTenant, options, currentUser, serializer, dbSettings, events)
     {
+        _buildAction = buildAction;
     }
 
     public DbSet<Product> Products => Set<Product>();
@@ -26,6 +29,7 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<News> News => Set<News>();
     public DbSet<Folder> Folders => Set<Folder>();
     public DbSet<File> Files => Set<Domain.Storage.File>();
+    public DbSet<Keyword> Keywords => Set<Keyword>();
     // public DbSet<Culture> Cultures => Set<Culture>();
 
 
@@ -34,6 +38,7 @@ public class ApplicationDbContext : BaseDbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.HasDefaultSchema(SchemaNames.Catalog);
+        _buildAction(modelBuilder);
         // modelBuilder.Entity<Domain.Common.Localizations.Culture>().ToTable("Culture", tableBuilder => { tableBuilder.Property(x => x.Code).HasColumnName("Code"); }).HasKey(x => x.Code);
         // modelBuilder.Entity<Domain.Common.Localizations.Localization>().HasOne(x => x.Culture).WithOne().HasForeignKey<Domain.Common.Localizations.Localization>(x => x.CultureCode);
         // modelBuilder.Entity<LocalizationSet>().HasMany(x => x.Localizations).WithOne(x => x.LocalizationSet).HasForeignKey(x => x.LocalizationSetId).OnDelete(DeleteBehavior.Cascade);

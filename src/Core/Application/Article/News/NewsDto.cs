@@ -29,7 +29,7 @@ public class NewsDto : IDto
         return new NewsDto()
         {
             Id = news.Id,
-            Slug = news.slug,
+            Slug = news.Slug,
             MainImage = news.MainImage,
             CultureCode = local.culturCode,
             Title = local.Title,

@@ -34,11 +34,11 @@ public class NewsSeeder: ICustomSeeder
             // Here you can use your own logic to populate the database.
             // As an example, I am using a JSON file to populate the database.
 
-            Domain.Article.News obj = new Domain.Article.News("إختبار", "وصف الخبر", null,null,null,null,"ar");
+            Domain.Article.News obj = new Domain.Article.News("إختبار", "إختبار", "وصف الخبر", null,null,null,null,"ar",null);
             await _db.News.AddAsync(obj, cancellationToken);
             await _db.SaveChangesAsync(cancellationToken);
 
-            obj.Update("test", "News Description", null, null, null, null, "en");
+            obj.Update("test", "News Description", null, null, null, null, "en", null);
             _db.Update(obj);
 
             await _db.SaveChangesAsync(cancellationToken);

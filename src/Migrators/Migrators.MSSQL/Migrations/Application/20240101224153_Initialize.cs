@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Migrators.MSSQL.Migrations.Application
 {
     /// <inheritdoc />
-    public partial class Initialization : Migration
+    public partial class Initialize : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -94,7 +94,7 @@ namespace Migrators.MSSQL.Migrations.Application
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Slug = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Color = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     ParentId = table.Column<int>(type: "int", nullable: true),
                     ParentId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -119,12 +119,34 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
+                name: "Keyword",
+                schema: "Article",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DefaultCulturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Keyword", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "News",
                 schema: "Article",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    slug = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    Slug = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     MainImage = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -292,17 +314,45 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
+                name: "LocalizedKeyword",
+                schema: "Article",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    culturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    KeywordId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LocalizedKeyword", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LocalizedKeyword_Keyword_KeywordId",
+                        column: x => x.KeywordId,
+                        principalSchema: "Article",
+                        principalTable: "Keyword",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LocalizedNews",
                 schema: "Article",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     culturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    SubTitle = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
+                    SubTitle = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: true),
                     SEOTitle = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
-                    SocialTitle = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
+                    SocialTitle = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: true),
                     Body = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
                     NewsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
@@ -511,6 +561,18 @@ namespace Migrators.MSSQL.Migrations.Application
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LocalizedKeyword_culturCode",
+                schema: "Article",
+                table: "LocalizedKeyword",
+                column: "culturCode");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LocalizedKeyword_KeywordId",
+                schema: "Article",
+                table: "LocalizedKeyword",
+                column: "KeywordId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_LocalizedNews_NewsId",
                 schema: "Article",
                 table: "LocalizedNews",
@@ -592,6 +654,10 @@ namespace Migrators.MSSQL.Migrations.Application
                 schema: "Article");
 
             migrationBuilder.DropTable(
+                name: "LocalizedKeyword",
+                schema: "Article");
+
+            migrationBuilder.DropTable(
                 name: "LocalizedNews",
                 schema: "Article");
 
@@ -625,6 +691,10 @@ namespace Migrators.MSSQL.Migrations.Application
 
             migrationBuilder.DropTable(
                 name: "Category",
+                schema: "Article");
+
+            migrationBuilder.DropTable(
+                name: "Keyword",
                 schema: "Article");
 
             migrationBuilder.DropTable(

@@ -64,8 +64,8 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.Property<string>("Slug")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("TenantId")
                         .IsRequired()
@@ -178,12 +178,12 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("SocialTitle")
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
 
                     b.Property<string>("SubTitle")
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
+                        .HasMaxLength(70)
+                        .HasColumnType("nvarchar(70)");
 
                     b.Property<string>("TenantId")
                         .IsRequired()
@@ -192,8 +192,8 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(70)
+                        .HasColumnType("nvarchar(70)");
 
                     b.Property<string>("culturCode")
                         .IsRequired()
@@ -242,14 +242,14 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<string>("Slug")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
                     b.Property<string>("TenantId")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
-
-                    b.Property<string>("slug")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
@@ -354,6 +354,109 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasIndex("BrandId");
 
                     b.ToTable("Product", "Catalog");
+
+                    b.HasAnnotation("Finbuckle:MultiTenant", true);
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.Keyword", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Color")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DefaultCulturCode")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Keyword", "Article");
+
+                    b.HasAnnotation("Finbuckle:MultiTenant", true);
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.LocalizedKeyword", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("KeywordId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("culturCode")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KeywordId");
+
+                    b.HasIndex("culturCode");
+
+                    b.ToTable("LocalizedKeyword", "Article");
 
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
@@ -860,24 +963,20 @@ namespace Migrators.MSSQL.Migrations.Application
 
             modelBuilder.Entity("FSH.WebApi.Domain.Article.LocalizedCategory", b =>
                 {
-                    b.HasOne("FSH.WebApi.Domain.Article.Category", "Category")
+                    b.HasOne("FSH.WebApi.Domain.Article.Category", null)
                         .WithMany("Locals")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Article.LocalizedNews", b =>
                 {
-                    b.HasOne("FSH.WebApi.Domain.Article.News", "News")
+                    b.HasOne("FSH.WebApi.Domain.Article.News", null)
                         .WithMany("Locals")
                         .HasForeignKey("NewsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("News");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Catalog.Product", b =>
@@ -889,6 +988,13 @@ namespace Migrators.MSSQL.Migrations.Application
                         .IsRequired();
 
                     b.Navigation("Brand");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.LocalizedKeyword", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Keywords.Keyword", null)
+                        .WithMany("Locals")
+                        .HasForeignKey("KeywordId");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Storage.File", b =>
@@ -978,6 +1084,11 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Article.News", b =>
+                {
+                    b.Navigation("Locals");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.Keyword", b =>
                 {
                     b.Navigation("Locals");
                 });

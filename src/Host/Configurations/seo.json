@@ -1,0 +1,29 @@
+{
+  "SEOSettings": {
+    "NewsSlugMaxLength": 40,
+    "NewsTitleMaxLength": 70,
+    "NewsSubTitleMaxLength": 70,
+    "SEOTitleMaxLength": 60,
+    "SocialTitleMaxLength": 80,
+    "Separator": "-",
+    "CanEndWithSeparator": false,
+    "CasingTransformation": "ToLowerCase", // ToLowerCase/ToUpperCase/PreserveCase
+    "Culture": "ar-EG",
+    "SlugUnicodeRanges": [
+      {
+        "FirstCharacter": "ا",
+        "LastCharacter": "ي"
+      },
+      {
+        "FirstCharacter": "٠",
+        "LastCharacter": "۹"
+      },
+      {
+        "FirstCharacter": "À",
+        "LastCharacter": "ü"
+      }
+    ],
+    "TrimExpression": "\n,\r",
+    "LoggerEnabled": true
+  }
+}
