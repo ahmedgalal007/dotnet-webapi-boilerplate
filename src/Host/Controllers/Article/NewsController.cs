@@ -1,5 +1,4 @@
 ﻿using FSH.WebApi.Application.Article.News;
-using FSH.WebApi.Application.Catalog.Products;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FSH.WebApi.Host.Controllers.Article;
@@ -13,13 +12,21 @@ public class NewsController : VersionedApiController
         return Mediator.Send(request);
     }
 
-    //[HttpPost("searchlocal")]
-    //[MustHavePermission(FSHAction.Search, FSHResource.News)]
-    //[OpenApiOperation("Search News using available filters.", "")]
-    //public Task<PaginationResponse<NewsDto>> SearchLocalAsync(SearchLocalizedNewsRequest request)
-    //{
-    //    return Mediator.Send(request);
-    //}
+    [HttpPost("searchlocal")]
+    [MustHavePermission(FSHAction.Search, FSHResource.News)]
+    [OpenApiOperation("Search News using available filters.", "")]
+    public Task<PaginationResponse<NewsDto>> SearchLocalAsync(SearchLocalizedNewsRequest request)
+    {
+        return Mediator.Send(request);
+    }
+
+    [HttpPost("searchlocalizednewsbylist")]
+    [MustHavePermission(FSHAction.Search, FSHResource.News)]
+    [OpenApiOperation("Search localized news using available filters.", "")]
+    public Task<PaginationResponse<NewsDto>> SearchLocalizedNewsByList(SearchLocalizedNewsByListRequest request)
+    {
+        return Mediator.Send(request);
+    }
 
     [HttpGet("{id:guid}/{cultureCode?}")]
     [MustHavePermission(FSHAction.View, FSHResource.News)]
@@ -31,16 +38,16 @@ public class NewsController : VersionedApiController
 
     [HttpPost]
     [MustHavePermission(FSHAction.Create, FSHResource.News)]
-    [OpenApiOperation("Create a new product.", "")]
-    public Task<Guid> CreateAsync(CreateProductRequest request)
+    [OpenApiOperation("Create News Item.", "")]
+    public Task<Guid> CreateAsync(CreateNewsRequest request)
     {
         return Mediator.Send(request);
     }
 
     [HttpPut("{id:guid}")]
     [MustHavePermission(FSHAction.Update, FSHResource.News)]
-    [OpenApiOperation("Update a product.", "")]
-    public async Task<ActionResult<Guid>> UpdateAsync(UpdateProductRequest request, Guid id)
+    [OpenApiOperation("Update News Item.", "")]
+    public async Task<ActionResult<Guid>> UpdateAsync(UpdateNewsRequest request, Guid id)
     {
         return id != request.Id
             ? BadRequest()
@@ -49,9 +56,9 @@ public class NewsController : VersionedApiController
 
     [HttpDelete("{id:guid}")]
     [MustHavePermission(FSHAction.Delete, FSHResource.News)]
-    [OpenApiOperation("Delete a product.", "")]
+    [OpenApiOperation("Delete a news item.", "")]
     public Task<Guid> DeleteAsync(Guid id)
     {
-        return Mediator.Send(new DeleteProductRequest(id));
+        return Mediator.Send(new DeleteNewsRequest(id));
     }
 }

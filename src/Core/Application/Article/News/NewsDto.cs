@@ -1,4 +1,5 @@
 ﻿using FSH.WebApi.Domain.Article;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,13 +20,13 @@ public class NewsDto : IDto
     public string? SeoTitle { get; set; }
     public string? SocialTitle { get; set; }
     public string? CultureCode { get; set; }
-    
 
     public static NewsDto MapFrom(Domain.Article.News news, string? cultureCode = null)
     {
         if(cultureCode is null) cultureCode = news.DefaultCulturCode!;
         LocalizedNews? local = news.Locals.FirstOrDefault(x => x.culturCode == cultureCode);
 
+        if (local == null) throw new NotFoundException("News {0} Not Found.");
         return new NewsDto()
         {
             Id = news.Id,

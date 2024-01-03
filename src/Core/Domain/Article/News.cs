@@ -27,12 +27,13 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
 
     public News Update(string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode, string? mainImagePath)
     {
-        AddOrUpdateLocal(title, description, body, subTitle, seoTitle, socialTitle, cultureCode, mainImagePath);
+        LocalizedNews local = AddOrUpdateLocal(title, description, body, subTitle, seoTitle, socialTitle, cultureCode, mainImagePath);
         return this;
     }
 
     public LocalizedNews AddOrUpdateLocal(string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode, string? mainImagePath)
     {
+
         LocalizedNews localizedNews = LocalFactory(cultureCode);
 
         if (title is not null && localizedNews.Title.Equals(title) is not true) localizedNews.Title = title;

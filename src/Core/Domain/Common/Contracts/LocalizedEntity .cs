@@ -29,7 +29,7 @@ public abstract class LocalizedEntity<T> : AuditableEntity
     public T LocalFactory(string? cultureCode)
     {
         if (string.IsNullOrWhiteSpace(cultureCode))
-            cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
+            cultureCode = DefaultCulturCode; // Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
 
         if (HasLocal(cultureCode))
         {

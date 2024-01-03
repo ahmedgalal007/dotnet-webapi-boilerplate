@@ -1,3 +1,4 @@
+using FSH.WebApi.Application.Article.News.specs;
 using FSH.WebApi.Application.Common.SEO;
 using FSH.WebApi.Domain.Article;
 using FSH.WebApi.Domain.Catalog;
@@ -7,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 namespace FSH.WebApi.Application.Article.News;
 public class CreateNewsRequest : IRequest<Guid>
 {
+    // public Guid? Id { get; set; } = default!;
     public string? CultureCode { get; set; } = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
     public string Title { get; set; } = default!;
     public string Slug { get; set; } = default!;

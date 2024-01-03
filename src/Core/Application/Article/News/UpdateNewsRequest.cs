@@ -1,4 +1,6 @@
-﻿using FSH.WebApi.Application.Catalog.Products;
+﻿using FSH.WebApi.Application.Article.News.specs;
+using FSH.WebApi.Application.Catalog.Products;
+using FSH.WebApi.Domain.Article;
 using FSH.WebApi.Domain.Common.Events;
 using System;
 using System.Collections.Generic;
@@ -25,18 +27,21 @@ public class UpdateNewsRequest : IRequest<Guid>
 public class UpdateNewsRequestHandler : IRequestHandler<UpdateNewsRequest, Guid>
 {
     private readonly IRepository<Domain.Article.News> _repository;
+    private readonly IRepository<Domain.Article.LocalizedNews> _localRepository;
     private readonly IStringLocalizer _t;
     private readonly IFileStorageService _file;
 
-    public UpdateNewsRequestHandler(IRepository<Domain.Article.News> repository, IStringLocalizer<UpdateNewsRequestHandler> localizer, IFileStorageService file) =>
-        (_repository, _t, _file) = (repository, localizer, file);
+    public UpdateNewsRequestHandler(IRepository<Domain.Article.News> repository, IRepository<LocalizedNews> localRepository, IStringLocalizer<UpdateNewsRequestHandler> localizer, IFileStorageService file) =>
+        (_repository, _localRepository, _t, _file) = (repository, localRepository, localizer, file);
 
     public async Task<Guid> Handle(UpdateNewsRequest request, CancellationToken cancellationToken)
     {
-        var news = await _repository.GetByIdAsync(request.Id, cancellationToken);
+        var news = await _repository.GetByIdAsync(request.Id, cancellationToken)
+            ?? throw new NotFoundException(_t["news item {0} Not Found.", request.Id]);
 
-        _ = news ?? throw new NotFoundException(_t["news item {0} Not Found.", request.Id]);
-
+        // Get all localnews because request.CultureCode == null 
+        List<LocalizedNews>? locales = await _localRepository.ListAsync(new LocalNewsByNewsIdSpec(request.Id, null), cancellationToken);
+        news.Locals = locales;
         // Remove old image if flag is set
         if (request.DeleteCurrentImage)
         {

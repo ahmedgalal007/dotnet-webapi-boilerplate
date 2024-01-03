@@ -1,38 +1,31 @@
+using FSH.WebApi.Application.Article.News.specs;
+using FSH.WebApi.Domain.Article;
 
-//using FSH.WebApi.Domain.Article;
+namespace FSH.WebApi.Application.Article.News;
 
-//namespace FSH.WebApi.Application.Article.News;
+public class SearchLocalizedNewsRequest : PaginationFilter, IRequest<PaginationResponse<NewsDto>>
+{
+    public string? CulturCode { get; set; }
+}
 
-//public class SearchLocalizedNewsRequest : PaginationFilter, IRequest<PaginationResponse<NewsDto>>
-//{
-//    public string? CulturCode { get; set; }
-//}
+public class SearchLocalizedNewsRequestHandler : IRequestHandler<SearchLocalizedNewsRequest, PaginationResponse<NewsDto>>
+{
+    private readonly IReadRepository<LocalizedNews> _repository;
+    private readonly IReadRepository<Domain.Article.News> _newsRepository;
+    IStringLocalizer<GetNewsRequestHandler> _localizer;
+    public SearchLocalizedNewsRequestHandler(
+        IReadRepository<LocalizedNews> repository,
+        IReadRepository<Domain.Article.News> newsRepository,
+        IStringLocalizer<GetNewsRequestHandler> localizer)
+    {
+        _repository = repository;
+        _newsRepository = newsRepository;
+        _localizer = localizer;
+    }
 
-//public class LocalizedNewsBySearchRequestSpec : EntitiesByPaginationFilterSpec<Domain.Article.LocalizedNews, NewsDto>
-//{
-//    public LocalizedNewsBySearchRequestSpec(SearchLocalizedNewsRequest request) : base(request)
-//    {
-//        Query.OrderBy(c => c.Id, !request.HasOrderBy())
-//            .Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize);
-
-//        if (!string.IsNullOrWhiteSpace(request.CulturCode))
-//            Query.Where(e => e.culturCode == request.CulturCode);
-
-//        Query.Select(e => NewsDto.MapFrom(e.News, request.CulturCode));
-//    }
-//}
-
-//public class SearchLocalizedNewsRequestHandler : IRequestHandler<SearchLocalizedNewsRequest, PaginationResponse<NewsDto>>
-//{
-//    private readonly IReadRepository<LocalizedNews> _repository;
-
-//    public SearchLocalizedNewsRequestHandler(IReadRepository<LocalizedNews> repository) => _repository = repository;
-
-//    public async Task<PaginationResponse<NewsDto>> Handle(SearchLocalizedNewsRequest request, CancellationToken cancellationToken)
-//    {
-//        var spec = new LocalizedNewsBySearchRequestSpec(request);
-//        return await _repository.PaginatedListAsync(spec, request.PageNumber, request.PageSize, cancellationToken);
-//    }
-
-
-//}
+    public async Task<PaginationResponse<NewsDto>> Handle(SearchLocalizedNewsRequest request, CancellationToken cancellationToken)
+    {
+        var spec = new LocalizedNewsBySearchSpec(request, _newsRepository, _localizer);
+        return await _repository.PaginatedListAsync(spec, request.PageNumber, request.PageSize, cancellationToken);
+    }
+}

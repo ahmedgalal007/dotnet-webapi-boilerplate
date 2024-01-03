@@ -1,8 +1,6 @@
-﻿using FSH.WebApi.Application.Catalog.Products;
-using FSH.WebApi.Domain.Article;
-using FSH.WebApi.Domain.Common.Events;
+﻿using FSH.WebApi.Domain.Common.Events;
 
-namespace FSH.WebApi.Application.Catalog.Brands;
+namespace FSH.WebApi.Application.Article.News;
 
 public class DeleteNewsRequest : IRequest<Guid>
 {
@@ -14,10 +12,10 @@ public class DeleteNewsRequest : IRequest<Guid>
 public class DeleteNewsRequestHandler : IRequestHandler<DeleteNewsRequest, Guid>
 {
     // Add Domain Events automatically by using IRepositoryWithEvents
-    private readonly IRepositoryWithEvents<News> _newsRepo;
+    private readonly IRepositoryWithEvents<Domain.Article.News> _newsRepo;
     private readonly IStringLocalizer _t;
 
-    public DeleteNewsRequestHandler(IRepositoryWithEvents<News> brandRepo, IReadRepository<Product> productRepo, IStringLocalizer<DeleteNewsRequestHandler> localizer) =>
+    public DeleteNewsRequestHandler(IRepositoryWithEvents<Domain.Article.News> brandRepo, IReadRepository<Product> productRepo, IStringLocalizer<DeleteNewsRequestHandler> localizer) =>
         (_newsRepo, _t) = (brandRepo, localizer);
 
     public async Task<Guid> Handle(DeleteNewsRequest request, CancellationToken cancellationToken)

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Domain.Article;
-public class LocalizedNews : AuditableEntity, ILocalizableEntity//, IAggregateRoot
+public class LocalizedNews : AuditableEntity, ILocalizableEntity, IAggregateRoot
 {
     public string culturCode { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;

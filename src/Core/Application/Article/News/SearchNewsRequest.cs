@@ -5,7 +5,7 @@ namespace FSH.WebApi.Application.Article.News;
 
 public class SearchNewsRequest : PaginationFilter, IRequest<PaginationResponse<NewsDto>>
 {
-    public string? CultureCode { get; set; }
+    public string? CultureCode { get; set; } = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
 }
 
 public class NewsBySearchRequestSpec : EntitiesByPaginationFilterSpec<Domain.Article.News, NewsDto>
