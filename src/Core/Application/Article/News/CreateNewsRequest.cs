@@ -11,14 +11,14 @@ public class CreateNewsRequest : IRequest<Guid>
     // public Guid? Id { get; set; } = default!;
     public string? CultureCode { get; set; } = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
     public string Title { get; set; } = default!;
-    public string Slug { get; set; } = default!;
-    public string? Description { get; set; } = default!;
-    public string? SubTitle { get; set; } = default!;
-    public string? SEOTitle { get; set; } = default!;
-    public string? SocialTitle { get; set; } = default!;
-    public string? Body { get; set; } = default!;
+    public string? Slug { get; set; }
+    public string? Description { get; set; }
+    public string? SubTitle { get; set; }
+    public string? SEOTitle { get; set; }
+    public string? SocialTitle { get; set; }
+    public string? Body { get; set; }
 
-    public FileUploadRequest? MainImage { get; set; } = default!;
+    public FileUploadRequest? MainImage { get; set; }
 }
 
 //public class CreateNewsRequestValidator : CustomValidator<CreateNewsRequest>

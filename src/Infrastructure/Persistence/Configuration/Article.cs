@@ -80,7 +80,7 @@ public class LocalizedKeywordConfig : EntityTypeConfigurationDependency<Localize
         builder.IsMultiTenant();
         builder.ToTable(nameof(LocalizedKeyword), nameof(SchemaNames.Article));
         builder.Property(e => e.culturCode).HasMaxLength(6);
-        builder.Property(e => e.Name).HasMaxLength(150);
+        builder.Property(e => e.Title).HasMaxLength(150);
         builder.HasIndex(e => e.culturCode);
     }
 }

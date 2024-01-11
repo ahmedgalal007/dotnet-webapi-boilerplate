@@ -8,10 +8,13 @@ namespace FSH.WebApi.Domain.Article;
 
 public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
 {
+    public string? Slug { get; set; } = string.Empty;
+    public string? MainImage { get; set; }
+
     public News()
     {
     }
-
+   
     public News(string title, string slug, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode, string? mainImagePath)
     {
         if (string.IsNullOrWhiteSpace(cultureCode))
@@ -22,8 +25,6 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
         AddOrUpdateLocal(title, description, body, subTitle, seoTitle, socialTitle, cultureCode, mainImagePath);
     }
 
-    public string? Slug { get; set; }
-    public string? MainImage { get; set; }
 
     public News Update(string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode, string? mainImagePath)
     {
@@ -36,13 +37,15 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
 
         LocalizedNews localizedNews = LocalFactory(cultureCode);
 
+
         if (title is not null && localizedNews.Title.Equals(title) is not true) localizedNews.Title = title;
         if (description is not null && localizedNews.Description.Equals(description) is not true) localizedNews.Description = description;
         if (subTitle is not null && localizedNews.SubTitle.Equals(subTitle) is not true) localizedNews.SubTitle = subTitle;
         if (seoTitle is not null && localizedNews.SEOTitle.Equals(seoTitle) is not true) localizedNews.SEOTitle = seoTitle;
         if (socialTitle is not null && localizedNews.SocialTitle.Equals(socialTitle) is not true) localizedNews.SocialTitle = socialTitle;
         if (body is not null && localizedNews.Body.Equals(body) is not true) localizedNews.Body = body;
-        if (mainImagePath is not null && MainImage.Equals(title) is not true) MainImage = mainImagePath;
+
+        if (string.IsNullOrWhiteSpace(mainImagePath) is not true && MainImage.Equals(mainImagePath) is not true) MainImage = mainImagePath;
 
         return localizedNews;
     }

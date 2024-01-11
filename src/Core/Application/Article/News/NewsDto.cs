@@ -20,6 +20,7 @@ public class NewsDto : IDto
     public string? SeoTitle { get; set; }
     public string? SocialTitle { get; set; }
     public string? CultureCode { get; set; }
+    public string? DefaultCultureCode { get; set; }
 
     public static NewsDto MapFrom(Domain.Article.News news, string? cultureCode = null)
     {
@@ -32,6 +33,7 @@ public class NewsDto : IDto
             Id = news.Id,
             Slug = news.Slug,
             MainImage = news.MainImage,
+            DefaultCultureCode = news.DefaultCulturCode,
             CultureCode = local.culturCode,
             Title = local.Title,
             SubTitle = local.SocialTitle,

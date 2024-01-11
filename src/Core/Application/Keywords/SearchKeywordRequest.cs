@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FSH.WebApi.Application.Keywords;
+public class SearchKeywordRequest : IRequest<Guid>
+{
+}
+
+public class SearchKeywordRequestValidation : CustomValidator<SearchKeywordRequest>
+{
+}
+public class SearchKeywordRequestHandler : IRequestHandler<SearchKeywordRequest, Guid>
+{
+    public Task<DefaultIdType> Handle(SearchKeywordRequest request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+}
+

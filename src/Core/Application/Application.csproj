@@ -25,6 +25,5 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Media\" />
-      <Folder Include="Keywords\" />
     </ItemGroup>
 </Project>

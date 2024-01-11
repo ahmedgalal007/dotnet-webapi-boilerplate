@@ -26,7 +26,7 @@ public abstract class LocalizedEntity<T> : AuditableEntity
         return Locals.Any(x => x.culturCode == cultureCode);
     }
 
-    public T LocalFactory(string? cultureCode)
+    protected T LocalFactory(string? cultureCode)
     {
         if (string.IsNullOrWhiteSpace(cultureCode))
             cultureCode = DefaultCulturCode; // Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
