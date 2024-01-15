@@ -50,20 +50,19 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DisplayOrder")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("ParentId1")
+                    b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Slug")
-                        .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
@@ -74,7 +73,7 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentId1");
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Category", "Article");
 
@@ -215,6 +214,9 @@ namespace Migrators.MSSQL.Migrations.Application
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -252,6 +254,8 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasColumnType("nvarchar(64)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("News", "Article");
 
@@ -385,6 +389,24 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool?>("IsCreativeWork")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsEvent")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsOrganization")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsPerson")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsPlace")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsProduct")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -392,7 +414,6 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Slug")
-                        .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
@@ -426,6 +447,11 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<Guid?>("KeywordId")
                         .HasColumnType("uniqueidentifier");
 
@@ -435,15 +461,15 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
                     b.Property<string>("TenantId")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("culturCode")
                         .IsRequired()
@@ -459,6 +485,169 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.ToTable("LocalizedKeyword", "Article");
 
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.ImageVersion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EnumImageSize")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ImageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ImageId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.HasIndex("ImageId1");
+
+                    b.ToTable("ImageVersion", "Media");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.LocalizedMedia", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Alt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("MediaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("culturCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MediaId");
+
+                    b.ToTable("LocalizedMedia", "Media");
+
+                    b.HasDiscriminator<string>("TypeName").HasValue("LocalizedMedia");
+
+                    b
+                        .UseTphMappingStrategy()
+                        .HasAnnotation("Finbuckle:MultiTenant", true);
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Media", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DefaultCulturCode")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("FileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Media", "Media");
+
+                    b.HasDiscriminator<string>("TypeName").HasValue("Media");
+
+                    b
+                        .UseTphMappingStrategy()
+                        .HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Storage.Adapter", b =>
@@ -596,7 +785,6 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasColumnType("nvarchar(60)");
 
                     b.Property<Guid?>("ParentId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Path")
@@ -834,6 +1022,36 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 
+            modelBuilder.Entity("KeywordNews", b =>
+                {
+                    b.Property<Guid>("KeywordsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("NewsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("KeywordsId", "NewsId");
+
+                    b.HasIndex("NewsId");
+
+                    b.ToTable("KeywordNews", "Article");
+                });
+
+            modelBuilder.Entity("KeywordsMedia", b =>
+                {
+                    b.Property<Guid>("MediaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("KeywordId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("MediaId", "KeywordId");
+
+                    b.HasIndex("KeywordId");
+
+                    b.ToTable("KeywordsMedia", "Media");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -952,13 +1170,71 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.LocalizedImage", b =>
+                {
+                    b.HasBaseType("FSH.WebApi.Domain.Medias.LocalizedMedia");
+
+                    b.Property<string>("ImageTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("LocalizedMedia", "Media");
+
+                    b.HasDiscriminator().HasValue("LocalizedImage");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.LocalizedVideo", b =>
+                {
+                    b.HasBaseType("FSH.WebApi.Domain.Medias.LocalizedMedia");
+
+                    b.Property<string>("VideoTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("LocalizedMedia", "Media");
+
+                    b.HasDiscriminator().HasValue("LocalizedVideo");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.Image", b =>
+                {
+                    b.HasBaseType("FSH.WebApi.Domain.Medias.Media");
+
+                    b.Property<int?>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Width")
+                        .HasColumnType("int");
+
+                    b.ToTable("Media", "Media");
+
+                    b.HasDiscriminator().HasValue("Image");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.Video", b =>
+                {
+                    b.HasBaseType("FSH.WebApi.Domain.Medias.Media");
+
+                    b.Property<bool?>("IsExternal")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsYoutube")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("VideoImageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("VideoImageId");
+
+                    b.ToTable("Media", "Media");
+
+                    b.HasDiscriminator().HasValue("Video");
+                });
+
             modelBuilder.Entity("FSH.WebApi.Domain.Article.Category", b =>
                 {
-                    b.HasOne("FSH.WebApi.Domain.Article.Category", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId1");
-
-                    b.Navigation("Parent");
+                    b.HasOne("FSH.WebApi.Domain.Article.Category", null)
+                        .WithMany("Childrens")
+                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Article.LocalizedCategory", b =>
@@ -975,6 +1251,15 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasOne("FSH.WebApi.Domain.Article.News", null)
                         .WithMany("Locals")
                         .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Article.News", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Article.Category", null)
+                        .WithMany("News")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -997,15 +1282,35 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasForeignKey("KeywordId");
                 });
 
-            modelBuilder.Entity("FSH.WebApi.Domain.Storage.File", b =>
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.ImageVersion", b =>
                 {
-                    b.HasOne("FSH.WebApi.Domain.Storage.Folder", "Folder")
-                        .WithMany("Files")
-                        .HasForeignKey("FolderId")
+                    b.HasOne("FSH.WebApi.Domain.Medias.Images.Image", null)
+                        .WithMany()
+                        .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Folder");
+                    b.HasOne("FSH.WebApi.Domain.Medias.Images.Image", null)
+                        .WithMany("ImageVersions")
+                        .HasForeignKey("ImageId1");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.LocalizedMedia", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Medias.Media", null)
+                        .WithMany("Locals")
+                        .HasForeignKey("MediaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Storage.File", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Storage.Folder", null)
+                        .WithMany("Files")
+                        .HasForeignKey("FolderId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Storage.Folder", b =>
@@ -1016,15 +1321,12 @@ namespace Migrators.MSSQL.Migrations.Application
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FSH.WebApi.Domain.Storage.Folder", "Parent")
+                    b.HasOne("FSH.WebApi.Domain.Storage.Folder", null)
                         .WithMany("Childrens")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Adapter");
-
-                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Infrastructure.Identity.ApplicationRoleClaim", b =>
@@ -1032,6 +1334,36 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasOne("FSH.WebApi.Infrastructure.Identity.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("KeywordNews", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Keywords.Keyword", null)
+                        .WithMany()
+                        .HasForeignKey("KeywordsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FSH.WebApi.Domain.Article.News", null)
+                        .WithMany()
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("KeywordsMedia", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Keywords.Keyword", null)
+                        .WithMany()
+                        .HasForeignKey("KeywordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FSH.WebApi.Domain.Medias.Media", null)
+                        .WithMany()
+                        .HasForeignKey("MediaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1078,9 +1410,22 @@ namespace Migrators.MSSQL.Migrations.Application
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.Video", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Medias.Images.Image", "VideoImage")
+                        .WithMany()
+                        .HasForeignKey("VideoImageId");
+
+                    b.Navigation("VideoImage");
+                });
+
             modelBuilder.Entity("FSH.WebApi.Domain.Article.Category", b =>
                 {
+                    b.Navigation("Childrens");
+
                     b.Navigation("Locals");
+
+                    b.Navigation("News");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Article.News", b =>
@@ -1093,11 +1438,21 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Navigation("Locals");
                 });
 
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Media", b =>
+                {
+                    b.Navigation("Locals");
+                });
+
             modelBuilder.Entity("FSH.WebApi.Domain.Storage.Folder", b =>
                 {
                     b.Navigation("Childrens");
 
                     b.Navigation("Files");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.Image", b =>
+                {
+                    b.Navigation("ImageVersions");
                 });
 #pragma warning restore 612, 618
         }

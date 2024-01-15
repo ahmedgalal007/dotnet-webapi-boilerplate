@@ -24,6 +24,9 @@ namespace Migrators.MSSQL.Migrations.Application
                 name: "Article");
 
             migrationBuilder.EnsureSchema(
+                name: "Media");
+
+            migrationBuilder.EnsureSchema(
                 name: "Identity");
 
             migrationBuilder.CreateTable(
@@ -94,10 +97,10 @@ namespace Migrators.MSSQL.Migrations.Application
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Slug = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     Color = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    ParentId = table.Column<int>(type: "int", nullable: true),
-                    ParentId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DisplayOrder = table.Column<int>(type: "int", nullable: true),
+                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -111,8 +114,8 @@ namespace Migrators.MSSQL.Migrations.Application
                 {
                     table.PrimaryKey("PK_Category", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Category_Category_ParentId1",
-                        column: x => x.ParentId1,
+                        name: "FK_Category_Category_ParentId",
+                        column: x => x.ParentId,
                         principalSchema: "Article",
                         principalTable: "Category",
                         principalColumn: "Id");
@@ -124,8 +127,14 @@ namespace Migrators.MSSQL.Migrations.Application
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Slug = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     Color = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    IsCreativeWork = table.Column<bool>(type: "bit", nullable: true),
+                    IsEvent = table.Column<bool>(type: "bit", nullable: true),
+                    IsOrganization = table.Column<bool>(type: "bit", nullable: true),
+                    IsPerson = table.Column<bool>(type: "bit", nullable: true),
+                    IsPlace = table.Column<bool>(type: "bit", nullable: true),
+                    IsProduct = table.Column<bool>(type: "bit", nullable: true),
                     TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -141,25 +150,37 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
-                name: "News",
-                schema: "Article",
+                name: "Media",
+                schema: "Media",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Slug = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    MainImage = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Width = table.Column<int>(type: "int", nullable: true),
+                    Height = table.Column<int>(type: "int", nullable: true),
+                    IsExternal = table.Column<bool>(type: "bit", nullable: true),
+                    IsYoutube = table.Column<bool>(type: "bit", nullable: true),
+                    VideoImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    DefaultCulturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false)
+                    DefaultCulturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_News", x => x.Id);
+                    table.PrimaryKey("PK_Media", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Media_Media_VideoImageId",
+                        column: x => x.VideoImageId,
+                        principalSchema: "Media",
+                        principalTable: "Media",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -224,7 +245,7 @@ namespace Migrators.MSSQL.Migrations.Application
                     Name = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     Path = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Directory = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Public = table.Column<bool>(type: "bit", nullable: false),
                     TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -314,13 +335,44 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
+                name: "News",
+                schema: "Article",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    MainImage = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DefaultCulturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_News", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_News_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalSchema: "Article",
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LocalizedKeyword",
                 schema: "Article",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     culturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     KeywordId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -342,20 +394,14 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
-                name: "LocalizedNews",
-                schema: "Article",
+                name: "ImageVersion",
+                schema: "Media",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    culturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    SubTitle = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: true),
-                    SEOTitle = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
-                    SocialTitle = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: true),
-                    Body = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
-                    NewsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EnumImageSize = table.Column<int>(type: "int", nullable: false),
+                    ImageId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -365,12 +411,79 @@ namespace Migrators.MSSQL.Migrations.Application
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LocalizedNews", x => x.Id);
+                    table.PrimaryKey("PK_ImageVersion", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LocalizedNews_News_NewsId",
-                        column: x => x.NewsId,
+                        name: "FK_ImageVersion_Media_ImageId",
+                        column: x => x.ImageId,
+                        principalSchema: "Media",
+                        principalTable: "Media",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ImageVersion_Media_ImageId1",
+                        column: x => x.ImageId1,
+                        principalSchema: "Media",
+                        principalTable: "Media",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "KeywordsMedia",
+                schema: "Media",
+                columns: table => new
+                {
+                    MediaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    KeywordId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KeywordsMedia", x => new { x.MediaId, x.KeywordId });
+                    table.ForeignKey(
+                        name: "FK_KeywordsMedia_Keyword_KeywordId",
+                        column: x => x.KeywordId,
                         principalSchema: "Article",
-                        principalTable: "News",
+                        principalTable: "Keyword",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_KeywordsMedia_Media_MediaId",
+                        column: x => x.MediaId,
+                        principalSchema: "Media",
+                        principalTable: "Media",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LocalizedMedia",
+                schema: "Media",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    culturCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Alt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MediaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    ImageTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VideoTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LocalizedMedia", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LocalizedMedia_Media_MediaId",
+                        column: x => x.MediaId,
+                        principalSchema: "Media",
+                        principalTable: "Media",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -526,15 +639,75 @@ namespace Migrators.MSSQL.Migrations.Application
                         column: x => x.FolderId,
                         principalSchema: "Storage",
                         principalTable: "Folder",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "KeywordNews",
+                schema: "Article",
+                columns: table => new
+                {
+                    KeywordsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NewsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KeywordNews", x => new { x.KeywordsId, x.NewsId });
+                    table.ForeignKey(
+                        name: "FK_KeywordNews_Keyword_KeywordsId",
+                        column: x => x.KeywordsId,
+                        principalSchema: "Article",
+                        principalTable: "Keyword",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_KeywordNews_News_NewsId",
+                        column: x => x.NewsId,
+                        principalSchema: "Article",
+                        principalTable: "News",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LocalizedNews",
+                schema: "Article",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    culturCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    SubTitle = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: true),
+                    SEOTitle = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
+                    SocialTitle = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: true),
+                    Body = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
+                    NewsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LocalizedNews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LocalizedNews_News_NewsId",
+                        column: x => x.NewsId,
+                        principalSchema: "Article",
+                        principalTable: "News",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Category_ParentId1",
+                name: "IX_Category_ParentId",
                 schema: "Article",
                 table: "Category",
-                column: "ParentId1");
+                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_File_FolderId",
@@ -555,6 +728,30 @@ namespace Migrators.MSSQL.Migrations.Application
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ImageVersion_ImageId",
+                schema: "Media",
+                table: "ImageVersion",
+                column: "ImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ImageVersion_ImageId1",
+                schema: "Media",
+                table: "ImageVersion",
+                column: "ImageId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_KeywordNews_NewsId",
+                schema: "Article",
+                table: "KeywordNews",
+                column: "NewsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_KeywordsMedia_KeywordId",
+                schema: "Media",
+                table: "KeywordsMedia",
+                column: "KeywordId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_LocalizedCategory_CategoryId",
                 schema: "Article",
                 table: "LocalizedCategory",
@@ -573,10 +770,28 @@ namespace Migrators.MSSQL.Migrations.Application
                 column: "KeywordId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LocalizedMedia_MediaId",
+                schema: "Media",
+                table: "LocalizedMedia",
+                column: "MediaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_LocalizedNews_NewsId",
                 schema: "Article",
                 table: "LocalizedNews",
                 column: "NewsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Media_VideoImageId",
+                schema: "Media",
+                table: "Media",
+                column: "VideoImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_News_CategoryId",
+                schema: "Article",
+                table: "News",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_BrandId",
@@ -650,12 +865,28 @@ namespace Migrators.MSSQL.Migrations.Application
                 schema: "Storage");
 
             migrationBuilder.DropTable(
+                name: "ImageVersion",
+                schema: "Media");
+
+            migrationBuilder.DropTable(
+                name: "KeywordNews",
+                schema: "Article");
+
+            migrationBuilder.DropTable(
+                name: "KeywordsMedia",
+                schema: "Media");
+
+            migrationBuilder.DropTable(
                 name: "LocalizedCategory",
                 schema: "Article");
 
             migrationBuilder.DropTable(
                 name: "LocalizedKeyword",
                 schema: "Article");
+
+            migrationBuilder.DropTable(
+                name: "LocalizedMedia",
+                schema: "Media");
 
             migrationBuilder.DropTable(
                 name: "LocalizedNews",
@@ -690,12 +921,12 @@ namespace Migrators.MSSQL.Migrations.Application
                 schema: "Storage");
 
             migrationBuilder.DropTable(
-                name: "Category",
+                name: "Keyword",
                 schema: "Article");
 
             migrationBuilder.DropTable(
-                name: "Keyword",
-                schema: "Article");
+                name: "Media",
+                schema: "Media");
 
             migrationBuilder.DropTable(
                 name: "News",
@@ -716,6 +947,10 @@ namespace Migrators.MSSQL.Migrations.Application
             migrationBuilder.DropTable(
                 name: "Adapter",
                 schema: "Storage");
+
+            migrationBuilder.DropTable(
+                name: "Category",
+                schema: "Article");
         }
     }
 }

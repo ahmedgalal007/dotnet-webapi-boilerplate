@@ -1,6 +1,6 @@
-﻿using FSH.WebApi.Domain.Common.Localizations;
+﻿using FSH.WebApi.Domain.Article;
+using FSH.WebApi.Domain.Medias;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace FSH.WebApi.Domain.Keywords;
 
@@ -27,7 +27,8 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
     public bool? IsPerson { get; set; } = false;
     public bool? IsPlace { get; set; } = false;
     public bool? IsProduct { get; set; } = false;
-
+    public virtual IEnumerable<News>? News { get; set; } = default;
+    public virtual IEnumerable<Media>? Medias { get; set; } = default;
     public Keyword Update(string? title, string? description, string? color, string? cultureCode)
     {
         if (string.IsNullOrWhiteSpace(cultureCode))

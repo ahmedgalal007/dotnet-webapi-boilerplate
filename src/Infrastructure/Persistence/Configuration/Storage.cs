@@ -38,7 +38,8 @@ public class FolderConfig : IEntityTypeConfiguration<Folder>
     {
         builder.IsMultiTenant();
         builder.ToTable(nameof(Folder), nameof(SchemaNames.Storage));
-        builder.HasOne(e => e.Parent).WithMany(e => e.Childrens).HasForeignKey(e => e.ParentId).OnDelete(DeleteBehavior.NoAction);
+        builder.HasMany(e => e.Childrens).WithOne().HasForeignKey(e => e.ParentId).OnDelete(DeleteBehavior.NoAction);
+        builder.HasMany(e => e.Files).WithOne().HasForeignKey(e => e.FolderId).OnDelete(DeleteBehavior.NoAction);
         builder.Property(b => b.Name).HasMaxLength(60);
         builder.Property(b => b.Path).HasMaxLength(250);
         builder.Property(b => b.Directory).HasMaxLength(250);

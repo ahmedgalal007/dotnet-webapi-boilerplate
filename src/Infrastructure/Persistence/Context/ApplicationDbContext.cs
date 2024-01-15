@@ -5,6 +5,8 @@ using FSH.WebApi.Application.Common.Interfaces;
 using FSH.WebApi.Domain.Article;
 using FSH.WebApi.Domain.Catalog;
 using FSH.WebApi.Domain.Keywords;
+using FSH.WebApi.Domain.Medias;
+using FSH.WebApi.Domain.Medias.Images;
 using FSH.WebApi.Domain.Storage;
 // using FSH.WebApi.Domain.Common.Localizations;
 using FSH.WebApi.Infrastructure.Persistence.Configuration;
@@ -30,6 +32,12 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<Folder> Folders => Set<Folder>();
     public DbSet<File> Files => Set<Domain.Storage.File>();
     public DbSet<Keyword> Keywords => Set<Keyword>();
+    public DbSet<Media> Medias => Set<Media>();
+    public DbSet<LocalizedMedia> LocalizedMedias => Set<LocalizedMedia>();
+    public DbSet<Image> Images => Set<Image>();
+    public DbSet<LocalizedImage> LocalizedImages => Set<LocalizedImage>();
+    public DbSet<Video> Videos => Set<Video>();
+    public DbSet<LocalizedVideo> LocalizedVideos => Set<LocalizedVideo>();
     // public DbSet<Culture> Cultures => Set<Culture>();
 
 

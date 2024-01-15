@@ -18,11 +18,15 @@ public class Category : LocalizedEntity<LocalizedCategory>, IAggregateRoot
         this.Color = color;
     }
 
-    public string Slug { get; set; }
+    public string? Slug { get; set; }
     public string? Color { get; set; }
-    public int? ParentId { get; set; }
+    public int? DisplayOrder { get; set; } = 0;
+    public Guid? ParentId { get; set; }
 
-    public virtual Category? Parent { get; set; }
+    public virtual IEnumerable<Category> Childrens { get; set; }
+    // public virtual Category? Parent { get; set; }
+
+    public virtual IEnumerable<News>? News { get; set; }
 
     public Category Update(string? name, string? description, string? color, string? cultureCode)
     {

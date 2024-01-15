@@ -14,7 +14,7 @@ public class Folder : AuditableEntity
     public string Path { get; set; }
     public string Directory { get; set; }
     public Guid? ParentId { get; set; }
-    public Folder Parent { get; set; }
+    // public Folder Parent { get; set; }
     public bool Public { get; set; } = false;
 
     public List<Folder> Childrens { get; set; }

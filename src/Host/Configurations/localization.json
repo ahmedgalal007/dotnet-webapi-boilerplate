@@ -7,15 +7,17 @@
       "en",
       "fr",
       "fr-FR",
-      "de",
-      "de-DE",
-      "it",
-      "it-IT",
-      "pt",
-      "nl",
-      "nl-NL"
+      // "de",
+      // "de-DE",
+      // "it",
+      // "it-IT",
+      // "pt",
+      // "nl",
+      // "nl-NL"
+      "ar",
+      "ar-EG"
     ],
-    "DefaultRequestCulture": "en",
+    "DefaultRequestCulture": "ar-EG",
     "FallbackToParent": true
   }
 }

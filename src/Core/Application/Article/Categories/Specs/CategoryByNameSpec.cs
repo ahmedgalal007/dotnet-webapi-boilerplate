@@ -1,6 +1,6 @@
 using FSH.WebApi.Domain.Article;
 
-namespace FSH.WebApi.Application.Article.Categories;
+namespace FSH.WebApi.Application.Article.Categories.Specs;
 
 public class CategoryByNameSpec : Specification<Category>, ISingleResultSpecification
 {

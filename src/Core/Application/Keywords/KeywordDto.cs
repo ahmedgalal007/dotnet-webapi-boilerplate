@@ -7,4 +7,6 @@ using System.Threading.Tasks;
 namespace FSH.WebApi.Application.Keywords;
 public class KeywordDto : IDto
 {
+    public Guid Id { get; set; }
+    public string Title { get; set; }
 }

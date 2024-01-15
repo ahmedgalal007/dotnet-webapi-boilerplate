@@ -42,7 +42,6 @@ public class CultureSeeder: ICustomSeeder
         //    );
         //    await _db.SaveChangesAsync(cancellationToken);
 
-
         //    await _db.SaveChangesAsync(cancellationToken);
         //    _logger.LogInformation("Seeded Cultures.");
         //}

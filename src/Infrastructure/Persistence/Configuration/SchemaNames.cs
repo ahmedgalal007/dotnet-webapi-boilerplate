@@ -9,4 +9,5 @@ internal static class SchemaNames
     public static string MultiTenancy = nameof(MultiTenancy); // "MULTITENANCY";
     public static string Article = nameof(Article); // "ARTICLE";
     public static string Storage = nameof(Storage); // "ARTICLE";
+    public static string Media = nameof(Media);
 }

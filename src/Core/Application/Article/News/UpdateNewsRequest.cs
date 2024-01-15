@@ -19,6 +19,7 @@ public class UpdateNewsRequest : IRequest<Guid>
     public string? SEOTitle { get; set; }
     public string? SocialTitle { get; set; }
     public string? Body { get; set; }
+    public Guid? CategoryId { get; set; }
 
     public bool DeleteCurrentImage { get; set; } = false;
     public FileUploadRequest? MainImage { get; set; }
@@ -59,7 +60,7 @@ public class UpdateNewsRequestHandler : IRequestHandler<UpdateNewsRequest, Guid>
             ? await _file.UploadAsync<Product>(request.MainImage, FileType.Image, cancellationToken)
             : null;
 
-        var updatedNews = news.Update(request.Title, request.Description, request.Body, request.SubTitle, request.SEOTitle,request.SocialTitle, request.CultureCode, newsImagePath);
+        var updatedNews = news.Update(request.Title, request.Description, request.Body, request.SubTitle, request.SEOTitle,request.SocialTitle, request.CultureCode, newsImagePath, (Guid)request.CategoryId!);
 
         // Add Domain Events to be raised after the commit
         news.DomainEvents.Add(EntityUpdatedEvent.WithEntity(news));

@@ -2,6 +2,7 @@
 using Finbuckle.MultiTenant.EntityFrameworkCore;
 using FSH.WebApi.Domain.Article;
 using FSH.WebApi.Domain.Keywords;
+using FSH.WebApi.Domain.Medias;
 using FSH.WebApi.Infrastructure.Persistence.Configuration.CustomConfigurations;
 using FSH.WebApi.Infrastructure.SEO;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,8 @@ public class CategoryConfig : EntityTypeConfigurationDependency<Category>
         builder.ToTable(nameof(Category), nameof(SchemaNames.Article));
         builder.Property(e => e.Slug).HasMaxLength(_seoSettings.NewsSlugMaxLength ?? 50);
         builder.Property(e => e.Color).HasMaxLength(10);
+        builder.HasMany(e => e.Childrens).WithOne().HasForeignKey(e => e.ParentId);
+        builder.HasMany(e => e.News).WithOne();
     }
 }
 
@@ -62,6 +65,17 @@ public class KeywordConfig : EntityTypeConfigurationDependency<Keyword>
         builder.ToTable(nameof(Keyword), nameof(SchemaNames.Article));
         builder.Property(e => e.Slug).HasMaxLength(_seoSettings.NewsSlugMaxLength ?? 50);
         builder.Property(e => e.Color).HasMaxLength(10);
+
+        builder
+            .HasMany(e => e.Medias)
+            .WithMany(e => e.Keywords)
+            .UsingEntity(
+                "KeywordsMedia",
+                l => l.HasOne(typeof(Media)).WithMany().HasForeignKey("MediaId").HasPrincipalKey(nameof(Media.Id)),
+                r => r.HasOne(typeof(Keyword)).WithMany().HasForeignKey("KeywordId").HasPrincipalKey(nameof(Keyword.Id)),
+                j => j.ToTable("KeywordsMedia", nameof(SchemaNames.Media))
+                            .HasKey("MediaId", "KeywordId")
+            );
     }
 }
 
@@ -81,6 +95,7 @@ public class LocalizedKeywordConfig : EntityTypeConfigurationDependency<Localize
         builder.ToTable(nameof(LocalizedKeyword), nameof(SchemaNames.Article));
         builder.Property(e => e.culturCode).HasMaxLength(6);
         builder.Property(e => e.Title).HasMaxLength(150);
+        builder.Property(e => e.Description).HasMaxLength(500);
         builder.HasIndex(e => e.culturCode);
     }
 }

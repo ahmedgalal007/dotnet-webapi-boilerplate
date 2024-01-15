@@ -1,5 +1,6 @@
 ﻿using FSH.WebApi.Domain.Catalog;
 using FSH.WebApi.Domain.Common.Localizations;
+using FSH.WebApi.Domain.Keywords;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
@@ -10,24 +11,27 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
 {
     public string? Slug { get; set; } = string.Empty;
     public string? MainImage { get; set; }
-
+    public Guid CategoryId { get; set; }
+    public virtual IEnumerable<Keyword>? Keywords { get; set; } = new List<Keyword>();
     public News()
     {
     }
    
-    public News(string title, string slug, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode, string? mainImagePath)
+    public News(string title, string slug, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode, string? mainImagePath,Guid categoryId)
     {
         if (string.IsNullOrWhiteSpace(cultureCode))
             cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
 
         DefaultCulturCode = cultureCode;
         Slug = slug;
+        CategoryId = categoryId;
         AddOrUpdateLocal(title, description, body, subTitle, seoTitle, socialTitle, cultureCode, mainImagePath);
     }
 
 
-    public News Update(string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode, string? mainImagePath)
+    public News Update(string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode, string? mainImagePath, Guid categoryId)
     {
+        if (categoryId != Guid.Empty && CategoryId.Equals(categoryId) is not true) CategoryId = categoryId;
         LocalizedNews local = AddOrUpdateLocal(title, description, body, subTitle, seoTitle, socialTitle, cultureCode, mainImagePath);
         return this;
     }

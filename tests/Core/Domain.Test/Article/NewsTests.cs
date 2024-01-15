@@ -38,6 +38,7 @@ namespace Domain.Test.Article
             string? socialTitle = null;
             string? cultureCode = null;
             string? mainImagePath = null;
+            Guid? categoryId = Guid.Empty;
 
             // Act
             var result = news.Update(
@@ -48,7 +49,8 @@ namespace Domain.Test.Article
                 seoTitle,
                 socialTitle,
                 cultureCode,
-                mainImagePath);
+                mainImagePath,
+                (Guid)categoryId);
 
             // Assert
             Assert.Fail();
