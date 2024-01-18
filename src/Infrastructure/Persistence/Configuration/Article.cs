@@ -13,6 +13,7 @@ namespace FSH.WebApi.Infrastructure.Persistence.Configuration;
 public class CategoryConfig : EntityTypeConfigurationDependency<Category>
 {
     private readonly SEOSettings _seoSettings;
+
     // public CategoryConfig() { _seoSettings = new SEOSettings(); }
     public CategoryConfig(IConfiguration config)
     {
@@ -44,7 +45,7 @@ public class LocalizedCategoryConfig : EntityTypeConfigurationDependency<Localiz
     {
         builder.IsMultiTenant();
         builder.ToTable(nameof(LocalizedCategory), nameof(SchemaNames.Article));
-        builder.Property(e => e.culturCode).HasMaxLength(6);
+        builder.Property(e => e.CulturCode).HasMaxLength(6);
         builder.Property(e => e.Name).HasMaxLength(150);
         builder.Property(e => e.Description).HasMaxLength(300);
     }
@@ -53,6 +54,7 @@ public class LocalizedCategoryConfig : EntityTypeConfigurationDependency<Localiz
 public class KeywordConfig : EntityTypeConfigurationDependency<Keyword>
 {
     private readonly SEOSettings _seoSettings;
+
     // public KeywordConfig() { _seoSettings = new SEOSettings(); }
     public KeywordConfig(IConfiguration config)
     {
@@ -70,12 +72,29 @@ public class KeywordConfig : EntityTypeConfigurationDependency<Keyword>
             .HasMany(e => e.Medias)
             .WithMany(e => e.Keywords)
             .UsingEntity(
-                "KeywordsMedia",
+                "KeywordMedia",
                 l => l.HasOne(typeof(Media)).WithMany().HasForeignKey("MediaId").HasPrincipalKey(nameof(Media.Id)),
                 r => r.HasOne(typeof(Keyword)).WithMany().HasForeignKey("KeywordId").HasPrincipalKey(nameof(Keyword.Id)),
-                j => j.ToTable("KeywordsMedia", nameof(SchemaNames.Media))
-                            .HasKey("MediaId", "KeywordId")
-            );
+                j => j.ToTable("KeywordMedia", nameof(SchemaNames.Media))
+                            .HasKey("MediaId", "KeywordId"));
+        builder
+            .HasMany(e => e.News)
+            .WithMany(e => e.Keywords)
+            .UsingEntity(
+                "KeywordNews",
+                l => l.HasOne(typeof(Album)).WithMany().HasForeignKey("NewsId").HasPrincipalKey(nameof(News.Id)),
+                r => r.HasOne(typeof(Keyword)).WithMany().HasForeignKey("KeywordId").HasPrincipalKey(nameof(Keyword.Id)),
+                j => j.ToTable("KeywordNews", nameof(SchemaNames.Article))
+                            .HasKey("NewsId", "KeywordId"));
+        builder
+            .HasMany(e => e.Albums)
+            .WithMany(e => e.Keywords)
+            .UsingEntity(
+                "KeywordAlbum",
+                l => l.HasOne(typeof(Album)).WithMany().HasForeignKey("AlbumId").HasPrincipalKey(nameof(Album.Id)),
+                r => r.HasOne(typeof(Keyword)).WithMany().HasForeignKey("KeywordId").HasPrincipalKey(nameof(Keyword.Id)),
+                j => j.ToTable("KeywordAlbum", nameof(SchemaNames.Media))
+                            .HasKey("AlbumId", "KeywordId"));
     }
 }
 
@@ -93,16 +112,17 @@ public class LocalizedKeywordConfig : EntityTypeConfigurationDependency<Localize
     {
         builder.IsMultiTenant();
         builder.ToTable(nameof(LocalizedKeyword), nameof(SchemaNames.Article));
-        builder.Property(e => e.culturCode).HasMaxLength(6);
+        builder.Property(e => e.CulturCode).HasMaxLength(6);
         builder.Property(e => e.Title).HasMaxLength(150);
         builder.Property(e => e.Description).HasMaxLength(500);
-        builder.HasIndex(e => e.culturCode);
+        builder.HasIndex(e => e.CulturCode);
     }
 }
 
 public class NewsConfig : EntityTypeConfigurationDependency<News>
 {
     private readonly SEOSettings _seoSettings;
+
     // public NewsConfig() { _seoSettings = new SEOSettings(); }
     public NewsConfig(IConfiguration config)
     {
@@ -115,13 +135,40 @@ public class NewsConfig : EntityTypeConfigurationDependency<News>
         builder.ToTable(nameof(News), nameof(SchemaNames.Article));
         builder.Property(e => e.Slug).HasMaxLength(_seoSettings.SlugOptions.MaximumLength);
         builder.Property(e => e.MainImage).HasMaxLength(250);
+        builder
+            .HasMany(e => e.Keywords)
+            .WithMany(e => e.News)
+            .UsingEntity(
+                "KeywordNews",
+                l => l.HasOne(typeof(Album)).WithMany().HasForeignKey("NewsId").HasPrincipalKey(nameof(News.Id)),
+                r => r.HasOne(typeof(Keyword)).WithMany().HasForeignKey("KeywordId").HasPrincipalKey(nameof(Keyword.Id)),
+                j => j.ToTable("KeywordNews", nameof(SchemaNames.Article))
+                            .HasKey("NewsId", "KeywordId"));
+        builder
+            .HasMany(e => e.Medias)
+            .WithMany(e => e.News)
+            .UsingEntity(
+                "NewsMedia",
+                l => l.HasOne(typeof(Media)).WithMany().HasForeignKey("MediaId").HasPrincipalKey(nameof(Media.Id)),
+                r => r.HasOne(typeof(News)).WithMany().HasForeignKey("NewsId").HasPrincipalKey(nameof(News.Id)),
+                j => j.ToTable("NewsMedia", nameof(SchemaNames.Media))
+                            .HasKey("MediaId", "NewsId"));
+        builder
+            .HasMany(e => e.Albums)
+            .WithMany(e => e.News)
+            .UsingEntity(
+                "NewsAlbum",
+                l => l.HasOne(typeof(Album)).WithMany().HasForeignKey("AlbumId").HasPrincipalKey(nameof(Album.Id)),
+                r => r.HasOne(typeof(News)).WithMany().HasForeignKey("NewsId").HasPrincipalKey(nameof(News.Id)),
+                j => j.ToTable("NewsAlbum", nameof(SchemaNames.Media))
+                            .HasKey("AlbumId", "NewsId"));
     }
-
 }
 
 public class LocalizedNewsConfig : EntityTypeConfigurationDependency<LocalizedNews>
 {
     private readonly SEOSettings _seoSettings;
+
     // public LocalizedNewsConfig() { _seoSettings = new SEOSettings(); }
     public LocalizedNewsConfig(IConfiguration config)
     {
@@ -132,7 +179,7 @@ public class LocalizedNewsConfig : EntityTypeConfigurationDependency<LocalizedNe
     {
         builder.IsMultiTenant();
         builder.ToTable(nameof(LocalizedNews), nameof(SchemaNames.Article));
-        builder.Property(e => e.culturCode).HasMaxLength(6);
+        builder.Property(e => e.CulturCode).HasMaxLength(6);
         builder.Property(e => e.Title).HasMaxLength(_seoSettings.NewsTitleMaxLength ?? 160);
         builder.Property(e => e.Description).HasMaxLength(300);
         builder.Property(e => e.SubTitle).HasMaxLength(_seoSettings.NewsSubTitleMaxLength ?? 160);

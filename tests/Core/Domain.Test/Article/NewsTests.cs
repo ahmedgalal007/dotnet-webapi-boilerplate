@@ -22,7 +22,7 @@ namespace Domain.Test.Article
 
         private News CreateNews()
         {
-            return new News();
+            return News.Create("eg", "", "", "", "", "", "", "", "", Guid.NewGuid());
         }
 
         [Test]

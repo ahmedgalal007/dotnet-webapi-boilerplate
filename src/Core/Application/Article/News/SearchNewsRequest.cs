@@ -16,7 +16,7 @@ public class NewsBySearchRequestSpec : EntitiesByPaginationFilterSpec<Domain.Art
         .Include(e => e.Locals)
 
         // .Where(e => e.Locals.Any(e => e.Title.Contains(request.Keyword) || e.Description.Contains(request.Keyword)))
-        .Search(e => e.Locals.First(e => e.culturCode == (request.CultureCode ?? "en")).Title, "%" + request.Keyword + "%", 1)
+        .Search(e => e.Locals.First(e => e.CulturCode == (request.CultureCode ?? "en")).Title, "%" + request.Keyword + "%", 1)
         .OrderBy(c => c.Id, !request.HasOrderBy());
 
         Query.Select(e => NewsDto.MapFrom(e, request.CultureCode));

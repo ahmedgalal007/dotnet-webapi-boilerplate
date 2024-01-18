@@ -49,7 +49,7 @@ public class CreateNewsRequestHandler : IRequestHandler<CreateNewsRequest, Guid>
         string slug = request.Slug ?? _seoUtilitiesService.Slugify(request.Title);
 
         //var news = new Domain.Article.News(request.Title, slug, request.Description, request.Body, request.SubTitle, request.SEOTitle, request.SocialTitle, lang, newsImagePath);
-        var news = new Domain.Article.News(request.Title, slug, request.Description, request.Body, request.SubTitle, request.SEOTitle, request.SocialTitle, lang, "", (Guid)request.GategoryId);
+        var news = Domain.Article.News.Create(request.Title, slug, request.Description, request.Body, request.SubTitle, request.SEOTitle, request.SocialTitle, lang, "", (Guid)request.GategoryId);
         news.DomainEvents.Add(EntityCreatedEvent.WithEntity(news));
         await _repository.AddAsync(news, cancellationToken);
 

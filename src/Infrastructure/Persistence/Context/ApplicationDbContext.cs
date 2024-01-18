@@ -7,13 +7,14 @@ using FSH.WebApi.Domain.Catalog;
 using FSH.WebApi.Domain.Keywords;
 using FSH.WebApi.Domain.Medias;
 using FSH.WebApi.Domain.Medias.Images;
+using FSH.WebApi.Domain.Medias.Videos;
 using FSH.WebApi.Domain.Storage;
 // using FSH.WebApi.Domain.Common.Localizations;
 using FSH.WebApi.Infrastructure.Persistence.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using File = FSH.WebApi.Domain.Storage.File;
-
+using Image = FSH.WebApi.Domain.Medias.Images.Image;
 namespace FSH.WebApi.Infrastructure.Persistence.Context;
 
 public class ApplicationDbContext : BaseDbContext
@@ -32,8 +33,8 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<Folder> Folders => Set<Folder>();
     public DbSet<File> Files => Set<Domain.Storage.File>();
     public DbSet<Keyword> Keywords => Set<Keyword>();
-    public DbSet<Media> Medias => Set<Media>();
-    public DbSet<LocalizedMedia> LocalizedMedias => Set<LocalizedMedia>();
+    // public DbSet<Media<LocalizedMedia>> Medias => Set<Media<LocalizedMedia>>();
+    // public DbSet<LocalizedMedia> LocalizedMedias => Set<LocalizedMedia>();
     public DbSet<Image> Images => Set<Image>();
     public DbSet<LocalizedImage> LocalizedImages => Set<LocalizedImage>();
     public DbSet<Video> Videos => Set<Video>();

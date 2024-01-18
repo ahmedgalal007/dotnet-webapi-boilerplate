@@ -4,10 +4,10 @@ using FSH.WebApi.Domain.Article;
 namespace FSH.WebApi.Application.Article.Categories;
 public class CreateCategoryRequest : IRequest<Guid>
 {
+    public string CultureCode { get; set; } = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
     public string Name { get; set; } = default!;
     public string? Description { get; set; }
     public string? Color { get; set; } = "#ffffff";
-    public string? CultureCode { get; set; } = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
 }
 
 public class CreateCategoryRequestValidator : CustomValidator<CreateCategoryRequest>
@@ -30,8 +30,12 @@ public class CreateCategoryRequestHandler : IRequestHandler<CreateCategoryReques
 
     public async Task<Guid> Handle(CreateCategoryRequest request, CancellationToken cancellationToken)
     {
-        string lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
-        var category = new Category(request.Name, request.Description, request.Color, request.CultureCode ?? lang);
+        // string lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
+        var category = Category.Create(
+                                cultureCode: request.CultureCode,
+                                name: request.Name,
+                                description: request.Description,
+                                color: request.Color);
 
         await _repository.AddAsync(category, cancellationToken);
 

@@ -4,5 +4,6 @@ namespace FSH.WebApi.Domain.Common.Contracts;
 
 public interface ILocalizableEntity
 {
-    public string culturCode { get; set; }
+    public string CulturCode { get; }
+    // abstract static ILocalizableEntity Create { get; }
 }

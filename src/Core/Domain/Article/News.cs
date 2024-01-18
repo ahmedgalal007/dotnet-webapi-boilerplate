@@ -1,6 +1,7 @@
 ﻿using FSH.WebApi.Domain.Catalog;
 using FSH.WebApi.Domain.Common.Localizations;
 using FSH.WebApi.Domain.Keywords;
+using FSH.WebApi.Domain.Medias;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
@@ -13,43 +14,53 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
     public string? MainImage { get; set; }
     public Guid CategoryId { get; set; }
     public virtual IEnumerable<Keyword>? Keywords { get; set; } = new List<Keyword>();
-    public News()
+    public virtual IEnumerable<Album>? Albums { get; set; } = new List<Album>();
+    public virtual IEnumerable<Media>? Medias { get; set; } = new List<Media>();
+    private News()
     {
     }
-   
-    public News(string title, string slug, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode, string? mainImagePath,Guid categoryId)
-    {
-        if (string.IsNullOrWhiteSpace(cultureCode))
-            cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
 
-        DefaultCulturCode = cultureCode;
-        Slug = slug;
-        CategoryId = categoryId;
-        AddOrUpdateLocal(title, description, body, subTitle, seoTitle, socialTitle, cultureCode, mainImagePath);
+
+    protected override LocalizedNews CreateLocal(String cultureCode)
+    {
+        return LocalizedNews.Create(Id, cultureCode, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
     }
 
+    public static News Create(string cultureCode, string title, string slug, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? mainImagePath, Guid categoryId)
+    {
+        // if (string.IsNullOrWhiteSpace(cultureCode))
+        // cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
+        News instance = new News() {
+            DefaultCulturCode = cultureCode,
+            Slug = slug,
+            CategoryId = categoryId
+        };
+        instance.AddOrUpdateLocal(cultureCode, title, description, body, subTitle, seoTitle, socialTitle, mainImagePath);
+        return instance;
 
-    public News Update(string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode, string? mainImagePath, Guid categoryId)
+    }
+
+    public News Update(string cultureCode, string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? mainImagePath, Guid categoryId)
     {
         if (categoryId != Guid.Empty && CategoryId.Equals(categoryId) is not true) CategoryId = categoryId;
-        LocalizedNews local = AddOrUpdateLocal(title, description, body, subTitle, seoTitle, socialTitle, cultureCode, mainImagePath);
+        LocalizedNews local = AddOrUpdateLocal(cultureCode, title, description, body, subTitle, seoTitle, socialTitle, mainImagePath);
         return this;
     }
 
-    public LocalizedNews AddOrUpdateLocal(string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? cultureCode, string? mainImagePath)
+    public LocalizedNews AddOrUpdateLocal(string cultureCode, string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? mainImagePath)
     {
+        LocalizedNews localizedNews = (LocalizedNews?)GetLocal(cultureCode)
+            ?? LocalizedNews.Create(this.Id, cultureCode, title, description, subTitle, seoTitle, socialTitle, body);
+        // localizedNews.Update(title, description, subTitle, seoTitle, socialTitle, body);
 
-        LocalizedNews localizedNews = LocalFactory(cultureCode);
+        // if (title is not null && localizedNews.Title.Equals(title) is not true) localizedNews.Title = title;
+        // if (description is not null && localizedNews.Description.Equals(description) is not true) localizedNews.Description = description;
+        // if (subTitle is not null && localizedNews.SubTitle.Equals(subTitle) is not true) localizedNews.SubTitle = subTitle;
+        // if (seoTitle is not null && localizedNews.SEOTitle.Equals(seoTitle) is not true) localizedNews.SEOTitle = seoTitle;
+        // if (socialTitle is not null && localizedNews.SocialTitle.Equals(socialTitle) is not true) localizedNews.SocialTitle = socialTitle;
+        // if (body is not null && localizedNews.Body.Equals(body) is not true) localizedNews.Body = body;
 
-
-        if (title is not null && localizedNews.Title.Equals(title) is not true) localizedNews.Title = title;
-        if (description is not null && localizedNews.Description.Equals(description) is not true) localizedNews.Description = description;
-        if (subTitle is not null && localizedNews.SubTitle.Equals(subTitle) is not true) localizedNews.SubTitle = subTitle;
-        if (seoTitle is not null && localizedNews.SEOTitle.Equals(seoTitle) is not true) localizedNews.SEOTitle = seoTitle;
-        if (socialTitle is not null && localizedNews.SocialTitle.Equals(socialTitle) is not true) localizedNews.SocialTitle = socialTitle;
-        if (body is not null && localizedNews.Body.Equals(body) is not true) localizedNews.Body = body;
-
-        if (string.IsNullOrWhiteSpace(mainImagePath) is not true && MainImage.Equals(mainImagePath) is not true) MainImage = mainImagePath;
+        if (!string.IsNullOrWhiteSpace(mainImagePath) && !MainImage.Equals(mainImagePath)) MainImage = mainImagePath;
 
         return localizedNews;
     }
@@ -59,6 +70,8 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
         MainImage = string.Empty;
         return this;
     }
+
+    
 
     /*
     public Guid TitleId { get; set; }

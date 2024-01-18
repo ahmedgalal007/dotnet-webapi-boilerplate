@@ -18,7 +18,7 @@ public class LocalizedNewsBySearchSpec : EntitiesByPaginationFilterSpec<Domain.A
         // .Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize);
 
         if (!string.IsNullOrWhiteSpace(request.CulturCode))
-            Query.Where(e => e.culturCode == request.CulturCode);
+            Query.Where(e => e.CulturCode == request.CulturCode);
 
         Query.Select(e => GetNewsItem(e.NewsId, request.CulturCode, newsRepo, localizer));
     }

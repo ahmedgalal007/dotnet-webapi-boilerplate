@@ -35,16 +35,19 @@ public class NewsSeeder : ICustomSeeder
 
             // Here you can use your own logic to populate the database.
             // As an example, I am using a JSON file to populate the database.
-            await new CategorySeeder(_serializerService, null, _db).InitializeAsync(cancellationToken);
-            Guid CategoryId = _db.Categories.FirstOrDefault().Id;
-            Domain.Article.News obj = new Domain.Article.News("إختبار", "إختبار", "وصف الخبر", null,null,null,null,"ar",null, CategoryId);
-            await _db.News.AddAsync(obj, cancellationToken);
-            await _db.SaveChangesAsync(cancellationToken);
+            // await new CategorySeeder(_serializerService, new Logger<NewsSeeder>(), _db).InitializeAsync(cancellationToken);
+            Guid? CategoryId = _db.Categories.FirstOrDefault()?.Id;
+            if (!(CategoryId == null || !CategoryId.HasValue))
+            {
+                Domain.Article.News obj = Domain.Article.News.Create("ar", "إختبار", "إختبار", "وصف الخبر", null, null, null, null, null, (Guid)CategoryId);
+                await _db.News.AddAsync(obj, cancellationToken);
+                await _db.SaveChangesAsync(cancellationToken);
 
-            obj.Update("test", "News Description", null, null, null, null, "en", null, CategoryId);
-            _db.Update(obj);
-
-            await _db.SaveChangesAsync(cancellationToken);
+                obj.Update("test", "News Description", null, null, null, null, "en", null, (Guid)CategoryId);
+                _db.Update(obj);
+                await _db.SaveChangesAsync(cancellationToken);
+            }
+            
             _logger.LogInformation("Seeded News.");
         }
     }

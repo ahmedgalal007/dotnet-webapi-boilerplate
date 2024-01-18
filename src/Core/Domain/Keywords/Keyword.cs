@@ -1,21 +1,26 @@
 ﻿using FSH.WebApi.Domain.Article;
 using FSH.WebApi.Domain.Medias;
 using System;
+using System.Drawing;
 
 namespace FSH.WebApi.Domain.Keywords;
 
 public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
 {
 
-    public Keyword() { }
-    public Keyword (string name, string? cultureCode, string? description, string? color)
+    private Keyword()
     {
-        if (string.IsNullOrWhiteSpace(cultureCode))
-            cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
+    }
 
-        AddOrUpdateLocal(name, description, cultureCode);
-        Slug = name.TrimStart().TrimEnd().Replace(" ", "-");
-        Color = color;
+    public static Keyword Create(string cultureCode, string name, string? description, string? color)
+    {
+        Keyword instance = new Keyword
+        {
+            Slug = name.TrimStart().TrimEnd().Replace(" ", "-"),
+            Color = color,
+        };
+        instance.AddOrUpdateLocal(cultureCode, name, description);
+        return instance;
     }
 
     public string? Slug { get; set; }
@@ -29,22 +34,25 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
     public bool? IsProduct { get; set; } = false;
     public virtual IEnumerable<News>? News { get; set; } = default;
     public virtual IEnumerable<Media>? Medias { get; set; } = default;
-    public Keyword Update(string? title, string? description, string? color, string? cultureCode)
+    public virtual IEnumerable<Album>? Albums { get; set; }
+
+    public Keyword Update(string cultureCode, string? title, string? description, string? color)
     {
-        if (string.IsNullOrWhiteSpace(cultureCode))
-            cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
         if (color is not null && Color.Equals(color) is not true) Color = color;
-        AddOrUpdateLocal(title, description, cultureCode);
+        AddOrUpdateLocal(cultureCode, title, description);
         return this;
     }
 
-    public LocalizedKeyword AddOrUpdateLocal(string? title, string? description, string? cultureCode)
+    public LocalizedKeyword AddOrUpdateLocal(string cultureCode, string? title, string? description)
     {
-        LocalizedKeyword localizedKeyword = LocalFactory(cultureCode);
-
-        if (title is not null && localizedKeyword.Title.Equals(title) is not true) localizedKeyword.Title = title;
-        if (description is not null && localizedKeyword.Description.Equals(description) is not true) localizedKeyword.Description = description;
-
+        LocalizedKeyword localizedKeyword = GetLocal(cultureCode)
+            ?? LocalizedKeyword.Create(cultureCode, title, description);
+        // localizedKeyword.Update(title, description);
         return localizedKeyword;
+    }
+
+    protected override LocalizedKeyword CreateLocal(string cultureCode)
+    {
+        return LocalizedKeyword.Create(cultureCode, string.Empty, string.Empty);
     }
 }

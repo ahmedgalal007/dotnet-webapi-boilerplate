@@ -29,7 +29,7 @@ public class NewsDto : IDto
     public static NewsDto MapFrom(Domain.Article.News news, string? cultureCode = null)
     {
         if(cultureCode is null) cultureCode = news.DefaultCulturCode!;
-        LocalizedNews? local = news.Locals.FirstOrDefault(x => x.culturCode == cultureCode);
+        LocalizedNews? local = news.Locals.FirstOrDefault(x => x.CulturCode == cultureCode);
 
         if (local == null) throw new NotFoundException("News {0} Not Found.");
         return new NewsDto()
@@ -38,7 +38,7 @@ public class NewsDto : IDto
             Slug = news.Slug,
             MainImage = news.MainImage,
             DefaultCultureCode = news.DefaultCulturCode,
-            CultureCode = local.culturCode,
+            CultureCode = local.CulturCode,
             Title = local.Title,
             SubTitle = local.SocialTitle,
             SeoTitle = local.SocialTitle,

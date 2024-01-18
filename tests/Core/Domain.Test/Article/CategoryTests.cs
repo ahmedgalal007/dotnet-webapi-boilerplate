@@ -22,7 +22,7 @@ namespace Domain.Test.Article
 
         private Category CreateCategory()
         {
-            return new Category();
+            return Category.Create("en", "", "", "");
         }
 
         [Test]

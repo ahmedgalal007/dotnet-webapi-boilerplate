@@ -11,7 +11,7 @@ internal class LocalizedNewsSearchGuidListSpec : EntitiesByPaginationFilterSpec<
         // .Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize);
 
         if (!string.IsNullOrWhiteSpace(request.CulturCode))
-            Query.Where(e => e.culturCode == request.CulturCode);
+            Query.Where(e => e.CulturCode == request.CulturCode);
 
         Query.Select(e => new BaseIdDto<Guid> { Id = e.NewsId } );
     }

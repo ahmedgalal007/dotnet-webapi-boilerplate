@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240115185736_Initialize")]
+    [Migration("20240118001617_Initialize")]
     partial class Initialize
     {
         /// <inheritdoc />
@@ -25,6 +25,21 @@ namespace Migrators.MSSQL.Migrations.Application
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AlbumMedia", b =>
+                {
+                    b.Property<Guid>("MediaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AlbumId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("MediaId", "AlbumId");
+
+                    b.HasIndex("AlbumId");
+
+                    b.ToTable("AlbumMedia", "Media");
+                });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Article.Category", b =>
                 {
@@ -55,6 +70,9 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.Property<int?>("DisplayOrder")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
@@ -98,6 +116,11 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CulturCode")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -125,11 +148,6 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<string>("culturCode")
-                        .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("nvarchar(6)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -154,6 +172,11 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CulturCode")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uniqueidentifier");
@@ -196,11 +219,6 @@ namespace Migrators.MSSQL.Migrations.Application
                         .IsRequired()
                         .HasMaxLength(70)
                         .HasColumnType("nvarchar(70)");
-
-                    b.Property<string>("culturCode")
-                        .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("nvarchar(6)");
 
                     b.HasKey("Id");
 
@@ -444,6 +462,11 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CulturCode")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -455,7 +478,7 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<Guid?>("KeywordId")
+                    b.Property<Guid>("KeywordId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("LastModifiedBy")
@@ -474,20 +497,49 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<string>("culturCode")
-                        .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("nvarchar(6)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("KeywordId");
+                    b.HasIndex("CulturCode");
 
-                    b.HasIndex("culturCode");
+                    b.HasIndex("KeywordId");
 
                     b.ToTable("LocalizedKeyword", "Article");
 
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Album", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Album", "Media");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.ImageVersion", b =>
@@ -539,7 +591,6 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Alt")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("CreatedBy")
@@ -548,6 +599,10 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CulturCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -555,7 +610,6 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("LastModifiedBy")
@@ -573,14 +627,9 @@ namespace Migrators.MSSQL.Migrations.Application
                         .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("culturCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -629,11 +678,6 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TenantId")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
                     b.Property<string>("TypeName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -648,9 +692,7 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.HasDiscriminator<string>("TypeName").HasValue("Media");
 
-                    b
-                        .UseTphMappingStrategy()
-                        .HasAnnotation("Finbuckle:MultiTenant", true);
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Storage.Adapter", b =>
@@ -1025,22 +1067,22 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 
-            modelBuilder.Entity("KeywordNews", b =>
+            modelBuilder.Entity("KeywordAlbum", b =>
                 {
-                    b.Property<Guid>("KeywordsId")
+                    b.Property<Guid>("AlbumId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("NewsId")
+                    b.Property<Guid>("KeywordId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("KeywordsId", "NewsId");
+                    b.HasKey("AlbumId", "KeywordId");
 
-                    b.HasIndex("NewsId");
+                    b.HasIndex("KeywordId");
 
-                    b.ToTable("KeywordNews", "Article");
+                    b.ToTable("KeywordAlbum", "Media");
                 });
 
-            modelBuilder.Entity("KeywordsMedia", b =>
+            modelBuilder.Entity("KeywordMedia", b =>
                 {
                     b.Property<Guid>("MediaId")
                         .HasColumnType("uniqueidentifier");
@@ -1052,7 +1094,27 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.HasIndex("KeywordId");
 
-                    b.ToTable("KeywordsMedia", "Media");
+                    b.ToTable("KeywordMedia", "Media");
+                });
+
+            modelBuilder.Entity("KeywordNews", b =>
+                {
+                    b.Property<Guid>("NewsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("KeywordId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("NewsId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("NewsId", "KeywordId");
+
+                    b.HasIndex("KeywordId");
+
+                    b.HasIndex("NewsId1");
+
+                    b.ToTable("KeywordNews", "Article");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -1173,6 +1235,36 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 
+            modelBuilder.Entity("NewsAlbum", b =>
+                {
+                    b.Property<Guid>("AlbumId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("NewsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AlbumId", "NewsId");
+
+                    b.HasIndex("NewsId");
+
+                    b.ToTable("NewsAlbum", "Media");
+                });
+
+            modelBuilder.Entity("NewsMedia", b =>
+                {
+                    b.Property<Guid>("MediaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("NewsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("MediaId", "NewsId");
+
+                    b.HasIndex("NewsId");
+
+                    b.ToTable("NewsMedia", "Media");
+                });
+
             modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.LocalizedImage", b =>
                 {
                     b.HasBaseType("FSH.WebApi.Domain.Medias.LocalizedMedia");
@@ -1186,7 +1278,7 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasDiscriminator().HasValue("LocalizedImage");
                 });
 
-            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.LocalizedVideo", b =>
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Videos.LocalizedVideo", b =>
                 {
                     b.HasBaseType("FSH.WebApi.Domain.Medias.LocalizedMedia");
 
@@ -1213,7 +1305,7 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasDiscriminator().HasValue("Image");
                 });
 
-            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.Video", b =>
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Videos.Video", b =>
                 {
                     b.HasBaseType("FSH.WebApi.Domain.Medias.Media");
 
@@ -1231,6 +1323,21 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.ToTable("Media", "Media");
 
                     b.HasDiscriminator().HasValue("Video");
+                });
+
+            modelBuilder.Entity("AlbumMedia", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Medias.Album", null)
+                        .WithMany()
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FSH.WebApi.Domain.Medias.Media", null)
+                        .WithMany()
+                        .HasForeignKey("MediaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Article.Category", b =>
@@ -1282,7 +1389,9 @@ namespace Migrators.MSSQL.Migrations.Application
                 {
                     b.HasOne("FSH.WebApi.Domain.Keywords.Keyword", null)
                         .WithMany("Locals")
-                        .HasForeignKey("KeywordId");
+                        .HasForeignKey("KeywordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.ImageVersion", b =>
@@ -1341,22 +1450,22 @@ namespace Migrators.MSSQL.Migrations.Application
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("KeywordNews", b =>
+            modelBuilder.Entity("KeywordAlbum", b =>
                 {
-                    b.HasOne("FSH.WebApi.Domain.Keywords.Keyword", null)
+                    b.HasOne("FSH.WebApi.Domain.Medias.Album", null)
                         .WithMany()
-                        .HasForeignKey("KeywordsId")
+                        .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FSH.WebApi.Domain.Article.News", null)
+                    b.HasOne("FSH.WebApi.Domain.Keywords.Keyword", null)
                         .WithMany()
-                        .HasForeignKey("NewsId")
+                        .HasForeignKey("KeywordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("KeywordsMedia", b =>
+            modelBuilder.Entity("KeywordMedia", b =>
                 {
                     b.HasOne("FSH.WebApi.Domain.Keywords.Keyword", null)
                         .WithMany()
@@ -1367,6 +1476,27 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasOne("FSH.WebApi.Domain.Medias.Media", null)
                         .WithMany()
                         .HasForeignKey("MediaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("KeywordNews", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Keywords.Keyword", null)
+                        .WithMany()
+                        .HasForeignKey("KeywordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FSH.WebApi.Domain.Medias.Album", null)
+                        .WithMany()
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FSH.WebApi.Domain.Article.News", null)
+                        .WithMany()
+                        .HasForeignKey("NewsId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1413,7 +1543,37 @@ namespace Migrators.MSSQL.Migrations.Application
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Images.Video", b =>
+            modelBuilder.Entity("NewsAlbum", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Medias.Album", null)
+                        .WithMany()
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FSH.WebApi.Domain.Article.News", null)
+                        .WithMany()
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("NewsMedia", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Medias.Media", null)
+                        .WithMany()
+                        .HasForeignKey("MediaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FSH.WebApi.Domain.Article.News", null)
+                        .WithMany()
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Videos.Video", b =>
                 {
                     b.HasOne("FSH.WebApi.Domain.Medias.Images.Image", "VideoImage")
                         .WithMany()
