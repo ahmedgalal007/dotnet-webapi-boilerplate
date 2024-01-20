@@ -16,4 +16,15 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Schemas\MedicalEntity\" />
+      <Folder Include="Schemas\Intangible\" />
+      <Folder Include="Schemas\Event\" />
+      <Folder Include="Schemas\BioChemEntity\" />
+      <Folder Include="Schemas\Action\" />
+      <Folder Include="Schemas\Taxon\" />
+      <Folder Include="Schemas\Product\" />
+      <Folder Include="Schemas\Place\" />
+      <Folder Include="Schemas\Person\" />
+    </ItemGroup>
 </Project>

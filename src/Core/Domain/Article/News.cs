@@ -1,5 +1,6 @@
 ﻿using FSH.WebApi.Domain.Catalog;
 using FSH.WebApi.Domain.Common.Localizations;
+using FSH.WebApi.Domain.Editors;
 using FSH.WebApi.Domain.Keywords;
 using FSH.WebApi.Domain.Medias;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +14,7 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
     public string? Slug { get; set; } = string.Empty;
     public string? MainImage { get; set; }
     public Guid CategoryId { get; set; }
+    public virtual IEnumerable<Editor>? Editors { get; set; } = Enumerable.Empty<Editor>();
     public virtual IEnumerable<Keyword>? Keywords { get; set; } = new List<Keyword>();
     public virtual IEnumerable<Album>? Albums { get; set; } = new List<Album>();
     public virtual IEnumerable<Media>? Medias { get; set; } = new List<Media>();
@@ -20,8 +22,7 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
     {
     }
 
-
-    protected override LocalizedNews CreateLocal(String cultureCode)
+    protected override LocalizedNews CreateLocal(string cultureCode)
     {
         return LocalizedNews.Create(Id, cultureCode, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
     }
@@ -30,7 +31,8 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
     {
         // if (string.IsNullOrWhiteSpace(cultureCode))
         // cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
-        News instance = new News() {
+        News instance = new News()
+        {
             DefaultCulturCode = cultureCode,
             Slug = slug,
             CategoryId = categoryId
@@ -49,9 +51,10 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
 
     public LocalizedNews AddOrUpdateLocal(string cultureCode, string? title, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? mainImagePath)
     {
-        LocalizedNews localizedNews = (LocalizedNews?)GetLocal(cultureCode)
+        LocalizedNews? localizedNews = GetLocal(cultureCode)
             ?? LocalizedNews.Create(this.Id, cultureCode, title, description, subTitle, seoTitle, socialTitle, body);
-        // localizedNews.Update(title, description, subTitle, seoTitle, socialTitle, body);
+
+        localizedNews.Update(title, description, subTitle, seoTitle, socialTitle, body);
 
         // if (title is not null && localizedNews.Title.Equals(title) is not true) localizedNews.Title = title;
         // if (description is not null && localizedNews.Description.Equals(description) is not true) localizedNews.Description = description;

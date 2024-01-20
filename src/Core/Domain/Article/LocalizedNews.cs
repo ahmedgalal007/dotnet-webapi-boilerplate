@@ -27,7 +27,7 @@ public class LocalizedNews : AuditableEntity, ILocalizableEntity, IAggregateRoot
     public string? SocialTitle { get; set; } = string.Empty;
     public string? Body { get; set; } = string.Empty;
 
-    public static LocalizedNews Create(Guid newsId, string cultureCode, string title, string description, string subTitle, string seoTitle, string socialTitle, string body)
+    public static LocalizedNews Create(Guid newsId, string cultureCode, string title, string description, string? subTitle, string? seoTitle, string? socialTitle, string? body)
     {
         return new LocalizedNews
         {

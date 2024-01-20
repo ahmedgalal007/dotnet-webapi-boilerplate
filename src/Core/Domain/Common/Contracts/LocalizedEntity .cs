@@ -33,25 +33,26 @@ public abstract class LocalizedEntity<T> : AuditableEntity
         return Locals.Any(x => x.CulturCode == cultureCode);
     }
 
-    protected TLocal LocalFactory<TLocal>(string cultureCode) where TLocal : T
-    {
-        // if (string.IsNullOrWhiteSpace(cultureCode))
-        //     cultureCode = DefaultCulturCode; // Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
+    //protected TLocal LocalFactory<TLocal>(string cultureCode)
+    //    where TLocal : T
+    //{
+    //    // if (string.IsNullOrWhiteSpace(cultureCode))
+    //    //     cultureCode = DefaultCulturCode; // Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
 
-        if (HasLocal(cultureCode))
-        {
-            return (TLocal)GetLocal(cultureCode)!;
-        }
-        else
-        {
-            // T localEntity = new T() { /*CulturCode = cultureCode*/ };
-            // if (Locals is null) Locals = new List<T>();
-            // this.Locals.Add(localEntity);
-            // return localEntity;
-            TLocal localEntity = (TLocal)CreateLocal(cultureCode);
-            Locals ??= new List<T>();
-            this.Locals.Add(localEntity);
-            return localEntity;
-        }
-    }
+    //    if (HasLocal(cultureCode))
+    //    {
+    //        return (TLocal)GetLocal(cultureCode)!;
+    //    }
+    //    else
+    //    {
+    //        // T localEntity = new T() { /*CulturCode = cultureCode*/ };
+    //        // if (Locals is null) Locals = new List<T>();
+    //        // this.Locals.Add(localEntity);
+    //        // return localEntity;
+    //        TLocal localEntity = (TLocal)CreateLocal(cultureCode);
+    //        Locals ??= new List<T>();
+    //        this.Locals.Add(localEntity);
+    //        return localEntity;
+    //    }
+    //}
 }

@@ -44,10 +44,20 @@ public class Category : LocalizedEntity<LocalizedCategory>, IAggregateRoot
 
     private LocalizedCategory AddOrUpdateLocal(string? cultureCode, string? name, string? description)
     {
-        LocalizedCategory localizedCategory = GetLocal(cultureCode)
-            ?? LocalizedCategory.Create(Id, cultureCode, name, description);
+        LocalizedCategory localizedCategory = GetLocal(cultureCode);
+        if(localizedCategory is null)
+        {
+            localizedCategory = LocalizedCategory.Create(Id, cultureCode, name, description);
+            Locals.Add(localizedCategory);
+        }
+        else
+        {
+            localizedCategory.Update(name, description);
+        }
+
         // return localizedCategory.Update(name, description);
         return localizedCategory;
+
         // if (name is not null && localizedCategory.Name.Equals(name) is not true) localizedCategory.Name = name;
         // if (description is not null && localizedCategory.Description.Equals(description) is not true) localizedCategory.Description = description;
         // if (cultureCode is not null && localizedCategory.culturCode.Equals(cultureCode) is not true) localizedCategory.culturCode = cultureCode;
