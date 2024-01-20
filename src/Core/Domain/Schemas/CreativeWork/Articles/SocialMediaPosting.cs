@@ -7,4 +7,5 @@ using System.Threading.Tasks;
 namespace FSH.WebApi.Domain.Schemas.CreativeWork.Articles;
 public class SocialMediaPosting : Article
 {
+    public override string TypeName { get; protected set; } = nameof(SocialMediaPosting);
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FSH.WebApi.Domain.Schemas;
 public abstract class Thing
 {
-    public virtual string TypeName { get; set; } = nameof(Thing);
+    public virtual string TypeName { get; protected set; } = nameof(Thing);
     public string? AdditionalType { get; private set; }
     public string? AlternateName { get; private set; }
     public string Description { get; private set; } = string.Empty;

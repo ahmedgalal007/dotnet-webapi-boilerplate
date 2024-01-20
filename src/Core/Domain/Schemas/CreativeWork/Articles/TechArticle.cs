@@ -7,4 +7,5 @@ using System.Threading.Tasks;
 namespace FSH.WebApi.Domain.Schemas.CreativeWork.Articles;
 public class TechArticle : Article
 {
+    public override string TypeName { get; protected set; } = nameof(TechArticle);
 }

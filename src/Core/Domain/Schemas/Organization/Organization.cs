@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Domain.Schemas.Organization;
-internal class Organization : Thing
+public abstract class Organization : Thing
 {
-    public override string TypeName { get; set; } = nameof(Organization);
+    public override string TypeName { get; protected set; } = nameof(Organization);
 }
 
 // Airline

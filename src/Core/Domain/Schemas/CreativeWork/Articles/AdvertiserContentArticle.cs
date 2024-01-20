@@ -7,4 +7,5 @@ using System.Threading.Tasks;
 namespace FSH.WebApi.Domain.Schemas.CreativeWork.Articles;
 public class AdvertiserContentArticle : Article
 {
+    public override string TypeName { get; protected set; } = nameof(AdvertiserContentArticle);
 }

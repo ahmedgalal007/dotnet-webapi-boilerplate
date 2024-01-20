@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace FSH.WebApi.Domain.Schemas.CreativeWork;
 public abstract class CreativeWork : Thing
 {
-    public override string TypeName { get; set; } = nameof(CreativeWork);
+    public override string TypeName { get; protected set; } = nameof(CreativeWork);
 
 }
