@@ -18,8 +18,6 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Schemas\Things\MedicalEntity\" />
-      <Folder Include="Schemas\Things\Intangible\" />
-      <Folder Include="Schemas\Things\Event\" />
       <Folder Include="Schemas\Things\Product\" />
       <Folder Include="Schemas\Things\Place\" />
     </ItemGroup>
