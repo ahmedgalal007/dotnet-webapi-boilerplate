@@ -1,9 +1,4 @@
-﻿using FSH.WebApi.Domain.Schemas.Things.Organization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace FSH.WebApi.Domain.Schemas.Things.Actions;
 public class AchieveAction : Action

@@ -16,9 +16,8 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Schemas\Things\MedicalEntity\" />
+    <!--<ItemGroup>
       <Folder Include="Schemas\Things\Product\" />
       <Folder Include="Schemas\Things\Place\" />
-    </ItemGroup>
+    </ItemGroup>-->
 </Project>
