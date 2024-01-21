@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSH.WebApi.Domain.Schemas;
+namespace FSH.WebApi.Domain.Schemas.Things;
 public abstract class Thing
 {
     public virtual string TypeName { get; protected set; } = nameof(Thing);

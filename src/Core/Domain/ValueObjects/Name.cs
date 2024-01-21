@@ -9,7 +9,7 @@ namespace FSH.WebApi.Domain.ValueObjects;
 public class Name : ValueObject, IEquatable<Name>
 {
     public const int MaxLength = 50;
-    public Name(string value)
+    private Name(string value)
     {
         if (value.Length > MaxLength)
         {
@@ -19,10 +19,22 @@ public class Name : ValueObject, IEquatable<Name>
     }
     public string Value { get; }
 
-    // TODO:public static Result<Name> Create(string value)
-    // {
-       
-    // }
+    public static Result<Name> Create(string name)
+    {
+        if (string.IsNullOrEmpty(name))
+        {
+            return Result.Failure<Name>(new Error(
+                "Name.Empty",
+                "Name is empty." ));
+        }
+        if (name.Length > MaxLength)
+        {
+            return Result.Failure<Name>(new Error(
+                "Name.TooLong",
+                "Name is too long."));
+        }
+        return new Name(name);
+    }
 
     public Boolean Equals(Name? other)
     {
