@@ -20,9 +20,7 @@
       <Folder Include="Schemas\Things\MedicalEntity\" />
       <Folder Include="Schemas\Things\Intangible\" />
       <Folder Include="Schemas\Things\Event\" />
-      <Folder Include="Schemas\Things\Action\" />
       <Folder Include="Schemas\Things\Product\" />
       <Folder Include="Schemas\Things\Place\" />
-      <Folder Include="Schemas\Things\Person\" />
     </ItemGroup>
 </Project>
