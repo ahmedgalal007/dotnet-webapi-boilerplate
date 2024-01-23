@@ -8,7 +8,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSH.WebApi.Domain.Schemas.Things.CreativeWork;
+namespace FSH.WebApi.Domain.Schemas.Things;
 public abstract class CreativeWork : Thing
 {
     public override string TypeName { get; protected set; } = nameof(CreativeWork);

@@ -15,6 +15,9 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using FSH.WebApi.Infrastructure.Persistence.Configuration.CustomConfigurations;
 using FSH.WebApi.Infrastructure.Persistence.Context;
+using FSH.WebApi.Domain.Schemas.Things;
+using System.Collections.Generic;
+using ClosedXML.Excel;
 
 namespace FSH.WebApi.Infrastructure.SEO;
 
@@ -84,6 +87,47 @@ internal static class Startup
             }
         });
 
+        SetupSchema();
+
         return services;
+    }
+
+    public static void SetupSchema() {
+        IEnumerable<Type> schemas = GetTypeChildren(typeof(Thing));
+
+        foreach (var schema in schemas)
+        {
+            _logger.Information($"Schema: {schema.Name}   Parents:[ {string.Join(',', GetParents(schema).Select(e => e.Name).ToArray())} ]");
+
+            if (!schema.IsAbstract)
+            {
+                var blank = Activator.CreateInstance(schema);
+                foreach (var property in schema.GetProperties())
+                {
+                   //  _logger.Information($"Property: '{property.Name}' = '{property.GetValue(blank)}'");
+                }
+            }
+        }
+
+        IEnumerable<Type> GetTypeChildren(Type type) => type.Assembly.DefinedTypes
+            .Where(t => // !t.IsAbstract &&
+                        !t.IsGenericTypeDefinition
+                        && typeof(Thing).IsAssignableFrom(t)
+                        // && t.BaseType == type
+                  );
+
+        Stack<Type> GetParents(Type type)
+        {
+            Stack<Type> parents = new Stack<Type>();
+            Type parent = type;
+            while (parent != typeof(Thing))
+            {
+                parent = parent.BaseType;
+                parents.Push(parent);
+            }
+
+            // parents.Push(parent);
+            return parents;
+        }
     }
 }

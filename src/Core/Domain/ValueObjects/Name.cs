@@ -36,12 +36,17 @@ public class Name : ValueObject, IEquatable<Name>
         return new Name(name);
     }
 
-    public Boolean Equals(Name? other)
+    public bool Equals(Name? other)
     {
-        throw new NotImplementedException();
+        return Value.SequenceEqual(other.Value);
     }
 
-    public override IEnumerable<Object> GetAtomicValues()
+    public override bool Equals(object? obj)
+    {
+        return obj is Name name && name.Equals(this);
+    }
+
+    public override IEnumerable<object> GetAtomicValues()
     {
         yield return Value;
     }

@@ -13,7 +13,7 @@ public abstract class LocalizedEntity<T> : AuditableEntity
     [MaxLength(6)]
     public string DefaultCulturCode { get; protected set; }
 
-    public virtual ICollection<T> Locals { get; set; }
+    public virtual ICollection<T> Locals { get; set; } = new List<T>();
 
     public T? GetLocal(string cultureCode)
     {

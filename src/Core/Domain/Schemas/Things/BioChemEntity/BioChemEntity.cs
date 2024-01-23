@@ -1,7 +1,6 @@
-﻿using FSH.WebApi.Domain.Schemas.Things.BioChemEntity.BioChemEntities;
-using System;
+﻿using System;
 
-namespace FSH.WebApi.Domain.Schemas.Things.BioChemEntity;
+namespace FSH.WebApi.Domain.Schemas.Things.BioChemEntities;
 public abstract class BioChemEntity : Thing
 {
     public override string TypeName { get; protected set; } = nameof(BioChemEntity);

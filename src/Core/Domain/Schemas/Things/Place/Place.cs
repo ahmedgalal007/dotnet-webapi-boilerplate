@@ -6,7 +6,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSH.WebApi.Domain.Schemas.Things.Places;
+namespace FSH.WebApi.Domain.Schemas.Things;
 public abstract class Place : Thing
 {
     public override string TypeName { get; protected set; } = nameof(Place);

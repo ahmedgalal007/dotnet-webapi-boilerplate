@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSH.WebApi.Domain.Schemas.Things.Taxon;
+namespace FSH.WebApi.Domain.Schemas.Things;
 public class Taxon : Thing
 {
     public override string TypeName { get; protected set; } = nameof(Taxon);

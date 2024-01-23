@@ -380,6 +380,113 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 
+            modelBuilder.Entity("FSH.WebApi.Domain.Editors.Editor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DefaultCulturCode")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("NewsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NewsId");
+
+                    b.ToTable("Editor", "Catalog");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Editors.LocalizedEditor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CulturCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("EditorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FourthName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PostName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SecondName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThirdName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EditorId");
+
+                    b.ToTable("LocalizedEditor", "Catalog");
+                });
+
             modelBuilder.Entity("FSH.WebApi.Domain.Keywords.Keyword", b =>
                 {
                     b.Property<Guid>("Id")
@@ -445,6 +552,97 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.ToTable("Keyword", "Article");
 
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.KeywordSchema", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("KeywordId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SchemaTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KeywordId");
+
+                    b.ToTable("KeywordSchema", "Catalog");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.KeywordSchemaProperty", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsSchema")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("KeywordSchemaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PropertyEditor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PropertyJsonValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("PropertyRefValue")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SchemaPropertyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SchemaPropertyType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KeywordSchemaId");
+
+                    b.ToTable("KeywordSchemaProperty", "Catalog");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Keywords.LocalizedKeyword", b =>
@@ -758,6 +956,9 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<Guid>("FolderId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -768,9 +969,6 @@ namespace Migrators.MSSQL.Migrations.Application
                         .IsRequired()
                         .HasMaxLength(120)
                         .HasColumnType("nvarchar(120)");
-
-                    b.Property<bool>("Public")
-                        .HasColumnType("bit");
 
                     b.Property<string>("TenantId")
                         .IsRequired()
@@ -1382,6 +1580,40 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Navigation("Brand");
                 });
 
+            modelBuilder.Entity("FSH.WebApi.Domain.Editors.Editor", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Article.News", null)
+                        .WithMany("Editors")
+                        .HasForeignKey("NewsId");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Editors.LocalizedEditor", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Editors.Editor", null)
+                        .WithMany("Locals")
+                        .HasForeignKey("EditorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.KeywordSchema", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Keywords.Keyword", null)
+                        .WithMany("Schemas")
+                        .HasForeignKey("KeywordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.KeywordSchemaProperty", b =>
+                {
+                    b.HasOne("FSH.WebApi.Domain.Keywords.KeywordSchema", null)
+                        .WithMany("Properties")
+                        .HasForeignKey("KeywordSchemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FSH.WebApi.Domain.Keywords.LocalizedKeyword", b =>
                 {
                     b.HasOne("FSH.WebApi.Domain.Keywords.Keyword", null)
@@ -1590,12 +1822,26 @@ namespace Migrators.MSSQL.Migrations.Application
 
             modelBuilder.Entity("FSH.WebApi.Domain.Article.News", b =>
                 {
+                    b.Navigation("Editors");
+
+                    b.Navigation("Locals");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Editors.Editor", b =>
+                {
                     b.Navigation("Locals");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Keywords.Keyword", b =>
                 {
                     b.Navigation("Locals");
+
+                    b.Navigation("Schemas");
+                });
+
+            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.KeywordSchema", b =>
+                {
+                    b.Navigation("Properties");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Medias.Media", b =>

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSH.WebApi.Domain.Schemas.Things.BioChemEntity.BioChemEntities;
+namespace FSH.WebApi.Domain.Schemas.Things.BioChemEntities;
 public class ChemicalSubstance : BioChemEntity
 {
-    public override String TypeName { get; protected set; } = nameof(ChemicalSubstance);
+    public override string TypeName { get; protected set; } = nameof(ChemicalSubstance);
 }

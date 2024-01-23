@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSH.WebApi.Domain.Schemas.Things.Taxon.Taxons;
-public class BioChemEntity : Thing
+namespace FSH.WebApi.Domain.Schemas.Things.Taxons;
+public class BioChemEntity : Taxon
 {
     public override string TypeName { get; protected set; } = nameof(BioChemEntity);
 }
