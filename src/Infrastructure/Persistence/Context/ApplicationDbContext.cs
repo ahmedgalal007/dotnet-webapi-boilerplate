@@ -37,8 +37,8 @@ public class ApplicationDbContext : BaseDbContext
     // public DbSet<LocalizedMedia> LocalizedMedias => Set<LocalizedMedia>();
     public DbSet<Image> Images => Set<Image>();
     public DbSet<LocalizedImage> LocalizedImages => Set<LocalizedImage>();
-    public DbSet<Video> Videos => Set<Video>();
-    public DbSet<LocalizedVideo> LocalizedVideos => Set<LocalizedVideo>();
+    public DbSet<Domain.Medias.Videos.Video> Videos => base.Set<Domain.Medias.Videos.Video>();
+    public DbSet<LocalizedImage> LocalizedVideos => Set<LocalizedImage>();
     // public DbSet<Culture> Cultures => Set<Culture>();
 
 

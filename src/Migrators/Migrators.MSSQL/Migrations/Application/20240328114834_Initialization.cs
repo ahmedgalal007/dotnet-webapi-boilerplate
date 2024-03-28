@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Migrators.MSSQL.Migrations.Application
 {
     /// <inheritdoc />
-    public partial class Initialize : Migration
+    public partial class Initialization : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -175,9 +175,9 @@ namespace Migrators.MSSQL.Migrations.Application
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Width = table.Column<int>(type: "int", nullable: true),
-                    Height = table.Column<int>(type: "int", nullable: true),
                     IsExternal = table.Column<bool>(type: "bit", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Video_IsExternal = table.Column<bool>(type: "bit", nullable: true),
                     IsYoutube = table.Column<bool>(type: "bit", nullable: true),
                     VideoImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -411,33 +411,6 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
-                name: "KeywordSchema",
-                schema: "Catalog",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    KeywordId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SchemaTypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_KeywordSchema", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_KeywordSchema_Keyword_KeywordId",
-                        column: x => x.KeywordId,
-                        principalSchema: "Article",
-                        principalTable: "Keyword",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LocalizedKeyword",
                 schema: "Article",
                 columns: table => new
@@ -500,8 +473,11 @@ namespace Migrators.MSSQL.Migrations.Application
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsExternal = table.Column<bool>(type: "bit", nullable: true),
                     ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Version = table.Column<int>(type: "int", nullable: false),
                     EnumImageSize = table.Column<int>(type: "int", nullable: false),
+                    EnumImageType = table.Column<int>(type: "int", nullable: false),
                     ImageId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -568,7 +544,6 @@ namespace Migrators.MSSQL.Migrations.Application
                     Alt = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    ImageTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VideoTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -894,38 +869,6 @@ namespace Migrators.MSSQL.Migrations.Application
                 });
 
             migrationBuilder.CreateTable(
-                name: "KeywordSchemaProperty",
-                schema: "Catalog",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    KeywordSchemaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SchemaPropertyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SchemaPropertyType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PropertyEditor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PropertyRefValue = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    PropertyJsonValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsSchema = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_KeywordSchemaProperty", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_KeywordSchemaProperty_KeywordSchema_KeywordSchemaId",
-                        column: x => x.KeywordSchemaId,
-                        principalSchema: "Catalog",
-                        principalTable: "KeywordSchema",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LocalizedEditor",
                 schema: "Catalog",
                 columns: table => new
@@ -1031,18 +974,6 @@ namespace Migrators.MSSQL.Migrations.Application
                 schema: "Article",
                 table: "KeywordNews",
                 column: "NewsId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_KeywordSchema_KeywordId",
-                schema: "Catalog",
-                table: "KeywordSchema",
-                column: "KeywordId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_KeywordSchemaProperty_KeywordSchemaId",
-                schema: "Catalog",
-                table: "KeywordSchemaProperty",
-                column: "KeywordSchemaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LocalizedCategory_CategoryId",
@@ -1196,10 +1127,6 @@ namespace Migrators.MSSQL.Migrations.Application
                 schema: "Article");
 
             migrationBuilder.DropTable(
-                name: "KeywordSchemaProperty",
-                schema: "Catalog");
-
-            migrationBuilder.DropTable(
                 name: "LocalizedCategory",
                 schema: "Article");
 
@@ -1256,12 +1183,12 @@ namespace Migrators.MSSQL.Migrations.Application
                 schema: "Storage");
 
             migrationBuilder.DropTable(
-                name: "KeywordSchema",
+                name: "Editor",
                 schema: "Catalog");
 
             migrationBuilder.DropTable(
-                name: "Editor",
-                schema: "Catalog");
+                name: "Keyword",
+                schema: "Article");
 
             migrationBuilder.DropTable(
                 name: "Album",
@@ -1286,10 +1213,6 @@ namespace Migrators.MSSQL.Migrations.Application
             migrationBuilder.DropTable(
                 name: "Adapter",
                 schema: "Storage");
-
-            migrationBuilder.DropTable(
-                name: "Keyword",
-                schema: "Article");
 
             migrationBuilder.DropTable(
                 name: "News",

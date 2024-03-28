@@ -208,15 +208,15 @@ public class LocalizedImageConfig : IEntityTypeConfiguration<LocalizedImage>
         // builder.HasOne<LocalizedMedia>().WithOne();
     }
 }
-public class LocalizedVideoConfig : IEntityTypeConfiguration<LocalizedVideo>
+public class LocalizedVideoConfig : IEntityTypeConfiguration<LocalizedImage>
 {
-    public void Configure(EntityTypeBuilder<LocalizedVideo> builder)
+    public void Configure(EntityTypeBuilder<LocalizedImage> builder)
     {
         // builder.IsMultiTenant();
         builder.ToTable("LocalizedMedia", nameof(SchemaNames.Media));
         builder.HasDiscriminator(e => e.TypeName)
         //.HasValue<LocalizedImage>("LocalizedImage");
-        .HasValue<LocalizedVideo>("LocalizedVideo");
+        .HasValue<LocalizedImage>("LocalizedVideo");
 
         // builder.HasOne<LocalizedMedia>().WithOne();
     }
@@ -284,9 +284,11 @@ public class ImageVersionConfig : IEntityTypeConfiguration<ImageVersion>
 {
     public void Configure(EntityTypeBuilder<ImageVersion> builder)
     {
+        
         // builder.IsMultiTenant();
         builder.ToTable("ImageVersion", nameof(SchemaNames.Media));
         builder.Property(e => e.EnumImageSize).HasConversion(v => v.Value, v => EnumImageSizes.FromValue(v));
+        builder.Property(e => e.EnumImageType).HasConversion(v => v.Value, v => EnumImageTypes.FromValue(v));
         builder.HasOne<Image>().WithMany().HasForeignKey(e => e.ImageId).OnDelete(DeleteBehavior.Cascade);
     }
 }

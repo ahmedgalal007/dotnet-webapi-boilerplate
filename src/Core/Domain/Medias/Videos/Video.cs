@@ -1,11 +1,9 @@
 ﻿using FSH.WebApi.Domain.Article;
-using FSH.WebApi.Domain.Medias.Images;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Image = FSH.WebApi.Domain.Medias.Images.Image;
 
 namespace FSH.WebApi.Domain.Medias.Videos;
 public class Video : Media, IAggregateRoot
@@ -19,7 +17,7 @@ public class Video : Media, IAggregateRoot
     /// It's the video thumbnail. <Image></Image>
     /// </summary>
     public Guid? VideoImageId { get; set; }
-    public Image? VideoImage { get; set; }
+    public Video? VideoImage { get; set; }
 
     public static Video Create(Guid fileId, string culturCode,string title, string alt, string description, string videoTitle,Guid videoImageId, bool isExternal=false, bool isYoutube=false)
     {

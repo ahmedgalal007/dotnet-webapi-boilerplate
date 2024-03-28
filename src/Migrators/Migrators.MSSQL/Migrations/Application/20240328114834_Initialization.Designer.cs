@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrators.MSSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240123100119_Initialize")]
-    partial class Initialize
+    [Migration("20240328114834_Initialization")]
+    partial class Initialization
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -557,97 +557,6 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });
 
-            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.KeywordSchema", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("DeletedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("KeywordId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("LastModifiedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SchemaTypeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KeywordId");
-
-                    b.ToTable("KeywordSchema", "Catalog");
-                });
-
-            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.KeywordSchemaProperty", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("DeletedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsSchema")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("KeywordSchemaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("LastModifiedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PropertyEditor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PropertyJsonValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("PropertyRefValue")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("SchemaPropertyName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SchemaPropertyType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KeywordSchemaId");
-
-                    b.ToTable("KeywordSchemaProperty", "Catalog");
-                });
-
             modelBuilder.Entity("FSH.WebApi.Domain.Keywords.LocalizedKeyword", b =>
                 {
                     b.Property<Guid>("Id")
@@ -761,17 +670,26 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<int>("EnumImageSize")
                         .HasColumnType("int");
 
+                    b.Property<int>("EnumImageType")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("ImageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("ImageId1")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool?>("IsExternal")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -1467,19 +1385,6 @@ namespace Migrators.MSSQL.Migrations.Application
                 {
                     b.HasBaseType("FSH.WebApi.Domain.Medias.LocalizedMedia");
 
-                    b.Property<string>("ImageTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable("LocalizedMedia", "Media");
-
-                    b.HasDiscriminator().HasValue("LocalizedImage");
-                });
-
-            modelBuilder.Entity("FSH.WebApi.Domain.Medias.Videos.LocalizedVideo", b =>
-                {
-                    b.HasBaseType("FSH.WebApi.Domain.Medias.LocalizedMedia");
-
                     b.Property<string>("VideoTitle")
                         .HasColumnType("nvarchar(max)");
 
@@ -1492,11 +1397,12 @@ namespace Migrators.MSSQL.Migrations.Application
                 {
                     b.HasBaseType("FSH.WebApi.Domain.Medias.Media");
 
-                    b.Property<int?>("Height")
-                        .HasColumnType("int");
+                    b.Property<bool?>("IsExternal")
+                        .HasColumnType("bit");
 
-                    b.Property<int?>("Width")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.ToTable("Media", "Media");
 
@@ -1518,7 +1424,11 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.HasIndex("VideoImageId");
 
-                    b.ToTable("Media", "Media");
+                    b.ToTable("Media", "Media", t =>
+                        {
+                            t.Property("IsExternal")
+                                .HasColumnName("Video_IsExternal");
+                        });
 
                     b.HasDiscriminator().HasValue("Video");
                 });
@@ -1595,24 +1505,6 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasOne("FSH.WebApi.Domain.Editors.Editor", null)
                         .WithMany("Locals")
                         .HasForeignKey("EditorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.KeywordSchema", b =>
-                {
-                    b.HasOne("FSH.WebApi.Domain.Keywords.Keyword", null)
-                        .WithMany("Schemas")
-                        .HasForeignKey("KeywordId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.KeywordSchemaProperty", b =>
-                {
-                    b.HasOne("FSH.WebApi.Domain.Keywords.KeywordSchema", null)
-                        .WithMany("Properties")
-                        .HasForeignKey("KeywordSchemaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1807,7 +1699,7 @@ namespace Migrators.MSSQL.Migrations.Application
 
             modelBuilder.Entity("FSH.WebApi.Domain.Medias.Videos.Video", b =>
                 {
-                    b.HasOne("FSH.WebApi.Domain.Medias.Images.Image", "VideoImage")
+                    b.HasOne("FSH.WebApi.Domain.Medias.Videos.Video", "VideoImage")
                         .WithMany()
                         .HasForeignKey("VideoImageId");
 
@@ -1838,13 +1730,6 @@ namespace Migrators.MSSQL.Migrations.Application
             modelBuilder.Entity("FSH.WebApi.Domain.Keywords.Keyword", b =>
                 {
                     b.Navigation("Locals");
-
-                    b.Navigation("Schemas");
-                });
-
-            modelBuilder.Entity("FSH.WebApi.Domain.Keywords.KeywordSchema", b =>
-                {
-                    b.Navigation("Properties");
                 });
 
             modelBuilder.Entity("FSH.WebApi.Domain.Medias.Media", b =>
