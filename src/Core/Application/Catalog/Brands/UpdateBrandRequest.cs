@@ -1,3 +1,5 @@
+using FSH.WebApi.Domain.Keywords;
+
 namespace FSH.WebApi.Application.Catalog.Brands;
 
 public class UpdateBrandRequest : IRequest<Guid>
@@ -27,17 +29,17 @@ public class UpdateBrandRequestHandler : IRequestHandler<UpdateBrandRequest, Gui
 
     public UpdateBrandRequestHandler(IRepositoryWithEvents<Brand> repository, IStringLocalizer<UpdateBrandRequestHandler> localizer) =>
         (_repository, _t) = (repository, localizer);
-
+    // Add Domain Events automatically by using IRepositoryWithEvents
     public async Task<Guid> Handle(UpdateBrandRequest request, CancellationToken cancellationToken)
     {
-        var brand = await _repository.GetByIdAsync(request.Id, cancellationToken);
+        var keyword = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
-        _ = brand
+        _ = keyword
         ?? throw new NotFoundException(_t["Brand {0} Not Found.", request.Id]);
 
-        brand.Update(request.Name, request.Description);
+        keyword.Update(request.Name, request.Description);
 
-        await _repository.UpdateAsync(brand, cancellationToken);
+        await _repository.UpdateAsync(keyword, cancellationToken);
 
         return request.Id;
     }

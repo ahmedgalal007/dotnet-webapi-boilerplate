@@ -16,6 +16,9 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Schemas\Properties\" />
+    </ItemGroup>
     <!--<ItemGroup>
       <Folder Include="Schemas\Things\Product\" />
       <Folder Include="Schemas\Things\Place\" />

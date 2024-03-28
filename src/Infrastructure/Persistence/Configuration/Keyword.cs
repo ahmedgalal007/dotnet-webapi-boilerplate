@@ -53,6 +53,7 @@ public class KeywordConfig : EntityTypeConfigurationDependency<Keyword>
         builder.ToTable(nameof(Keyword), nameof(SchemaNames.Article));
         builder.Property(e => e.Slug).HasMaxLength(_seoSettings.NewsSlugMaxLength ?? 50);
         builder.Property(e => e.Color).HasMaxLength(10);
+        // builder.HasMany(e => e.Schemas).WithOne().HasForeignKey(e => e.KeywordId);
 
         builder
             .HasMany(e => e.Medias)

@@ -10,4 +10,5 @@ internal static class SchemaNames
     public static string Article = nameof(Article); // "ARTICLE";
     public static string Storage = nameof(Storage); // "ARTICLE";
     public static string Media = nameof(Media);
+    public static string Schema = nameof(Schema);
 }

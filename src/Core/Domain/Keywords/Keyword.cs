@@ -35,7 +35,7 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
     public virtual IEnumerable<News>? News { get; set; } = default;
     public virtual IEnumerable<Media>? Medias { get; set; } = default;
     public virtual IEnumerable<Album>? Albums { get; set; }
-    public virtual IEnumerable<KeywordSchema>? Schemas { get; set; }
+    // public virtual IEnumerable<KeywordSchema>? Schemas { get; set; }
 
     public Keyword Update(string cultureCode, string? title, string? description, string? color)
     {
