@@ -676,17 +676,11 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.Property<Guid?>("ImageId1")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool?>("IsExternal")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Version")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -1382,7 +1376,8 @@ namespace Migrators.MSSQL.Migrations.Application
                 {
                     b.HasBaseType("FSH.WebApi.Domain.Medias.LocalizedMedia");
 
-                    b.Property<string>("VideoTitle")
+                    b.Property<string>("ImageTitle")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("LocalizedMedia", "Media");
@@ -1394,12 +1389,11 @@ namespace Migrators.MSSQL.Migrations.Application
                 {
                     b.HasBaseType("FSH.WebApi.Domain.Medias.Media");
 
-                    b.Property<bool?>("IsExternal")
-                        .HasColumnType("bit");
+                    b.Property<int?>("Height")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Width")
+                        .HasColumnType("int");
 
                     b.ToTable("Media", "Media");
 
@@ -1421,11 +1415,7 @@ namespace Migrators.MSSQL.Migrations.Application
 
                     b.HasIndex("VideoImageId");
 
-                    b.ToTable("Media", "Media", t =>
-                        {
-                            t.Property("IsExternal")
-                                .HasColumnName("Video_IsExternal");
-                        });
+                    b.ToTable("Media", "Media");
 
                     b.HasDiscriminator().HasValue("Video");
                 });

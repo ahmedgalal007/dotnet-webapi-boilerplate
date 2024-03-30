@@ -13,7 +13,7 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
 {
     public string? Slug { get; set; } = string.Empty;
     public string? MainImage { get; set; }
-    public Guid CategoryId { get; set; }
+    public Guid? CategoryId { get; set; }
     public virtual IEnumerable<Editor>? Editors { get; set; } = Enumerable.Empty<Editor>();
     public virtual IEnumerable<Keyword>? Keywords { get; set; } = new List<Keyword>();
     public virtual IEnumerable<Album>? Albums { get; set; } = new List<Album>();
@@ -27,7 +27,7 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
         return LocalizedNews.Create(Id, cultureCode, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
     }
 
-    public static News Create(string cultureCode, string title, string slug, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? mainImagePath, Guid categoryId)
+    public static News Create(string cultureCode, string title, string slug, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? mainImagePath, Guid? categoryId)
     {
         // if (string.IsNullOrWhiteSpace(cultureCode))
         // cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();

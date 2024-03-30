@@ -23,8 +23,8 @@ public class NewsDto : IDto
     public string? SocialTitle { get; set; }
     public string? CultureCode { get; set; }
     public string? DefaultCultureCode { get; set; }
-    public CategoryDto Category{ get; set; }
-    public List<KeywordDto> Keywords { get; set; }
+    public CategoryDto? Category{ get; set; }
+    public List<KeywordDto>? Keywords { get; set; }
 
     public static NewsDto MapFrom(Domain.Article.News news, string? cultureCode = null)
     {
