@@ -175,9 +175,9 @@ namespace Migrators.MSSQL.Migrations.Application
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Width = table.Column<int>(type: "int", nullable: true),
-                    Height = table.Column<int>(type: "int", nullable: true),
                     IsExternal = table.Column<bool>(type: "bit", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Video_IsExternal = table.Column<bool>(type: "bit", nullable: true),
                     IsYoutube = table.Column<bool>(type: "bit", nullable: true),
                     VideoImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -361,7 +361,7 @@ namespace Migrators.MSSQL.Migrations.Application
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Slug = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     MainImage = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -379,8 +379,7 @@ namespace Migrators.MSSQL.Migrations.Application
                         column: x => x.CategoryId,
                         principalSchema: "Article",
                         principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -473,7 +472,9 @@ namespace Migrators.MSSQL.Migrations.Application
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsExternal = table.Column<bool>(type: "bit", nullable: true),
                     ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Version = table.Column<int>(type: "int", nullable: false),
                     EnumImageSize = table.Column<int>(type: "int", nullable: false),
                     EnumImageType = table.Column<int>(type: "int", nullable: false),
                     ImageId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -542,7 +543,7 @@ namespace Migrators.MSSQL.Migrations.Application
                     Alt = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TenantId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    ImageTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VideoTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),

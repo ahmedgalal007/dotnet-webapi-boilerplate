@@ -120,10 +120,10 @@ internal class RoleService : IRoleService
     {
         var role = await _roleManager.FindByIdAsync(request.RoleId);
         _ = role ?? throw new NotFoundException(_t["Role Not Found"]);
-        if (role.Name == FSHRoles.Admin)
-        {
-            throw new ConflictException(_t["Not allowed to modify Permissions for this Role."]);
-        }
+        //if (role.Name == FSHRoles.Admin)
+        //{
+        //    throw new ConflictException(_t["Not allowed to modify Permissions for this Role."]);
+        //}
 
         if (_currentTenant.Id != MultitenancyConstants.Root.Id)
         {
