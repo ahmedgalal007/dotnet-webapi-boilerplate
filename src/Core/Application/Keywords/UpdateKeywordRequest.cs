@@ -11,9 +11,17 @@ namespace FSH.WebApi.Application.Keywords;
 public class UpdateKeywordRequest : IRequest<Guid>
 {
     public Guid Id { get; set; }
-    public string Keyword { get; set; }
-    public string Description { get; set; }
-    public string CultureCode { get; set; } = "ar";
+    public string? DefaultCultureCode { get; set; } = "ar";
+    public string? Color { get; set; }
+
+    public bool? IsCreativeWork { get; set; } = false;
+    public bool? IsEvent { get; set; } = false;
+    public bool? IsOrganization { get; set; } = false;
+    public bool? IsPerson { get; set; } = false;
+    public bool? IsPlace { get; set; } = false;
+    public bool? IsProduct { get; set; } = false;
+    public ICollection<LocalizedKeyword>? Locals { get; set; } = new List<LocalizedKeyword>();
+
 }
 
 public class UpdateKeywordRequestValidation : CustomValidator<UpdateKeywordRequest>
@@ -34,7 +42,7 @@ public class UpdateKeywordRequestHandler : IRequestHandler<UpdateKeywordRequest,
         _ = keyword
         ?? throw new NotFoundException(_t["Keyword {0} Not Found.", request.Id]);
 
-        keyword.Update(request.CultureCode, request.Keyword, request.Description, "");
+        keyword.Update(request.DefaultCultureCode, request.Locals, request.IsCreativeWork, request.IsEvent, request.IsOrganization, request.IsPerson, request.IsPlace, request.IsProduct, null);
 
         await _repository.UpdateAsync(keyword, cancellationToken);
 

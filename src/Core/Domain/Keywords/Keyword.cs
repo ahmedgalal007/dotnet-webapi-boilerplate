@@ -1,5 +1,6 @@
 ﻿using FSH.WebApi.Domain.Article;
 using FSH.WebApi.Domain.Medias;
+using FSH.WebApi.Domain.Schemas.Things;
 using System;
 using System.Drawing;
 
@@ -12,14 +13,24 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
     {
     }
 
-    public static Keyword Create(string cultureCode, string name, string? description, string? color)
+    public static Keyword Create(string cultureCode, ICollection<LocalizedKeyword>? locals, bool? isCreativeWork, bool? isEvent, bool? isOrganization, bool? isPerson, bool? isPlace, bool? isProduct, string? color="")
     {
+        LocalizedKeyword? current = locals?.FirstOrDefault(e => e.CulturCode == cultureCode);
         Keyword instance = new Keyword
         {
-            Slug = name.TrimStart().TrimEnd().Replace(" ", "-"),
+            Slug = current!=null? current?.Title.TrimStart().TrimEnd().Replace(" ", "-") : "",
+            DefaultCulturCode = cultureCode,
+            IsCreativeWork = isCreativeWork,
+            IsEvent = isEvent,
+            IsOrganization = isOrganization,
+            IsPerson = isPerson,
+            IsPlace = isPlace,
+            IsProduct = isProduct,
             Color = color,
+            Locals = locals ?? new List<LocalizedKeyword>(),
         };
-        instance.AddOrUpdateLocal(cultureCode, name, description);
+
+        // instance.AddOrUpdateLocal(cultureCode, title, description);
         return instance;
     }
 
@@ -35,25 +46,37 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
     public virtual IEnumerable<News>? News { get; set; } = default;
     public virtual IEnumerable<Media>? Medias { get; set; } = default;
     public virtual IEnumerable<Album>? Albums { get; set; }
+
     // public virtual IEnumerable<KeywordSchema>? Schemas { get; set; }
 
-    public Keyword Update(string cultureCode, string? title, string? description, string? color)
+    public Keyword Update(string cultureCode, ICollection<LocalizedKeyword>? locals, bool? isCreativeWork, bool? isEvent, bool? isOrganization, bool? isPerson, bool? isPlace, bool? isProduct, string? color = "")
     {
+        LocalizedKeyword? current = locals?.FirstOrDefault(e => e.CulturCode == cultureCode);
+
+        if (isCreativeWork is not null && IsCreativeWork.Equals(isCreativeWork) is not true) IsCreativeWork = isCreativeWork;
+        if (isEvent is not null && IsEvent.Equals(isEvent) is not true) IsEvent = isEvent;
+        if (isOrganization is not null && IsOrganization.Equals(isOrganization) is not true) IsOrganization = isOrganization;
+        if (isPerson is not null && IsPerson.Equals(isPerson) is not true) IsPerson = isPerson;
+        if (isPlace is not null && IsPlace.Equals(isPlace) is not true) IsPlace = isPlace;
+        if (isProduct is not null && IsProduct.Equals(isProduct) is not true) IsProduct = isProduct;
         if (color is not null && Color.Equals(color) is not true) Color = color;
-        AddOrUpdateLocal(cultureCode, title, description);
+        if (locals is not null && Locals.Equals(locals) is not true) Locals = locals;
+
+        // AddOrUpdateLocal(cultureCode, title, description);
         return this;
     }
 
-    public LocalizedKeyword AddOrUpdateLocal(string cultureCode, string? title, string? description)
+    public LocalizedKeyword AddOrUpdateLocal(string cultureCode, string? title, string? description, bool? enabled, bool? isDefault)
     {
         LocalizedKeyword localizedKeyword = GetLocal(cultureCode)
-            ?? LocalizedKeyword.Create(cultureCode, title, description);
-        // localizedKeyword.Update(title, description);
+            ?? LocalizedKeyword.Create(cultureCode, title, description, enabled, isDefault);
+
+        localizedKeyword.Update(title, description, enabled, isDefault);
         return localizedKeyword;
     }
 
     protected override LocalizedKeyword CreateLocal(string cultureCode)
     {
-        return LocalizedKeyword.Create(cultureCode, string.Empty, string.Empty);
+        return LocalizedKeyword.Create(cultureCode, string.Empty, string.Empty, false, false);
     }
 }
