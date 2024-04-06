@@ -13,13 +13,14 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
     {
     }
 
-    public static Keyword Create(string cultureCode, ICollection<LocalizedKeyword>? locals, bool? isCreativeWork, bool? isEvent, bool? isOrganization, bool? isPerson, bool? isPlace, bool? isProduct, string? color="")
+    public static Keyword Create(string cultureCode,string languages, ICollection<LocalizedKeyword>? locals, bool? isCreativeWork, bool? isEvent, bool? isOrganization, bool? isPerson, bool? isPlace, bool? isProduct, string? color="")
     {
         LocalizedKeyword? current = locals?.FirstOrDefault(e => e.CulturCode == cultureCode);
         Keyword instance = new Keyword
         {
             Slug = current!=null? current?.Title.TrimStart().TrimEnd().Replace(" ", "-") : "",
             DefaultCulturCode = cultureCode,
+            Languages = languages,
             IsCreativeWork = isCreativeWork,
             IsEvent = isEvent,
             IsOrganization = isOrganization,
@@ -49,10 +50,11 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
 
     // public virtual IEnumerable<KeywordSchema>? Schemas { get; set; }
 
-    public Keyword Update(string cultureCode, ICollection<LocalizedKeyword>? locals, bool? isCreativeWork, bool? isEvent, bool? isOrganization, bool? isPerson, bool? isPlace, bool? isProduct, string? color = "")
+    public Keyword Update(string cultureCode, string languages, ICollection<LocalizedKeyword>? locals, bool? isCreativeWork, bool? isEvent, bool? isOrganization, bool? isPerson, bool? isPlace, bool? isProduct, string? color = "")
     {
         LocalizedKeyword? current = locals?.FirstOrDefault(e => e.CulturCode == cultureCode);
 
+        if (languages is not null && Languages.Equals(languages) is not true) Languages = languages;
         if (isCreativeWork is not null && IsCreativeWork.Equals(isCreativeWork) is not true) IsCreativeWork = isCreativeWork;
         if (isEvent is not null && IsEvent.Equals(isEvent) is not true) IsEvent = isEvent;
         if (isOrganization is not null && IsOrganization.Equals(isOrganization) is not true) IsOrganization = isOrganization;
@@ -60,7 +62,7 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
         if (isPlace is not null && IsPlace.Equals(isPlace) is not true) IsPlace = isPlace;
         if (isProduct is not null && IsProduct.Equals(isProduct) is not true) IsProduct = isProduct;
         if (color is not null && Color.Equals(color) is not true) Color = color;
-        if (locals is not null && Locals.Equals(locals) is not true) Locals = locals;
+        // if (locals is not null && Locals.Equals(locals) is not true) Locals = locals;
 
         // AddOrUpdateLocal(cultureCode, title, description);
         return this;
@@ -72,11 +74,22 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
             ?? LocalizedKeyword.Create(cultureCode, title, description, enabled, isDefault);
 
         localizedKeyword.Update(title, description, enabled, isDefault);
+
+        AddLanguage(cultureCode);
+
         return localizedKeyword;
     }
 
-    protected override LocalizedKeyword CreateLocal(string cultureCode)
-    {
-        return LocalizedKeyword.Create(cultureCode, string.Empty, string.Empty, false, false);
-    }
+    //protected LocalizedKeyword CreateLocal<Dto>(String cultureCode, Dto? dto)
+    //{
+    //    return LocalizedKeyword.Create(cultureCode,string.Empty, string.Empty, false, false);
+    //}
+
+
+    //protected override LocalizedKeyword CreateLocal<>(string cultureCode)
+    //{
+    //    return LocalizedKeyword.Create(cultureCode, string.Empty, string.Empty, false, false);
+    //}
+
+
 }

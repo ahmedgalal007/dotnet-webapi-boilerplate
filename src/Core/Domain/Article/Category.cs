@@ -75,8 +75,8 @@ public class Category : LocalizedEntity<LocalizedCategory>, IAggregateRoot
         return this;
     }
 
-    protected override LocalizedCategory CreateLocal(string cultureCode)
-    {
-        return LocalizedCategory.Create(Id, cultureCode, string.Empty, string.Empty);
-    }
+    //protected override LocalizedCategory CreateLocal(string cultureCode)
+    //{
+    //    return LocalizedCategory.Create(Id, cultureCode, string.Empty, string.Empty);
+    //}
 }

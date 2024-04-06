@@ -43,14 +43,15 @@ public class Video : Media, IAggregateRoot
         return this;
     }
 
-    protected override LocalizedVideo CreateLocal(string cultureCode)
-    {
-        return LocalizedVideo.Create(this.Id, cultureCode, string.Empty, string.Empty, string.Empty, string.Empty);
-    }
+    //protected override LocalizedVideo CreateLocal(string cultureCode)
+    //{
+    //    return LocalizedVideo.Create(this.Id, cultureCode, string.Empty, string.Empty, string.Empty, string.Empty);
+    //}
 
     private LocalizedVideo AddOrUpdateLocal(string cultureCode, string? title, string? alt, string? description, string? videoTitle)
     {
-        LocalizedVideo localizedVideo = (LocalizedVideo?)GetLocal(cultureCode) ?? CreateLocal(cultureCode);
+        LocalizedVideo localizedVideo = (LocalizedVideo?)GetLocal(cultureCode) ??
+            LocalizedVideo.Create(this.Id, cultureCode, string.Empty, string.Empty, string.Empty, string.Empty); ;
         return localizedVideo.Update(title, alt, description, videoTitle);
     }
 }

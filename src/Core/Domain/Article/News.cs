@@ -22,10 +22,10 @@ public class News : LocalizedEntity<LocalizedNews>, IAggregateRoot
     {
     }
 
-    protected override LocalizedNews CreateLocal(string cultureCode)
-    {
-        return LocalizedNews.Create(Id, cultureCode, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
-    }
+    //protected override LocalizedNews CreateLocal(string cultureCode)
+    //{
+    //    return LocalizedNews.Create(Id, cultureCode, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+    //}
 
     public static News Create(string cultureCode, string title, string slug, string? description, string? body, string? subTitle, string? seoTitle, string? socialTitle, string? mainImagePath, Guid? categoryId)
     {

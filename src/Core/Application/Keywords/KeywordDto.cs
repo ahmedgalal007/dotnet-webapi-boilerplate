@@ -18,9 +18,8 @@ public class KeywordDto : IDto
     public bool? IsPlace { get; set; } = false;
     public bool? IsProduct { get; set; } = false;
     public string? DefaultCultureCode { get; set; } = "ar-EG";
-    public string? CultureCode { get; set; } = "ar-EG";
+    public List<string>? Languages { get; set; } = new List<string>();
     public ICollection<LocalizedKeyword> Locals { get; set; } = new List<LocalizedKeyword>();
-    public List<string> ActiveLanguages { get; set; } = new List<string>();
 
     public static KeywordDto MapFrom(Keyword keyword, string? cultureCode = null)
     {
@@ -38,6 +37,7 @@ public class KeywordDto : IDto
             IsProduct = keyword.IsProduct,
             Id = keyword.Id,
             DefaultCultureCode = keyword.DefaultCulturCode,
+            Languages = keyword.GetLanguages(),
             // CultureCode = local.CulturCode,
             // CultureCode = local.CulturCode,
             // Title = keyword.Slug,

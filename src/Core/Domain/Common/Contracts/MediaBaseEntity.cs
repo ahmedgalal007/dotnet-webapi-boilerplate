@@ -17,5 +17,5 @@ public abstract class MediaBaseEntity<T> : LocalizedEntity<T>
     // public Storage.File File { get; set; }
     public virtual IEnumerable<Keyword> Keywords { get; set; }
 
-    protected abstract override T CreateLocal(string cultureCode);
+    // protected abstract override T CreateLocal(string cultureCode);
 }

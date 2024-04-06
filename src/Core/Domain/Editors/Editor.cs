@@ -53,8 +53,8 @@ public class Editor : LocalizedEntity<LocalizedEditor>, IAggregateRoot
         return this;
     }
 
-    protected override LocalizedEditor CreateLocal(String cultureCode)
-    {
-        return LocalizedEditor.Create(Id, cultureCode, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
-    }
+    //protected override LocalizedEditor CreateLocal(String cultureCode)
+    //{
+    //    return LocalizedEditor.Create(Id, cultureCode, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+    //}
 }
