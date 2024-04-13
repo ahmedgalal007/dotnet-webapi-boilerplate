@@ -56,7 +56,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrators.SqLite", "src\Mig
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{205CF02A-56EC-4D30-A253-336AB96E5D6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Test", "tests\Core\Domain.Test\Domain.Test.csproj", "{1033BA77-D39A-43ED-9EC4-5C90B82D54C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Test", "tests\Core\Domain.Test\Domain.Test.csproj", "{1033BA77-D39A-43ED-9EC4-5C90B82D54C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

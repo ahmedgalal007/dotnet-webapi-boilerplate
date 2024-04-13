@@ -1,12 +1,4 @@
-﻿using FSH.WebApi.Domain.Article;
-using FSH.WebApi.Domain.Keywords;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FSH.WebApi.Domain.Editors;
+﻿namespace FSH.WebApi.Domain.Editors;
 public class Editor : LocalizedEntity<LocalizedEditor>, IAggregateRoot
 {
     private Editor()

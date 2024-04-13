@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Domain.Medias.Videos;
-public class Video : Media, IAggregateRoot
+public class Video : Media
 {
     private Video()
     {

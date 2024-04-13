@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FSH.WebApi.Domain.Article;
+using FSH.WebApi.Domain.Medias.Videos;
+using FSH.WebApi.Shared.Localizations;
 
 namespace FSH.WebApi.Domain.Medias;
-public class LocalizedMedia : AuditableEntity, ILocalizableEntity
+public class LocalizedMedia : AuditableLocalizedEntity
 {
     protected LocalizedMedia()
     {
     }
+
     public DefaultIdType MediaId { get; set; }
     public string CulturCode { get; set; } = string.Empty;
     public string TypeName { get; set; }
@@ -20,6 +19,16 @@ public class LocalizedMedia : AuditableEntity, ILocalizableEntity
     public static LocalizedMedia Create()
     {
         return new LocalizedMedia();
+    }
+
+    public override AuditableLocalizedEntity<DefaultIdType> Create(string cultureCode, bool enabled = false, bool isDefault = false)
+    {
+        return new LocalizedMedia()
+        {
+            CulturCode = cultureCode,
+            Enabled = enabled,
+            IsDefault = isDefault,
+        };
     }
 
     // public virtual static LocalizedMedia Create(string cultureCode, string title, string alt, string description)

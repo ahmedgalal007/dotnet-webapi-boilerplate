@@ -1,4 +1,5 @@
-﻿using FSH.WebApi.Domain.Common.Localizations;
+﻿using FSH.WebApi.Domain.Article;
+using FSH.WebApi.Domain.Common.Localizations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,6 +23,16 @@ public class LocalizedVideo : LocalizedMedia
             CulturCode = cultureCode,
         };
         return video.Update( title,  alt,  description,  videoTitle);
+    }
+
+    public override AuditableLocalizedEntity<DefaultIdType> Create(string cultureCode, bool enabled = false, bool isDefault = false)
+    {
+        return new LocalizedVideo()
+        {
+            CulturCode = cultureCode,
+            Enabled = enabled,
+            IsDefault = isDefault,
+        };
     }
 
     public LocalizedVideo Update(string? title, string? alt, string? description, string? videoTitle)

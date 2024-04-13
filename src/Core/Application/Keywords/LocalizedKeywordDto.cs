@@ -18,4 +18,15 @@ public class LocalizedKeywordDto : IDto
     public bool Enabled { get; private set; } = false;
     public bool IsDefault { get; private set; } = false;
 
+    public static LocalizedKeywordDto MapFrom(LocalizedKeyword localizedeyword, string? cultureCode = null) =>
+        new LocalizedKeywordDto()
+        {
+            Id = localizedeyword.Id,
+            IsDefault = localizedeyword.IsDefault,
+            KeywordId = localizedeyword.KeywordId,
+            CulturCode = localizedeyword.CulturCode,
+            Description = localizedeyword.Description,
+            Enabled = localizedeyword.Enabled,
+            Title = localizedeyword.Title,
+        };
 }

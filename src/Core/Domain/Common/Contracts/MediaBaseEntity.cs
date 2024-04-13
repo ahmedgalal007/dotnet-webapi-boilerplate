@@ -1,14 +1,9 @@
-﻿using FSH.WebApi.Domain.Article;
-using FSH.WebApi.Domain.Keywords;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FSH.WebApi.Domain.Keywords;
+using FSH.WebApi.Shared.Localizations;
 
 namespace FSH.WebApi.Domain.Common.Contracts;
 public abstract class MediaBaseEntity<T> : LocalizedEntity<T>
-    where T : ILocalizableEntity
+    where T : AuditableLocalizedEntity
 {
     public string Url { get; set; }
     public string TypeName { get; set; }

@@ -1,11 +1,4 @@
-﻿using FSH.WebApi.Application.Article.News;
-using FSH.WebApi.Domain.Article;
-using FSH.WebApi.Domain.Keywords;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FSH.WebApi.Domain.Keywords;
 
 namespace FSH.WebApi.Application.Keywords;
 public class KeywordDto : IDto
@@ -19,7 +12,7 @@ public class KeywordDto : IDto
     public bool? IsProduct { get; set; } = false;
     public string? DefaultCultureCode { get; set; } = "ar-EG";
     public List<string>? Languages { get; set; } = new List<string>();
-    public ICollection<LocalizedKeyword> Locals { get; set; } = new List<LocalizedKeyword>();
+    public List<LocalizedKeywordDto> Locals { get; set; } = new ();
 
     public static KeywordDto MapFrom(Keyword keyword, string? cultureCode = null)
     {
@@ -41,7 +34,7 @@ public class KeywordDto : IDto
             // CultureCode = local.CulturCode,
             // CultureCode = local.CulturCode,
             // Title = keyword.Slug,
-            Locals = keyword.Locals,
+            Locals = keyword.Locals.Select(e => LocalizedKeywordDto.MapFrom(e)).ToList(),
         };
     }
 }

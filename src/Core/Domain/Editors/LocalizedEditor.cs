@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FSH.WebApi.Domain.Keywords;
+using FSH.WebApi.Shared.Localizations;
 
 namespace FSH.WebApi.Domain.Editors;
-public class LocalizedEditor : AuditableEntity, ILocalizableEntity
+public class LocalizedEditor : AuditableLocalizedEntity
 {
     private LocalizedEditor()
     {
@@ -14,7 +11,7 @@ public class LocalizedEditor : AuditableEntity, ILocalizableEntity
 
     // TODO: public virtual Category Category { get; set; }
 
-    public string CulturCode { get; private set; } = string.Empty;
+    public string CulturCode { get; set; } = string.Empty;
 
     public string? PreName { get; private set; }
     public string FirstName { get; private set; }
@@ -24,6 +21,10 @@ public class LocalizedEditor : AuditableEntity, ILocalizableEntity
     public string? PostName { get; private set; }
     public string? Title { get; private set; }
     public string? Description { get; private set; }
+
+    public bool Enabled { get; private set; }
+
+    public bool IsDefault { get; private set; }
 
     public static LocalizedEditor Create(Guid editorId, string cultureCode, string? preName, string firstName, string secondName, string? thirdName, string? fourthName, string? postName, string? title, string? description)
     {
@@ -38,6 +39,16 @@ public class LocalizedEditor : AuditableEntity, ILocalizableEntity
             PreName = preName,
             Title = title,
             Description = postName,
+        };
+    }
+
+    public override AuditableLocalizedEntity<DefaultIdType> Create(string cultureCode, bool enabled = false, bool isDefault = false)
+    {
+        return new LocalizedEditor()
+        {
+            CulturCode = cultureCode,
+            Enabled = enabled,
+            IsDefault = isDefault,
         };
     }
 

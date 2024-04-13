@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Domain.Keywords;
-public class Schema : AuditableEntity, IAggregateRoot
+public class Schema : AuditableEntity
 {
     public string TypeName { get; set; }
     public string Description { get; set; }

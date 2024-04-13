@@ -1,3 +1,5 @@
+using FSH.WebApi.Shared.Events;
+
 namespace FSH.WebApi.Domain.Common.Events;
 
 public static class EntityUpdatedEvent

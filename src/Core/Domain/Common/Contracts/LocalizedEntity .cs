@@ -1,13 +1,11 @@
-using FSH.WebApi.Domain.Article;
-using FSH.WebApi.Domain.Keywords;
+using FSH.WebApi.Domain.Common.Contracts;
+using FSH.WebApi.Shared.Localizations;
 using System.ComponentModel.DataAnnotations;
-using System.Data.SqlTypes;
-using System.Diagnostics.CodeAnalysis;
 
 namespace FSH.WebApi.Domain.Common.Contracts;
 
 public abstract class LocalizedEntity<T> : AuditableEntity
-    where T : ILocalizableEntity // , new()
+    where T : AuditableLocalizedEntity // , new()
 {
     // protected abstract T CreateLocal(string cultureCode);
 
@@ -63,7 +61,7 @@ public abstract class LocalizedEntity<T> : AuditableEntity
 
     public T DeleteLocal(Guid localId, string cultureCode)
     {
-        T? localizedEntity= Locals.First(e => e.Id == localId);
+        T? localizedEntity= Locals.First(e => e.CulturCode == cultureCode);
         if(localizedEntity.CulturCode != cultureCode ) throw new Exception("Culture Code Not Match with the local");
         this.Locals.Remove(localizedEntity);
         SetLanguagesFromLocals();

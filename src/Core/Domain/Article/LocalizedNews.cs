@@ -1,14 +1,9 @@
-﻿using FSH.WebApi.Domain.Common.Localizations;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FSH.WebApi.Domain.Medias.Videos;
+using FSH.WebApi.Shared.Localizations;
+using MassTransit;
 
 namespace FSH.WebApi.Domain.Article;
-public class LocalizedNews : AuditableEntity, ILocalizableEntity, IAggregateRoot
+public class LocalizedNews : AuditableLocalizedEntity , IAggregateRoot
 {
     private LocalizedNews()
     {
@@ -39,6 +34,16 @@ public class LocalizedNews : AuditableEntity, ILocalizableEntity, IAggregateRoot
             SEOTitle = seoTitle,
             SocialTitle = socialTitle,
             Body = body
+        };
+    }
+
+    public override AuditableLocalizedEntity<DefaultIdType> Create(string cultureCode, bool enabled = false, bool isDefault = false)
+    {
+        return new LocalizedNews()
+        {
+            CulturCode = cultureCode,
+            Enabled = enabled,
+            IsDefault = isDefault,
         };
     }
 

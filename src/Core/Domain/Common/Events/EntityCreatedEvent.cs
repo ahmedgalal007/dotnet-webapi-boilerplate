@@ -1,3 +1,6 @@
+using FSH.WebApi.Domain.Common.Contracts;
+using FSH.WebApi.Shared.Events;
+
 namespace FSH.WebApi.Domain.Common.Events;
 
 public static class EntityCreatedEvent

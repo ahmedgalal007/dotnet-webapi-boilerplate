@@ -11,6 +11,6 @@ public class LocalizedRequest<TID, TLocalizedEntity> : IRequest<TID>
     public TID Id { get; set; }
     public string? DefaultCultureCode { get; set; } = "ar-EG";
     public string Languages { get; set; } = string.Empty;
-    public ICollection<TLocalizedEntity>? Locals { get; set; } = new List<TLocalizedEntity>();
+    public ICollection<TLocalizedEntity> Locals { get; set; } = new List<TLocalizedEntity>();
 
 }

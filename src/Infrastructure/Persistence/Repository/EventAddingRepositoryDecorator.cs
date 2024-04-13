@@ -2,6 +2,7 @@
 using FSH.WebApi.Application.Common.Persistence;
 using FSH.WebApi.Domain.Common.Contracts;
 using FSH.WebApi.Domain.Common.Events;
+using System.Threading;
 
 namespace FSH.WebApi.Infrastructure.Persistence.Repository;
 
@@ -53,6 +54,7 @@ public class EventAddingRepositoryDecorator<T> : IRepositoryWithEvents<T>
     public Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default)
         where TId : notnull =>
         _decorated.GetByIdAsync(id, cancellationToken);
+    [Obsolete]
     public Task<T?> GetBySpecAsync<TSpec>(TSpec specification, CancellationToken cancellationToken = default)
         where TSpec : ISingleResultSpecification, ISpecification<T> =>
         _decorated.FirstOrDefaultAsync(specification, cancellationToken);
@@ -93,4 +95,7 @@ public class EventAddingRepositoryDecorator<T> : IRepositoryWithEvents<T>
 
     public Task<TResult?> SingleOrDefaultAsync<TResult>(ISingleResultSpecification<T, TResult> specification, CancellationToken cancellationToken = default) =>
         _decorated.SingleOrDefaultAsync<TResult>(specification, cancellationToken);
+
+    public IAsyncEnumerable<T> AsAsyncEnumerable(ISpecification<T> specification) =>
+        _decorated.AsAsyncEnumerable(specification);
 }
