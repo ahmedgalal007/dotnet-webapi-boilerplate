@@ -25,9 +25,10 @@ public Task<KeywordDto> GetAsync(Guid id)
 [HttpPost]
 [MustHavePermission(FSHAction.Create, FSHResource.Keywords)]
 [OpenApiOperation("Create a new Keywords.", "")]
-public Task<Guid> CreateAsync(CreateKeywordRequest request)
+public async Task<Guid> CreateAsync(CreateKeywordRequest request)
 {
-    return Mediator.Send(request);
+        return await Mediator.Send(request);
+        // return await Task.FromResult<Guid>( request.Id );
 }
 
 [HttpPut("{id:guid}")]

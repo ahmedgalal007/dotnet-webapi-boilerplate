@@ -1,6 +1,7 @@
 ﻿using FSH.WebApi.Application.Common.Localization;
 using FSH.WebApi.Domain.Common.Contracts;
 using FSH.WebApi.Domain.Keywords;
+using Mapster;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Application.Keywords;
-public class CreateKeywordRequest : LocalizedRequest<Guid, LocalizedKeyword>
+public class CreateKeywordRequest : LocalizedRequest<Guid, LocalizedKeywordDto>
 {
     // public Guid Id { get; set; }
     public string? Color { get; set; }
@@ -35,7 +36,8 @@ public class CreateKeywordRequestValidation : CustomValidator<CreateKeywordReque
         (_repository, _t) = (repository, localizer);
     public async Task<DefaultIdType> Handle(CreateKeywordRequest request, CancellationToken cancellationToken)
     {
-        var keyword = Keyword.Create(request.DefaultCultureCode, request.Languages, request.Locals, request.IsCreativeWork, request.IsEvent, request.IsOrganization, request.IsPerson, request.IsPlace, request.IsProduct,null);
+        List<LocalizedKeyword> locals = request.Locals.Select(e => LocalizedKeyword.Create(e.CulturCode, e.Title, e.Description, e.Enabled, e.IsDefault)).ToList();
+        var keyword = Keyword.Create(request.DefaultCultureCode, request.Languages,locals, request.IsCreativeWork, request.IsEvent, request.IsOrganization, request.IsPerson, request.IsPlace, request.IsProduct,null);
 
         await _repository.AddAsync(keyword, cancellationToken);
 

@@ -9,5 +9,7 @@ namespace FSH.WebApi.Application.Keywords.Specs;
 public class KeywordByIdSpec : Specification<Keyword, KeywordDto>, ISingleResultSpecification
 {
     public KeywordByIdSpec(Guid id) =>
-        Query.Where(p => p.Id == id);
+        Query
+            .Include(e => e.Locals)
+            .Where(p => p.Id == id);
 }

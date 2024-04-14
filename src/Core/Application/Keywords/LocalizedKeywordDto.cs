@@ -1,4 +1,5 @@
 ﻿using FSH.WebApi.Application.Article.News;
+using FSH.WebApi.Application.Common.Localization;
 using FSH.WebApi.Domain.Article;
 using FSH.WebApi.Domain.Keywords;
 using System;
@@ -8,25 +9,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Application.Keywords;
-public class LocalizedKeywordDto : IDto
-{
-    public Guid? Id { get; set; }
-    public Guid KeywordId { get; private set; }
-    public string CulturCode { get; private set; } = string.Empty;
-    public string Title { get; private set; } = string.Empty;
-    public string Description { get; private set; } = string.Empty;
-    public bool Enabled { get; private set; } = false;
-    public bool IsDefault { get; private set; } = false;
 
-    public static LocalizedKeywordDto MapFrom(LocalizedKeyword localizedeyword, string? cultureCode = null) =>
+public class LocalizedKeywordDto: LocalizedDto
+{
+    public Guid KeywordId { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+
+    public static LocalizedKeywordDto MapFrom(LocalizedKeyword localizedKeyword, string? cultureCode = null) =>
         new LocalizedKeywordDto()
         {
-            Id = localizedeyword.Id,
-            IsDefault = localizedeyword.IsDefault,
-            KeywordId = localizedeyword.KeywordId,
-            CulturCode = localizedeyword.CulturCode,
-            Description = localizedeyword.Description,
-            Enabled = localizedeyword.Enabled,
-            Title = localizedeyword.Title,
+            Id = localizedKeyword.Id,
+            IsDefault = localizedKeyword.IsDefault,
+            KeywordId = localizedKeyword.KeywordId,
+            CulturCode = localizedKeyword.CulturCode,
+            Description = localizedKeyword.Description,
+            Enabled = localizedKeyword.Enabled,
+            Title = localizedKeyword.Title,
         };
 }

@@ -9,7 +9,9 @@ public class LocalizedKeywordBySearchSpec : EntitiesByPaginationFilterSpec<Keywo
     public LocalizedKeywordBySearchSpec(SearchKeywordRequest request, IReadRepository<Keyword> keywordRepo, IStringLocalizer<GetKeywordRequestHandler> localizer)
         : base(request)
     {
-        Query.OrderBy(c => c.Id, !request.HasOrderBy());
+        Query
+            .Include(e => e.Locals)
+            .OrderBy(c => c.Id, !request.HasOrderBy());
         Query.Select(e => GetKeywordItem(e.Id, request.CultureCode, keywordRepo, localizer));
     }
 

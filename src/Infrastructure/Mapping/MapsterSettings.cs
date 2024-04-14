@@ -14,6 +14,6 @@ public class MapsterSettings
 
         // This one is actually not necessary as it's mapped by convention
         // TypeAdapterConfig<Product, ProductDto>.NewConfig().Map(dest => dest.BrandName, src => src.Brand.Name);
-        TypeAdapterConfig<Keyword, KeywordDto>.NewConfig().Map(dest => dest.Locals, src => src.Locals);
+        // TypeAdapterConfig<Keyword, KeywordDto>.NewConfig().Map(dest => dest.Locals, src => src.Locals);
     }
 }

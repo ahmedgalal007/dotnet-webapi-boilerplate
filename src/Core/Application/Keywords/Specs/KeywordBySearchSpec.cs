@@ -8,7 +8,8 @@ public class KeywordBySearchSpec : EntitiesByPaginationFilterSpec<Keyword, Keywo
     public KeywordBySearchSpec(SearchKeywordRequest request)
         : base(request)
     {
-        Query.OrderBy(c => c.Id, !request.HasOrderBy());
+        Query.Include(e => e.Locals)
+            .OrderBy(c => c.Id, !request.HasOrderBy());
         Query.Select(e => KeywordDto.MapFrom(e, request.CultureCode));
     }
 }
