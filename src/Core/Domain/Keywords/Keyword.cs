@@ -61,10 +61,21 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
         if (isPlace is not null && IsPlace.Equals(isPlace) is not true) IsPlace = isPlace;
         if (isProduct is not null && IsProduct.Equals(isProduct) is not true) IsProduct = isProduct;
         if (color is not null && Color.Equals(color) is not true) Color = color;
-
+        UpdateLocals(locals);
         // if (locals is not null && Locals.Equals(locals) is not true) Locals = locals;
         // AddOrUpdateLocal(cultureCode, title, description);
         return this;
+    }
+
+    public override void UpdateLocals(ICollection<LocalizedKeyword> list)
+    {
+        base.UpdateLocals(list);
+        foreach (var item in list.Where(e => e.Id != null || e.Id != default))
+        {
+            // AddOrUpdateLocal(item);
+
+            UpdateLocalOfKeyword(item);
+        }
     }
 
     public Keyword AddOrUpdateLocal(string cultureCode, string title, string? description, bool? enabled, bool? isDefault)
@@ -78,7 +89,7 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
 
     public Keyword AddOrUpdateLocal(LocalizedKeyword local)
     {
-        bool isCreate = GetLocal(local.CulturCode) == null;
+        bool isCreate = local.Id == Guid.Empty || local.Id == default || GetLocal(local.CulturCode) == null;
         if (isCreate)
         {
             AddLocalToKeyword(local);
@@ -93,7 +104,7 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
 
     public Keyword AddLocalToKeyword(LocalizedKeyword local)
     {
-        if (local.Id == Guid.Empty && local.Id == default && GetLocal(local.CulturCode) == null)
+        if (local.Id == Guid.Empty || local.Id == default || GetLocal(local.CulturCode) == null)
         {
             Locals.Add(local);
             AddLanguage(local.CulturCode);

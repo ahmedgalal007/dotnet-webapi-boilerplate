@@ -1,6 +1,7 @@
 ﻿using FSH.WebApi.Application.Article.News;
 using FSH.WebApi.Application.Common.Localization;
 using FSH.WebApi.Application.Common.Persistence;
+using FSH.WebApi.Application.Keywords.Specs;
 using FSH.WebApi.Domain.Keywords;
 using Mapster;
 using System;
@@ -36,12 +37,14 @@ public class UpdateKeywordRequestHandler : IRequestHandler<UpdateKeywordRequest,
 
     public async Task<DefaultIdType> Handle(UpdateKeywordRequest request, CancellationToken cancellationToken)
     {
-        var keyword = await _repository.GetByIdAsync(request.Id, cancellationToken);
+        var keyword = await _repository.FirstOrDefaultAsync(new KeywordByIdWithLocalsSpec(request.Id), cancellationToken);
 
         _ = keyword
         ?? throw new NotFoundException(_t["Keyword {0} Not Found.", request.Id]);
 
-        keyword.Update(request.DefaultCultureCode!, request.Languages, request.Locals.Adapt<List<LocalizedKeyword>>(), request.IsCreativeWork, request.IsEvent, request.IsOrganization, request.IsPerson, request.IsPlace, request.IsProduct, null);
+        List<LocalizedKeyword> locals = request.Locals.Select(e =>  LocalizedKeyword.Create(e.CulturCode, e.Title, e.Description, e.Enabled, e.IsDefault, e.Id)).ToList();
+
+        keyword.Update(request.DefaultCultureCode!, request.Languages, locals, request.IsCreativeWork, request.IsEvent, request.IsOrganization, request.IsPerson, request.IsPlace, request.IsProduct, null);
 
         await _repository.UpdateAsync(keyword, cancellationToken);
 

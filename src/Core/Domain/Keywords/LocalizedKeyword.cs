@@ -8,11 +8,11 @@ public sealed class LocalizedKeyword : AuditableLocalizedEntity
     }
 
     public Guid KeywordId { get; private set; }
-    public string CulturCode { get; set; } = string.Empty;
+    // public string CulturCode { get; set; } = string.Empty;
     public string Title { get; private set; } = string.Empty;
     public string? Description { get; private set; } = string.Empty;
 
-    public static LocalizedKeyword Create(string cultureCode, string title, string? description, bool? enabled, bool? isDefault) =>
+    public static LocalizedKeyword Create(string cultureCode, string title, string? description, bool? enabled, bool? isDefault, Guid? id = null) =>
         new()
         {
             CulturCode = cultureCode,
@@ -20,6 +20,7 @@ public sealed class LocalizedKeyword : AuditableLocalizedEntity
             Description = description,
             Enabled = enabled ?? false,
             IsDefault = isDefault ?? false,
+            Id = id ?? Guid.Empty,
         };
 
 

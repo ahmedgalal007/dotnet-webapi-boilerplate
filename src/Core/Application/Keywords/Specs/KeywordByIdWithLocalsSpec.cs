@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Application.Keywords.Specs;
-public class KeywordByIdWithLocalsSpec : Specification<Keyword>, ISingleResultSpecification<Keyword>
+public class KeywordByIdSpec : Specification<Keyword, KeywordDto>, ISingleResultSpecification
 {
-    public KeywordByIdWithLocalsSpec(Guid id) =>
+    public KeywordByIdSpec(Guid id) =>
         Query
             .Include(e => e.Locals)
             .Where(p => p.Id == id);

@@ -38,7 +38,6 @@ public class CreateKeywordRequestValidation : CustomValidator<CreateKeywordReque
     {
         List<LocalizedKeyword> locals = request.Locals.Select(e => LocalizedKeyword.Create(e.CulturCode, e.Title, e.Description, e.Enabled, e.IsDefault)).ToList();
         var keyword = Keyword.Create(request.DefaultCultureCode, request.Languages,locals, request.IsCreativeWork, request.IsEvent, request.IsOrganization, request.IsPerson, request.IsPlace, request.IsProduct,null);
-
         await _repository.AddAsync(keyword, cancellationToken);
 
         return keyword.Id;

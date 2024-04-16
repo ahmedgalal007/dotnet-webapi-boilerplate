@@ -68,6 +68,13 @@ public abstract class LocalizedEntity<T> : AuditableEntity
         return localizedEntity;
     }
 
+    public virtual void UpdateLocals(ICollection<T> list)
+    {
+        foreach (var item in list.Where(e => e.Id == default || e.Id == Guid.Empty))
+        {
+            if(GetLocal(item.CulturCode) == null) Locals.Add(item);
+        }
+    }
     // protected TLocal LocalFactory<TLocal>(string cultureCode)
     //     where TLocal : T
     // {
