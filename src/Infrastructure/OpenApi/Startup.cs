@@ -1,3 +1,4 @@
+using FSH.WebApi.Application.Common.Localization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -101,6 +102,8 @@ internal static class Startup
 
                 var fluentValidationSchemaProcessor = serviceProvider.CreateScope().ServiceProvider.GetService<FluentValidationSchemaProcessor>();
                 document.SchemaProcessors.Add(fluentValidationSchemaProcessor);
+
+                document.DocumentProcessors.Add(new SwaggerLocalizedRequestProcessor<LocalizedRequest>());
             });
         }
 

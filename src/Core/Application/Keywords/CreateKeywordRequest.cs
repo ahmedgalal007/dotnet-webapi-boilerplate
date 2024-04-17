@@ -10,7 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Application.Keywords;
-public class CreateKeywordRequest : LocalizedRequest<Guid, LocalizedKeywordDto>
+
+public class CreateKeywordRequest : BaseKeywordRequest<LocalizedKeywordDto> // LocalizedRequest<Guid, LocalizedKeywordDto>
 {
     // public Guid Id { get; set; }
     public string? Color { get; set; }

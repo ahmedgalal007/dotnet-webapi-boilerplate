@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Application.Keywords;
-public class UpdateKeywordRequest : LocalizedRequest<Guid, LocalizedKeywordDto>
+public class UpdateKeywordRequest : BaseKeywordRequest<LocalizedKeywordDto> // LocalizedRequest<Guid, LocalizedKeywordDto>
 {
     public string? Color { get; set; }
     public bool? IsCreativeWork { get; set; } = false;

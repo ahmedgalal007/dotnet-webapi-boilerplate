@@ -1,6 +1,9 @@
-﻿using FSH.WebApi.Domain.Keywords;
+﻿using FSH.WebApi.Application.Common.Localization;
+using FSH.WebApi.Domain.Keywords;
 
 namespace FSH.WebApi.Application.Keywords;
+
+
 public class KeywordDto : IDto
 {
     public Guid? Id { get; set; }
