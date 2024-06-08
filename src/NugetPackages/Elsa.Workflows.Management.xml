@@ -1,0 +1,2918 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Elsa.Workflows.Management</name>
+    </assembly>
+    <members>
+        <member name="T:Elsa.Workflows.Management.Activities.SetOutput.SetOutput">
+            <summary>
+            Assigns a given value to a workflow definition's output.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Activities.SetOutput.SetOutput.#ctor(System.String,System.Nullable{System.Int32})">
+            <inheritdoc />
+        </member>
+        <member name="P:Elsa.Workflows.Management.Activities.SetOutput.SetOutput.OutputName">
+            <summary>
+            The name of the output to assign.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Activities.SetOutput.SetOutput.OutputValue">
+            <summary>
+            The value to assign to the output.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Activities.SetOutput.SetOutput.Execute(Elsa.Workflows.ActivityExecutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivity">
+            <summary>
+            Loads and executes an <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/>.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivity.WorkflowDefinitionId">
+            <summary>
+            The definition ID of the workflow to schedule for execution.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivity.WorkflowDefinitionVersionId">
+            <summary>
+            The specific version ID of the workflow to schedule for execution. If not set, the <see cref="T:System.Version"/> number will be considered.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivity.LatestAvailablePublishedVersion">
+            <summary>
+            The latest published version number set by the provider. This is used by tooling to let the user know that a newer version is available.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivity.LatestAvailablePublishedVersionId">
+            <summary>
+            The latest published version ID set by the provider. This is used by tooling to let the user know that a newer version is available.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivity.ExecuteAsync(Elsa.Workflows.ActivityExecutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivityResolver">
+            <summary>
+            Returns the root activity for a given <see cref="T:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivity"/>.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivityResolver.Priority">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivityResolver.GetSupportsActivity(Elsa.Workflows.Contracts.IActivity)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivityResolver.GetActivitiesAsync(Elsa.Workflows.Contracts.IActivity,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivityProvider">
+            <summary>
+            Provides activity descriptors based on <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/>s stored in the database. 
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivityProvider.#ctor(Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore,Elsa.Workflows.Contracts.IActivityFactory)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivityProvider.GetDescriptorsAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Compression.GZip">
+            <summary>
+            Represents a GZip compression strategy.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Compression.GZip.CompressAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Compression.GZip.DecompressAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Compression.None">
+            <summary>
+            Represents a compression strategy that does not compress or decompress the input.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Compression.None.CompressAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Compression.None.DecompressAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Compression.Zstd">
+            <summary>
+            Represents a ZSTD compression strategy.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Compression.Zstd.CompressAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Compression.Zstd.DecompressAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IActivityRegistryPopulator">
+            <summary>
+            Populates the <see cref="T:Elsa.Workflows.Contracts.IActivityRegistry"/> with activities.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IActivityRegistryPopulator.PopulateRegistryAsync(System.Threading.CancellationToken)">
+            <summary>
+            Populates the <see cref="T:Elsa.Workflows.Contracts.IActivityRegistry"/> with activities.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IActivityRegistryPopulator.PopulateRegistryAsync(System.Type,System.Threading.CancellationToken)">
+            <summary>
+            Populates the <see cref="T:Elsa.Workflows.Contracts.IActivityRegistry"/> with activities for the specified provider.
+            </summary>
+            <param name="providerType">The type of the provider.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IActivityRegistryPopulator.AddToRegistry(System.Type,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Tries to add a workflow as an activity to the registry.
+            </summary>
+            <param name="providerType">The type of the activity provider.</param>
+            <param name="workflowDefinitionId">The ID of the workflow definition.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.ICompressionCodec">
+            <summary>
+            Represents a compression strategy.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.ICompressionCodec.CompressAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Compresses the input.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.ICompressionCodec.DecompressAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Decompresses the input.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.ICompressionCodecResolver">
+            <summary>
+            Resolves a <see cref="T:Elsa.Workflows.Management.Contracts.ICompressionCodec"/> from its name.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.ICompressionCodecResolver.Resolve(System.String)">
+            <summary>
+            Resolves a <see cref="T:Elsa.Workflows.Management.Contracts.ICompressionCodec"/> from its name.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionCacheManager">
+            <summary>
+            Specifies the contract for managing the cache of workflow definitions.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionCacheManager.Cache">
+            <summary>
+            Gets the cache manager.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionImporter">
+            <summary>
+            Imports a workflow definition.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionImporter.ImportAsync(Elsa.Workflows.Management.Models.SaveWorkflowDefinitionRequest,System.Threading.CancellationToken)">
+            <summary>
+            Imports a workflow definition.
+            </summary>
+            <param name="request">The request.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The imported workflow definition.</returns>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionManager">
+            <summary>
+            Provides operations for managing workflow definitions.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionManager.DeleteByDefinitionIdAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Deletes all workflow definition versions with the specified definition ID.
+            </summary>
+            <param name="definitionId">The definition ID.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The number of deleted workflow definitions.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionManager.DeleteByIdAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a specific version of a workflow definition.
+            </summary>
+            <param name="id">The ID of the workflow definition version.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>True if the workflow definition version was deleted, otherwise false.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionManager.DeleteVersionAsync(System.String,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a specific workflow definition version.
+            </summary>
+            <param name="definitionId">The ID of the workflow definition.</param>
+            <param name="version">The version number of the workflow definition.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>True if the workflow definition version was deleted, otherwise false.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionManager.DeleteVersionAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a specific workflow definition version.
+            </summary>
+            <param name="definitionToDelete"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionManager.BulkDeleteByDefinitionIdsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Deletes all workflow definition versions with the specified definition IDs.
+            </summary>
+            <param name="definitionIds">The definition IDs.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The number of deleted workflow definitions.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionManager.BulkDeleteByIdsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Deletes all workflow definition versions with the specified IDs.
+            </summary>
+            <param name="ids">The IDs.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The number of deleted workflow definitions.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionManager.RevertVersionAsync(System.String,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new workflow definition from the specified version.
+            </summary>
+            <param name="definitionId">The definition ID.</param>
+            <param name="version">The version number.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The new workflow definition.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionManager.UpdateReferencesInConsumingWorkflows(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <summary>
+            Updates all referencing workflow definitions to use the version of the specified workflow definition.
+            </summary>
+            <param name="dependency">The workflow definition to update references for.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The updated workflow definitions.</returns>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionPublisher">
+            <summary>
+            Publishes workflow definitions.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionPublisher.New(Elsa.Workflows.Contracts.IActivity)">
+            <summary>
+            Creates a new workflow definition.
+            </summary>
+            <param name="root">Optionally provide the root activity. If not specified, <see cref="T:Elsa.Workflows.Activities.Sequence" /> will be used/></param>
+            <returns>The new workflow definition.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionPublisher.PublishAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Publishes a workflow definition.
+            </summary>
+            <param name="definitionId">The ID of the workflow definition to publish.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The published workflow definition.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionPublisher.PublishAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <summary>
+            Publishes a workflow definition.
+            </summary>
+            <param name="definition">The workflow definition to publish.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The published workflow definition.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionPublisher.RetractAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retracts a workflow definition.
+            </summary>
+            <param name="definitionId">The ID of the workflow definition to retract.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The retracted workflow definition.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionPublisher.RetractAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <summary>
+            Retracts a workflow definition.
+            </summary>
+            <param name="definition">The workflow definition to retract.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The retracted workflow definition.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionPublisher.GetDraftAsync(System.String,Elsa.Common.Models.VersionOptions,System.Threading.CancellationToken)">
+            <summary>
+            Gets or creates a draft for the specified workflow definition.
+            </summary>
+            <param name="definitionId">The ID of the workflow definition.</param>
+            <param name="versionOptions">The version options.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The draft workflow definition.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionPublisher.SaveDraftAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <summary>
+            Saves a draft for the specified workflow definition.
+            </summary>
+            <param name="definition">The workflow definition.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The saved workflow definition.</returns>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService">
+            <summary>
+            Manages materialization of <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> to <see cref="T:Elsa.Workflows.Activities.Workflow"/> objects. 
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService.MaterializeWorkflowAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <summary>
+            Constructs an executable <see cref="T:Elsa.Workflows.Activities.Workflow"/> from the specified <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService.FindWorkflowDefinitionAsync(System.String,Elsa.Common.Models.VersionOptions,System.Threading.CancellationToken)">
+            <summary>
+            Looks for a <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> by the specified definition ID and <see cref="T:Elsa.Common.Models.VersionOptions"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService.FindWorkflowDefinitionAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Looks for a <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> by the specified version ID.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService.FindWorkflowDefinitionAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <summary>
+            Looks for a <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> by the specified <see cref="T:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService.FindWorkflowGraphAsync(System.String,Elsa.Common.Models.VersionOptions,System.Threading.CancellationToken)">
+            <summary>
+            Looks for a <see cref="T:Elsa.Workflows.Activities.Workflow"/> by the specified definition ID and <see cref="T:Elsa.Common.Models.VersionOptions"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService.FindWorkflowGraphAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Looks for a <see cref="T:Elsa.Workflows.Activities.Workflow"/> by the specified version ID.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService.FindWorkflowGraphAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <summary>
+            Looks for a <see cref="T:Elsa.Workflows.Activities.Workflow"/> by the specified <see cref="T:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter"/>.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore">
+            <summary>
+            Represents a store of <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/>s.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.FindAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <summary>
+            Finds a workflow definition using the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The workflow definition.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.FindAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},System.Threading.CancellationToken)">
+            <summary>
+            Finds a workflow definition using the specified filter and order.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="order">The order.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <typeparam name="TOrderBy">The type of the property to order by.</typeparam>
+            <returns>The workflow definition.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.FindManyAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <summary>
+            Returns a paginated list of workflow definitions using the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="pageArgs">The page arguments.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A paginated list of workflow definitions.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.FindManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <summary>
+            Returns a paginated list of workflow definitions using the specified filter and order.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="order">The order.</param>
+            <param name="pageArgs">The page arguments.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <typeparam name="TOrderBy">The type of the property to order by.</typeparam>
+            <returns>A paginated list of workflow definitions.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.FindManyAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <summary>
+            Returns a list of workflow definitions using the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A list of workflow definitions.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.FindManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns a list of workflow definitions using the specified filter and order.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="order">The order.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <typeparam name="TOrderBy">The type of the property to order by.</typeparam>
+            <returns>A list of workflow definitions.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.FindSummariesAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <summary>
+            Returns a paginated list of workflow definition summaries using the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="pageArgs">The page arguments.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A paginated list of workflow definition summaries.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.FindSummariesAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <summary>
+            Returns a paginated list of workflow definition summaries using the specified filter and order.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="order">The order.</param>
+            <param name="pageArgs">The page arguments.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <typeparam name="TOrderBy">The type of the property to order by.</typeparam>
+            <returns>A paginated list of workflow definition summaries.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.FindSummariesAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <summary>
+            Returns a list of workflow definition summaries using the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A list of workflow definition summaries.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.FindSummariesAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns a list of workflow definition summaries using the specified filter and order.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="order">The order.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <typeparam name="TOrderBy">The type of the property to order by.</typeparam>
+            <returns>A list of workflow definition summaries.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.FindLastVersionAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <summary>
+            Returns the latest version of the workflow definition matching the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The workflow definition.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.SaveAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <summary>
+            Adds or updates the specified <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> in the persistence store.
+            </summary>
+            <param name="definition">The workflow definition.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <remarks>
+            If the record does not already exist, it is added to the store; if it does exist, its existing entry is updated.
+            </remarks>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.SaveManyAsync(System.Collections.Generic.IEnumerable{Elsa.Workflows.Management.Entities.WorkflowDefinition},System.Threading.CancellationToken)">
+            <summary>
+            Adds the specified set of <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> objects to te persistence store.
+            </summary>
+            <param name="definitions">The workflow definitions.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <remarks>
+            If the record does not already exist, it is added to the store; if it does exist, its existing entry is updated.
+            </remarks>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.DeleteAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <summary>
+            Deletes all workflow definitions matching the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The number of workflow definitions deleted.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.AnyAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <summary>
+            Returns true if any workflow definition matches the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>True if any workflow definition matches the specified filter.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.CountDistinctAsync(System.Threading.CancellationToken)">
+            <summary>
+            Returns the number of logical workflow definitions.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore.GetIsNameUnique(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets a value indicating whether the specified name is unique.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="definitionId">The definition ID to exclude from the check.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IWorkflowInstanceFactory">
+            <summary>
+            Creates new <see cref="T:Elsa.Workflows.Management.Entities.WorkflowInstance"/> objects.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceFactory.CreateWorkflowState(Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest)">
+            <summary>
+            Creates a new <see cref="T:Elsa.Workflows.State.WorkflowState"/> object.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceFactory.CreateWorkflowInstance(Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest)">
+            <summary>
+            Creates a new <see cref="T:Elsa.Workflows.Management.Entities.WorkflowInstance"/> object.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IWorkflowInstanceManager">
+            <summary>
+            A service that manages workflow instances.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceManager.FindByIdAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves the workflow instance with the specified ID.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceManager.SaveAsync(Elsa.Workflows.Management.Entities.WorkflowInstance,System.Threading.CancellationToken)">
+            <summary>
+            Saves the specified workflow instance.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceManager.SaveAsync(Elsa.Workflows.State.WorkflowState,System.Threading.CancellationToken)">
+            <summary>
+            Maps the specified workflow state to a workflow instance and saves it.
+            </summary>
+            <param name="workflowState">The workflow state to map to a workflow instance.</param>
+            <param name="cancellationToken">An optional cancellation token.</param>
+            <returns>The workflow instance that was saved.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceManager.SaveAsync(Elsa.Workflows.WorkflowExecutionContext,System.Threading.CancellationToken)">
+            <summary>
+            Extracts the workflow state from the specified workflow execution context, maps it to a workflow instance and saves it.
+            </summary>
+            <param name="workflowExecutionContext">The workflow execution context to extract the workflow state from.</param>
+            <param name="cancellationToken">An optional cancellation token.</param>
+            <returns>The workflow instance that was saved.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceManager.DeleteAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <summary>
+            Deletes the first workflow instance that matches the specified filter.
+            </summary>
+            <param name="filter">The filter to use to select the workflow instance to delete.</param>
+            <param name="cancellationToken">An optional cancellation token.</param>
+            <returns>True if a workflow instance was deleted, otherwise false.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceManager.BulkDeleteAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <summary>
+            Deletes all workflow instances that match the specified filter.
+            </summary>
+            <param name="filter">The filter to use to select the workflow instances to delete.</param>
+            <param name="cancellationToken">An optional cancellation token.</param>
+            <returns>The number of workflow instances that were deleted.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceManager.ExtractWorkflowState(Elsa.Workflows.WorkflowExecutionContext)">
+            <summary>
+            Extracts the workflow state from the specified workflow execution context.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceManager.SerializeWorkflowStateAsync(Elsa.Workflows.State.WorkflowState,System.Threading.CancellationToken)">
+            <summary>
+            Serializes the specified workflow state.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceManager.CreateWorkflowInstanceAsync(Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest,System.Threading.CancellationToken)">
+            <summary>
+            Instantiates and saves a new workflow instance.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore">
+            <summary>
+            Represents a store of workflow instances.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.FindAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <summary>
+            Finds a workflow instance matching the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The workflow instance.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.FindManyAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <summary>
+            Returns a paginated list of workflow instances matching the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="pageArgs">The page arguments.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A paginated list of workflow instances.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.FindManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Common.Models.PageArgs,Elsa.Workflows.Management.Filters.WorkflowInstanceOrder{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns a paginated list of workflow instances matching the specified filter and order.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="pageArgs">The page arguments.</param>
+            <param name="order">The order.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <typeparam name="TOrderBy">The type of the property to order by.</typeparam>
+            <returns>A paginated list of workflow instances.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.FindManyAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <summary>
+            Returns a list of workflow instances matching the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A list of workflow instances.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.FindManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Workflows.Management.Filters.WorkflowInstanceOrder{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns a list of workflow instances matching the specified filter and order.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="order">The order.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <typeparam name="TOrderBy">The type of the property to order by.</typeparam>
+            <returns>A list of workflow instances.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.CountAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <summary>
+            Count the number of workflow instances matching the specified filter. 
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.SummarizeManyAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <summary>
+            Returns a paginated list of workflow instance summaries matching the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="pageArgs">The page arguments.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A paginated list of workflow instance summaries.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.SummarizeManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Common.Models.PageArgs,Elsa.Workflows.Management.Filters.WorkflowInstanceOrder{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns a paginated list of workflow instance summaries matching the specified filter and order.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="pageArgs">The page arguments.</param>
+            <param name="order">The order.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <typeparam name="TOrderBy">The type of the property to order by.</typeparam>
+            <returns>A paginated list of workflow instance summaries.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.FindManyIdsAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <summary>
+            Returns a list of workflow instance IDs matching the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A list of workflow instance IDs.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.FindManyIdsAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <summary>
+            Returns a paginated list of workflow instance IDs matching the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="pageArgs">The page arguments.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A paginated list of workflow instance IDs.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.FindManyIdsAsync``1(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Common.Models.PageArgs,Elsa.Workflows.Management.Filters.WorkflowInstanceOrder{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns a paginated list of workflow instance IDs matching the specified filter and order.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="pageArgs">The page arguments.</param>
+            <param name="order">The order.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <typeparam name="TOrderBy">The type of the property to order by.</typeparam>
+            <returns>A paginated list of workflow instance IDs.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.SummarizeManyAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <summary>
+            Returns a list of workflow instance summaries matching the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A list of workflow instance summaries.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.SummarizeManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Workflows.Management.Filters.WorkflowInstanceOrder{``0},System.Threading.CancellationToken)">
+            <summary>
+            Returns a list of workflow instance summaries matching the specified filter and order.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="order">The order.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <typeparam name="TOrder">The type of the property to order by.</typeparam>
+            <returns>A list of workflow instance summaries.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.SaveAsync(Elsa.Workflows.Management.Entities.WorkflowInstance,System.Threading.CancellationToken)">
+            <summary>
+            Adds or updates the specified <see cref="T:Elsa.Workflows.Management.Entities.WorkflowInstance"/> in the persistence store.
+            </summary>
+            <remarks>
+            If the record does not already exist, it is added to the store; if it does exist, its existing entry is updated.
+            </remarks>
+            <param name="instance">The workflow instance.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.SaveManyAsync(System.Collections.Generic.IEnumerable{Elsa.Workflows.Management.Entities.WorkflowInstance},System.Threading.CancellationToken)">
+            <summary>
+            Adds or updates the specified set of <see cref="T:Elsa.Workflows.Management.Entities.WorkflowInstance"/> objects in the persistence store.
+            </summary>
+            <param name="instances">The workflow instances.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <remarks>
+            If the record does not already exist, it is added to the store; if it does exist, its existing entry is updated.
+            </remarks>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore.DeleteAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <summary>
+            Deletes all workflow instances matching the specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The number of deleted workflow instances.</returns>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IWorkflowMaterializer">
+            <summary>
+            A service that can materialize a workflow from a workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Contracts.IWorkflowMaterializer.Name">
+            <summary>
+            The name of the materializer.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowMaterializer.MaterializeAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <summary>
+            Materializes a workflow from a workflow definition.
+            </summary>
+            <param name="definition">The workflow definition.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The materialized workflow.</returns>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IWorkflowSerializer">
+            <summary>
+            Serializes and deserializes workflows.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowSerializer.Serialize(Elsa.Workflows.Activities.Workflow)">
+            <summary>
+            Serializes the specified workflow.
+            </summary>
+            <param name="workflow">The workflow.</param>
+            <returns>A string representing the serialized workflow.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowSerializer.Deserialize(System.String)">
+            <summary>
+            Serializes the specified workflow.
+            </summary>
+            <param name="serializedWorkflow">The data representing the workflow.</param>
+            <returns>A deserialized workflow.</returns>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Contracts.IWorkflowValidator">
+            <summary>
+            Validates a workflow definition.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Contracts.IWorkflowValidator.ValidateAsync(Elsa.Workflows.Activities.Workflow,System.Threading.CancellationToken)">
+            <summary>
+            Validates a workflow.
+            </summary>
+            <param name="workflow">The workflow to validate.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A collection of validation errors.</returns>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Entities.WorkflowDefinition">
+            <summary>
+            Represents a versioned workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.DefinitionId">
+            <summary>
+            The logical ID of the workflow. This ID is the same across versions. 
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.Name">
+            <summary>
+            The name of the workflow.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.Description">
+            <summary>
+            A short description of what the workflow is about.  
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.ToolVersion">
+            <summary>
+            The version of the tool that created this workflow.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.Options">
+            <summary>
+            A set of options for the workflow.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.Variables">
+            <summary>
+            A set of workflow variables that are accessible throughout the workflow.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.Inputs">
+            <summary>
+            A set of input definitions.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.Outputs">
+            <summary>
+            A set of output definitions.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.Outcomes">
+            <summary>
+            A set of possible outcomes for this workflow.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.CustomProperties">
+            <summary>
+            Stores custom information about the workflow. Can be used to store application-specific properties to associate with the workflow.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.ProviderName">
+            <summary>
+            The name of the workflow provider that created this workflow, if any.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.MaterializerName">
+            <summary>
+            The name of the workflow materializer to interpret the <see cref="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.StringData"/> or <see cref="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.BinaryData"/>.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.MaterializerContext">
+            <summary>
+            Provider-specific data.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.StringData">
+            <summary>
+            A textual representation of the workflow. The data is to be interpreted by the configured materializer.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.BinaryData">
+            <summary>
+            A binary representation of the workflow. The data is to be interpreted by the configured materializer.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.IsReadonly">
+            <summary>
+            An option to use the workflow as a readonly workflow
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowDefinition.IsSystem">
+            <summary>
+            Specifies whether the workflow is a system workflow.
+            System workflows are provided by modules and are not meant to be modified by users.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Entities.WorkflowDefinition.ShallowClone">
+            <summary>
+            Creates and returns a shallow copy of the workflow definition.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Entities.WorkflowInstance">
+            <summary>
+            Represents a workflow instance.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.DefinitionId">
+            <summary>
+            The ID of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.DefinitionVersionId">
+            <summary>
+            The version ID of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.Version">
+            <summary>
+            The version of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.ParentWorkflowInstanceId">
+            <summary>
+            The ID of the parent workflow.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.WorkflowState">
+            <summary>
+            The state of the workflow instance.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.Status">
+            <summary>
+            The status of the workflow instance.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.SubStatus">
+            <summary>
+            The sub-status of the workflow instance.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.CorrelationId">
+            <summary>
+            The ID of the workflow instance.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.Name">
+            <summary>
+            The name of the workflow instance.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.IncidentCount">
+            <summary>
+            The number of incidents that have occurred during execution, if any.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.IsSystem">
+            <summary>
+            Gets or sets a value indicating whether the workflow instance is a system workflow.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.CreatedAt">
+            <summary>
+            The timestamp when the workflow instance was created.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.UpdatedAt">
+            <summary>
+            The timestamp when the workflow instance was last executed.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Entities.WorkflowInstance.FinishedAt">
+            <summary>
+            The timestamp when the workflow instance was finished.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Enums.TimestampFilterOperator">
+            <summary>
+            Specifies the operators for filtering timestamps in a TimestampFilter object.
+            </summary>
+        </member>
+        <member name="F:Elsa.Workflows.Management.Enums.TimestampFilterOperator.Is">
+            <summary>
+            The timestamp is equal to the specified value.
+            </summary>
+        </member>
+        <member name="F:Elsa.Workflows.Management.Enums.TimestampFilterOperator.IsNot">
+            <summary>
+            The timestamp is not equal to the specified value.
+            </summary>
+        </member>
+        <member name="F:Elsa.Workflows.Management.Enums.TimestampFilterOperator.LessThan">
+            <summary>
+            The timestamp is before the specified value.
+            </summary>
+        </member>
+        <member name="F:Elsa.Workflows.Management.Enums.TimestampFilterOperator.GreaterThan">
+            <summary>
+            The timestamp is greater than the specified value.
+            </summary>
+        </member>
+        <member name="F:Elsa.Workflows.Management.Enums.TimestampFilterOperator.LessThanOrEqual">
+            <summary>
+            The timestamp is less than or equal to the specified value.
+            </summary>
+        </member>
+        <member name="F:Elsa.Workflows.Management.Enums.TimestampFilterOperator.GreaterThanOrEqual">
+            <summary>
+            The timestamp is greater than or equal to the specified value.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.ActivityDescriberExtensions">
+            <summary>
+            Provides extension methods for <see cref="T:Elsa.Workflows.Contracts.IActivityDescriber"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.ActivityDescriberExtensions.DescribeOutputProperty``2(Elsa.Workflows.Contracts.IActivityDescriber,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Threading.CancellationToken)">
+            <summary>
+            Describes an output property.
+            </summary>
+            <param name="activityDescriber">The activity describer.</param>
+            <param name="expression">The property expression.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <typeparam name="TActivity">The type of the activity.</typeparam>
+            <typeparam name="TProperty">The type of the property.</typeparam>
+            <returns>The output descriptor.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.ActivityDescriberExtensions.DescribeInputPropertyAsync``2(Elsa.Workflows.Contracts.IActivityDescriber,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Threading.CancellationToken)">
+            <summary>
+            Describes an input property.
+            </summary>
+            <param name="activityDescriber">The activity describer.</param>
+            <param name="expression">The property expression.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <typeparam name="TActivity">The type of the activity.</typeparam>
+            <typeparam name="TProperty">The type of the property.</typeparam>
+            <returns>The input descriptor.</returns>
+        </member>
+        <member name="T:Elsa.Workflows.Management.WorkflowDefinitionExtensions">
+            <summary>
+            Extension methods for <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.WorkflowDefinitionExtensions.CreatedWithModernTooling(Elsa.Workflows.Management.Entities.WorkflowDefinition)">
+            <summary>
+            Returns true if the workflow definition was created with modern tooling (i.e. Elsa Studio 3.0+).
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Features.CachingWorkflowDefinitionsFeature">
+            <summary>
+            Configures workflow definition caching.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.CachingWorkflowDefinitionsFeature.#ctor(Elsa.Features.Services.IModule)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.CachingWorkflowDefinitionsFeature.Apply">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Features.DslIntegrationFeature">
+            <summary>
+            Installs JavaScript activities.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.DslIntegrationFeature.#ctor(Elsa.Features.Services.IModule)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.DslIntegrationFeature.MapActivityFunction(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Action{Elsa.Workflows.Contracts.IActivity})">
+            <summary>
+            Maps a function to an activity.
+            </summary>
+            <param name="functionName">The name of the function.</param>
+            <param name="activityTypeName">The name of the activity type.</param>
+            <param name="propertyNames">The names of the properties that are mapped to the function arguments.</param>
+            <param name="configure">An optional action that can be used to configure the activity.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.DslIntegrationFeature.ConfigureHostedServices">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.DslIntegrationFeature.Apply">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Features.WorkflowDefinitionsFeature">
+            <summary>
+            Configures workflow definition storage.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowDefinitionsFeature.#ctor(Elsa.Features.Services.IModule)">
+            <inheritdoc />
+        </member>
+        <member name="P:Elsa.Workflows.Management.Features.WorkflowDefinitionsFeature.WorkflowDefinitionStore">
+            <summary>
+            The factory to create new instances of <see cref="T:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowDefinitionsFeature.Apply">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Features.WorkflowInstancesFeature">
+            <summary>
+            Enables storage of workflow instances.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowInstancesFeature.#ctor(Elsa.Features.Services.IModule)">
+            <inheritdoc />
+        </member>
+        <member name="P:Elsa.Workflows.Management.Features.WorkflowInstancesFeature.WorkflowInstanceStore">
+            <summary>
+            The factory to create new instances of <see cref="T:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowInstancesFeature.Apply">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Features.WorkflowManagementFeature">
+            <summary>
+            Installs and configures the workflow management feature.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.#ctor(Elsa.Features.Services.IModule)">
+            <inheritdoc />
+        </member>
+        <member name="P:Elsa.Workflows.Management.Features.WorkflowManagementFeature.ActivityTypes">
+            <summary>
+            A set of activity types to make available to the system. 
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Features.WorkflowManagementFeature.VariableDescriptors">
+            <summary>
+            A set of variable types to make available to the system. 
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.AddActivity``1">
+            <summary>
+            Adds the specified activity type to the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.AddActivity(System.Type)">
+            <summary>
+            Adds the specified activity type to the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.AddActivitiesFrom``1">
+            <summary>
+            Adds all types implementing <see cref="T:Elsa.Workflows.Contracts.IActivity"/> to the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.AddActivities(System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Adds the specified activity types to the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.RemoveActivity``1">
+            <summary>
+            Removes the specified activity type from the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.RemoveActivity(System.Type)">
+            <summary>
+            Adds the specified activity type to the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.AddVariableType``1(System.String)">
+            <summary>
+            Adds the specified variable type to the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.AddVariableType(System.Type,System.String)">
+            <summary>
+            Adds the specified variable type to the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.AddVariableTypes(System.Collections.Generic.IEnumerable{System.Type},System.String)">
+            <summary>
+            Adds the specified variable types to the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.AddVariableTypes(System.Collections.Generic.IEnumerable{Elsa.Workflows.Management.Models.VariableDescriptor})">
+            <summary>
+            Adds the specified variable types to the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.SetCompressionAlgorithm(System.String)">
+            <summary>
+            Sets the compression algorithm to use for compressing workflow state.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.SetDefaultLogPersistenceMode(Elsa.Workflows.LogPersistenceMode)">
+            <summary>
+            Set the default Log Persistence mode to use for worflow state (default is Include)
+            </summary>
+            <param name="logPersistenceMode">The mode persistence value</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.UseReadOnlyMode(System.Boolean)">
+            <summary>
+            Enables or disables read-only mode for resources such as workflow definitions.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.Configure">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Features.WorkflowManagementFeature.Apply">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter">
+            <summary>
+            A specification to use when finding workflow definitions. Only non-null fields will be included in the conditional expression.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.Id">
+            <summary>
+            Filter by the ID of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.Ids">
+            <summary>
+            Filter by the IDs of the workflow definitions.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.DefinitionId">
+            <summary>
+            Filter by the ID of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.DefinitionIds">
+            <summary>
+            Filter by the IDs of the workflow definitions.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.VersionOptions">
+            <summary>
+            Filter by the version options.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.Name">
+            <summary>
+            Filter by the name of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.SearchTerm">
+            <summary>
+            Filter by the name or id of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.Names">
+            <summary>
+            Filter by the names of the workflow definitions.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.MaterializerName">
+            <summary>
+            Filter by the name of the workflow definition materializer.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.UsableAsActivity">
+            <summary>
+            Filter on workflows that are usable as activities.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.IsSystem">
+            <summary>
+            Filter on workflows that are system workflows.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.IsReadonly">
+            <summary>
+            Filter on workflows that are read-only.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter.Apply(System.Linq.IQueryable{Elsa.Workflows.Management.Entities.WorkflowDefinition})">
+            <summary>
+            Applies the filter to the specified queryable.
+            </summary>
+            <param name="queryable">The queryable to apply the filter to.</param>
+            <returns>The filtered queryable.</returns>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder`1">
+            <summary>
+            Represents the order by which to order the results of a query.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder`1.#ctor">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder`1.#ctor(System.Linq.Expressions.Expression{System.Func{Elsa.Workflows.Management.Entities.WorkflowDefinition,`0}},Elsa.Common.Entities.OrderDirection)">
+            <summary>
+            Creates a new instance of the <see cref="T:Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder`1"/> class.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter">
+            <summary>
+            A filter for querying workflow instances.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.Id">
+            <summary>
+            Filter workflow instances by ID.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.Ids">
+            <summary>
+            Filter workflow instances by IDs.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.SearchTerm">
+            <summary>
+            Filter workflow instances that match the specified search term.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.DefinitionId">
+            <summary>
+            Filter workflow instances by definition ID.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.DefinitionVersionId">
+            <summary>
+            Filter workflow instances by definition version ID.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.DefinitionIds">
+            <summary>
+            Filter workflow instances by definition IDs.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.DefinitionVersionIds">
+            <summary>
+            Filter workflow instances by definition version IDs.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.Version">
+            <summary>
+            Filter workflow instances by version.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.ParentWorkflowInstanceIds">
+            <summary>
+            Filter workflow instances by their parent instance IDs.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.CorrelationId">
+            <summary>
+            Filter workflow instances by correlation ID.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.CorrelationIds">
+            <summary>
+            Filter workflow instances by correlation IDs.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.WorkflowStatus">
+            <summary>
+            Filter workflow instances by status.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.WorkflowStatuses">
+            <summary>
+            Filter workflow instances by a set of statuses.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.WorkflowSubStatus">
+            <summary>
+            Filter workflow instances by sub-status.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.WorkflowSubStatuses">
+            <summary>
+            Filter workflow instances by a set of sub-status.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.HasIncidents">
+            <summary>
+            Filter workflow instances by whether they have incidents.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.IsSystem">
+            <summary>
+            Filter on workflows that are system workflows.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.TimestampFilters">
+            <summary>
+            Filter workflow instances by timestamp.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Filters.WorkflowInstanceFilter.Apply(System.Linq.IQueryable{Elsa.Workflows.Management.Entities.WorkflowInstance})">
+            <summary>
+            Applies the filter to the specified query.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Filters.WorkflowInstanceOrder`1">
+            <summary>
+            Represents the order by which to order the results of a query.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Filters.WorkflowInstanceOrder`1.#ctor">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Filters.WorkflowInstanceOrder`1.#ctor(System.Linq.Expressions.Expression{System.Func{Elsa.Workflows.Management.Entities.WorkflowInstance,`0}},Elsa.Common.Entities.OrderDirection)">
+            <summary>
+            Creates a new instance of the <see cref="T:Elsa.Workflows.Management.Filters.WorkflowInstanceOrder`1"/> class.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Handlers.DeleteWorkflowInstances">
+            <summary>
+            Deletes workflow instances when a workflow definition or version is deleted.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.DeleteWorkflowInstances.#ctor(Elsa.Workflows.Management.Contracts.IWorkflowInstanceManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elsa.Workflows.Management.Handlers.DeleteWorkflowInstances"/> class.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.DeleteWorkflowInstances.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionDeleting,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.DeleteWorkflowInstances.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionDeleting,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.DeleteWorkflowInstances.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionsDeleting,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.DeleteWorkflowInstances.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionsDeleting,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Handlers.EvictWorkflowDefinitionServiceCache">
+            <summary>
+            A workflow definition notifications handler for evicting the cache of the workflow definition service.
+            </summary>
+            <remarks>
+            This service listens for specific notifications and triggers cache invalidation operations accordingly.
+            </remarks>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.EvictWorkflowDefinitionServiceCache.#ctor(Elsa.Workflows.Management.Contracts.IWorkflowDefinitionCacheManager)">
+            <summary>
+            A workflow definition notifications handler for evicting the cache of the workflow definition service.
+            </summary>
+            <remarks>
+            This service listens for specific notifications and triggers cache invalidation operations accordingly.
+            </remarks>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.EvictWorkflowDefinitionServiceCache.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionPublishing,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.EvictWorkflowDefinitionServiceCache.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionRetracting,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.EvictWorkflowDefinitionServiceCache.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionDeleting,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.EvictWorkflowDefinitionServiceCache.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionsDeleting,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Handlers.RefreshActivityRegistry">
+            <summary>
+            Refreshes the <see cref="T:Elsa.Workflows.Contracts.IActivityRegistry"/> for the <see cref="T:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivityProvider"/> provider whenever an <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> is published, retracted or deleted.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.RefreshActivityRegistry.#ctor(Elsa.Workflows.Management.Contracts.IActivityRegistryPopulator)">
+            <summary>
+            Refreshes the <see cref="T:Elsa.Workflows.Contracts.IActivityRegistry"/> for the <see cref="T:Elsa.Workflows.Management.Activities.WorkflowDefinitionActivity.WorkflowDefinitionActivityProvider"/> provider whenever an <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> is published, retracted or deleted.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.RefreshActivityRegistry.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionPublished,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.RefreshActivityRegistry.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionRetracted,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.RefreshActivityRegistry.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionDeleted,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.RefreshActivityRegistry.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionsDeleted,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.RefreshActivityRegistry.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionCreated,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.RefreshActivityRegistry.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionDeleted,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Handlers.RefreshActivityRegistry.HandleAsync(Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionsDeleted,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.HostedServices.MapActivityDslFunctionsHostedService">
+            <summary>
+            Registers function activity descriptors with the DSL.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.HostedServices.MapActivityDslFunctionsHostedService.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Microsoft.Extensions.Options.IOptions{Elsa.Workflows.Management.Options.DslIntegrationOptions})">
+            <summary>
+            Registers function activity descriptors with the DSL.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.HostedServices.MapActivityDslFunctionsHostedService.StartAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.HostedServices.MapActivityDslFunctionsHostedService.StopAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Mappers.VariableDefinitionMapper">
+            <summary>
+            Maps <see cref="T:Elsa.Workflows.Memory.Variable"/>s to <see cref="T:Elsa.Workflows.Models.VariableDefinition"/>s and vice versa.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.VariableDefinitionMapper.#ctor(Elsa.Expressions.Contracts.IWellKnownTypeRegistry)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.VariableDefinitionMapper.Map(Elsa.Workflows.Models.VariableDefinition)">
+            <summary>
+            Maps a <see cref="T:Elsa.Workflows.Models.VariableDefinition"/> to a <see cref="T:Elsa.Workflows.Memory.Variable"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.VariableDefinitionMapper.Map(System.Collections.Generic.IEnumerable{Elsa.Workflows.Models.VariableDefinition})">
+            <summary>
+            Maps a list of <see cref="T:Elsa.Workflows.Models.VariableDefinition"/>s to a list of <see cref="T:Elsa.Workflows.Memory.Variable"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.VariableDefinitionMapper.Map(Elsa.Workflows.Memory.Variable)">
+            <summary>
+            Maps a <see cref="T:Elsa.Workflows.Memory.Variable"/> to a <see cref="T:Elsa.Workflows.Models.VariableDefinition"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.VariableDefinitionMapper.Map(System.Collections.Generic.IEnumerable{Elsa.Workflows.Memory.Variable})">
+            <summary>
+            Maps a list of <see cref="T:Elsa.Workflows.Memory.Variable"/>s to a list of <see cref="T:Elsa.Workflows.Models.VariableDefinition"/>s.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Mappers.WorkflowDefinitionMapper">
+            <summary>
+            Maps <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> to and from <see cref="T:Elsa.Workflows.Activities.Workflow"/> and <see cref="T:Elsa.Workflows.Management.Models.WorkflowDefinitionModel"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.WorkflowDefinitionMapper.#ctor(Elsa.Workflows.Contracts.IActivitySerializer,Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService,Elsa.Workflows.Management.Mappers.VariableDefinitionMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elsa.Workflows.Management.Mappers.WorkflowDefinitionMapper"/> class.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.WorkflowDefinitionMapper.Map(Elsa.Workflows.Management.Entities.WorkflowDefinition)">
+            <summary>
+            Maps a <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> to a <see cref="T:Elsa.Workflows.Activities.Workflow"/>.
+            </summary>
+            <param name="source">The source <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/>.</param>
+            <returns>The mapped <see cref="T:Elsa.Workflows.Activities.Workflow"/>.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.WorkflowDefinitionMapper.Map(Elsa.Workflows.Management.Models.WorkflowDefinitionModel)">
+            <summary>
+            Maps a <see cref="T:Elsa.Workflows.Management.Models.WorkflowDefinitionModel"/> to a <see cref="T:Elsa.Workflows.Activities.Workflow"/>.
+            </summary>
+            <param name="source">The source <see cref="T:Elsa.Workflows.Management.Models.WorkflowDefinitionModel"/>.</param>
+            <returns>The mapped <see cref="T:Elsa.Workflows.Activities.Workflow"/>.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.WorkflowDefinitionMapper.MapAsync(System.Collections.Generic.IEnumerable{Elsa.Workflows.Management.Entities.WorkflowDefinition},System.Threading.CancellationToken)">
+            <summary>
+            Maps many <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/>s to many <see cref="T:Elsa.Workflows.Management.Models.WorkflowDefinitionModel"/>s.
+            </summary>
+            <param name="source">The source <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/>s.</param>
+            <param name="cancellationToken">An optional cancellation token.</param>
+            <returns>The mapped <see cref="T:Elsa.Workflows.Management.Models.WorkflowDefinitionModel"/>s.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.WorkflowDefinitionMapper.MapAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <summary>
+            Maps a <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> to a <see cref="T:Elsa.Workflows.Activities.Workflow"/>.
+            </summary>
+            <param name="workflowDefinition">The source <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/>.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The mapped <see cref="T:Elsa.Workflows.Activities.Workflow"/>.</returns>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.WorkflowDefinitionMapper.Map(Elsa.Workflows.Activities.Workflow)">
+            <summary>
+            Maps a <see cref="T:Elsa.Workflows.Activities.Workflow"/> to a <see cref="T:Elsa.Workflows.Management.Models.WorkflowDefinitionModel"/>.
+            </summary>
+            <param name="workflow">The source <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/>.</param>
+            <returns>The mapped <see cref="T:Elsa.Workflows.Management.Models.WorkflowDefinitionModel"/>.</returns>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Mappers.WorkflowStateMapper">
+            <summary>
+            Maps a workflow state to a workflow instance.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.WorkflowStateMapper.Map(Elsa.Workflows.State.WorkflowState)">
+            <summary>
+            Maps a workflow state to a workflow instance.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Mappers.WorkflowStateMapper.Map(Elsa.Workflows.Management.Entities.WorkflowInstance)">
+            <summary>
+            Maps a workflow instance to a workflow state.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Materializers.ClrWorkflowMaterializer">
+            <summary>
+            A workflow materializer that deserializes workflows created in C# code.
+            </summary>
+        </member>
+        <member name="F:Elsa.Workflows.Management.Materializers.ClrWorkflowMaterializer.MaterializerName">
+            <summary>
+            The name of the materializer.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Materializers.ClrWorkflowMaterializer.#ctor(Elsa.Workflows.Contracts.IPayloadSerializer,Elsa.Workflows.Contracts.IWorkflowBuilderFactory,System.IServiceProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elsa.Workflows.Management.Materializers.ClrWorkflowMaterializer"/> class.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Materializers.ClrWorkflowMaterializer.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Materializers.ClrWorkflowMaterializer.MaterializeAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Materializers.ClrWorkflowMaterializerContext">
+            <summary>
+            Provides context for the CLR workflow materializer.
+            </summary>
+            <param name="WorkflowBuilderType">The type of the workflow builder.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Materializers.ClrWorkflowMaterializerContext.#ctor(System.Type)">
+            <summary>
+            Provides context for the CLR workflow materializer.
+            </summary>
+            <param name="WorkflowBuilderType">The type of the workflow builder.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Materializers.ClrWorkflowMaterializerContext.WorkflowBuilderType">
+            <summary>The type of the workflow builder.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Materializers.JsonWorkflowMaterializer">
+            <summary>
+            Materializes a <see cref="T:Elsa.Workflows.Activities.Workflow"/> from a <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/>'s JSON data.
+            </summary>
+        </member>
+        <member name="F:Elsa.Workflows.Management.Materializers.JsonWorkflowMaterializer.MaterializerName">
+            <summary>
+            The name of the materializer.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Materializers.JsonWorkflowMaterializer.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Materializers.JsonWorkflowMaterializer.#ctor(Elsa.Workflows.Management.Mappers.WorkflowDefinitionMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elsa.Workflows.Management.Materializers.JsonWorkflowMaterializer"/> class.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Materializers.JsonWorkflowMaterializer.MaterializeAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Materializers.TypedWorkflowMaterializer">
+            <summary>
+            A workflow materializer that deserializes workflows created in C# code.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Materializers.TypedWorkflowMaterializer.#ctor(Elsa.Workflows.Management.Mappers.WorkflowDefinitionMapper)">
+            <summary>
+            A workflow materializer that deserializes workflows created in C# code.
+            </summary>
+        </member>
+        <member name="F:Elsa.Workflows.Management.Materializers.TypedWorkflowMaterializer.MaterializerName">
+            <summary>
+            The name of the materializer.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Materializers.TypedWorkflowMaterializer.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Materializers.TypedWorkflowMaterializer.MaterializeAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Models.ImportWorkflowResult">
+            <summary>
+            Represents the result of importing a workflow definition.
+            </summary>
+            <param name="Succeeded">True if the import was successful, otherwise false.</param>
+            <param name="WorkflowDefinition">The imported workflow definition.</param>
+            <param name="ValidationErrors">Any validation errors that occurred during the import.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Models.ImportWorkflowResult.#ctor(System.Boolean,Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Collections.Generic.ICollection{Elsa.Workflows.Management.Models.WorkflowValidationError})">
+            <summary>
+            Represents the result of importing a workflow definition.
+            </summary>
+            <param name="Succeeded">True if the import was successful, otherwise false.</param>
+            <param name="WorkflowDefinition">The imported workflow definition.</param>
+            <param name="ValidationErrors">Any validation errors that occurred during the import.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.ImportWorkflowResult.Succeeded">
+            <summary>True if the import was successful, otherwise false.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.ImportWorkflowResult.WorkflowDefinition">
+            <summary>The imported workflow definition.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.ImportWorkflowResult.ValidationErrors">
+            <summary>Any validation errors that occurred during the import.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Models.PublishWorkflowDefinitionResult">
+            <summary>
+            Represents the result of publishing a workflow definition.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Models.PublishWorkflowDefinitionResult.#ctor(System.Boolean,System.Collections.Generic.ICollection{Elsa.Workflows.Management.Models.WorkflowValidationError})">
+            <summary>
+            Represents the result of publishing a workflow definition.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Models.SaveWorkflowDefinitionRequest">
+            <summary>
+            Represents a request to save a workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.SaveWorkflowDefinitionRequest.Model">
+            <summary>
+            The workflow definition to save.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.SaveWorkflowDefinitionRequest.Publish">
+            <summary>
+            Whether the workflow definition should be published.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Models.TimestampFilter">
+            <summary>
+            Represents a timestamp filter used for filtering data based on a specified timestamp column and operator.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.TimestampFilter.Column">
+            <summary>
+            Gets or sets the column to filter by.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.TimestampFilter.Operator">
+            <summary>
+            Gets or sets the operator to use for filtering.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.TimestampFilter.Timestamp">
+            <summary>
+            Gets or sets the timestamp to filter by.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Models.VariableDescriptor">
+            <summary>
+            Represents a description of a .NET type that can be used as a workflow variable.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Models.VariableDescriptor.#ctor(System.Type,System.String,System.String)">
+            <summary>
+            Represents a description of a .NET type that can be used as a workflow variable.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Models.WorkflowDefinitionModel">
+            <summary>
+            Represents a serializable workflow definition.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Models.WorkflowDefinitionModel.#ctor(System.String,System.String,System.String,System.String,System.DateTimeOffset,System.Int32,System.Version,System.Collections.Generic.ICollection{Elsa.Workflows.Models.VariableDefinition},System.Collections.Generic.ICollection{Elsa.Workflows.Models.InputDefinition},System.Collections.Generic.ICollection{Elsa.Workflows.Models.OutputDefinition},System.Collections.Generic.ICollection{System.String},System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean,System.Boolean,System.Boolean,System.Boolean,Elsa.Workflows.Models.WorkflowOptions,System.Nullable{System.Boolean},Elsa.Workflows.Contracts.IActivity)">
+            <summary>
+            Represents a serializable workflow definition.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Models.WorkflowDefinitionModel.#ctor">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary">
+            <summary>
+            A summary of a workflow definition.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.FromDefinition(Elsa.Workflows.Management.Entities.WorkflowDefinition)">
+            <summary>
+            Creates a new instance of the <see cref="T:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary"/> class from the specified <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> instance.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.FromDefinitionExpression">
+            <summary>
+            Creates a new instance of the <see cref="T:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary"/> class from the specified <see cref="T:Elsa.Workflows.Management.Entities.WorkflowDefinition"/> instance.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.Id">
+            <summary>
+            The version ID of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.DefinitionId">
+            <summary>
+            The ID of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.Name">
+            <summary>
+            The name of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.Description">
+            <summary>
+            The description of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.Version">
+            <summary>
+            The version of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.ToolVersion">
+            <summary>
+            The version of the tool that created the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.IsLatest">
+            <summary>
+            Whether this is the latest version of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.IsPublished">
+            <summary>
+            Whether this workflow definition is published.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.ProviderName">
+            <summary>
+            The provider name of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.MaterializerName">
+            <summary>
+            The materializer name of the workflow definition.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.CreatedAt">
+            <summary>
+            The timestamp when the workflow definition was created.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowDefinitionSummary.IsReadonly">
+            <summary>
+            Makes workflow
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Models.WorkflowInstanceId">
+            <summary>
+            Represents a workflow instance ID.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceId.Id">
+            <summary>
+            The ID of the workflow instance.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Models.WorkflowInstanceId.FromInstance(Elsa.Workflows.Management.Entities.WorkflowInstance)">
+            <summary>
+            Returns a model representing the workflow instance ID of the specified <see cref="T:Elsa.Workflows.Management.Entities.WorkflowInstance"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Models.WorkflowInstanceId.FromInstanceExpression">
+            <summary>
+            Returns a model representing the workflow instance ID of the specified <see cref="T:Elsa.Workflows.Management.Entities.WorkflowInstance"/>.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Models.WorkflowInstanceSummary">
+            <summary>
+            Represents a summary view of a <see cref="T:Elsa.Workflows.Management.Entities.WorkflowInstance"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.FromInstance(Elsa.Workflows.Management.Entities.WorkflowInstance)">
+            <summary>
+            Returns a summary view of the specified <see cref="T:Elsa.Workflows.Management.Entities.WorkflowInstance"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.FromInstanceExpression">
+            <summary>
+            Returns a summary view of the specified <see cref="T:Elsa.Workflows.Management.Entities.WorkflowInstance"/>.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.Id">
+            <summary>The ID of the workflow instance.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.DefinitionId">
+            <summary>The ID of the workflow definition.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.DefinitionVersionId">
+            <summary>The version ID of the workflow definition.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.Version">
+            <summary>The version of the workflow definition.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.Status">
+            <summary>The status of the workflow instance.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.SubStatus">
+            <summary>The sub-status of the workflow instance.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.CorrelationId">
+            <summary>The ID of the workflow instance.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.Name">
+            <summary>The name of the workflow instance.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.IncidentCount">
+            <summary>The number of incidents associated with the workflow instance.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.CreatedAt">
+            <summary>The timestamp when the workflow instance was created.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.UpdatedAt">
+            <summary>The timestamp when the workflow instance was last executed.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowInstanceSummary.FinishedAt">
+            <summary>The timestamp when the workflow instance was finished.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Models.WorkflowValidationError">
+            <summary>
+            Represents a validation error.
+            </summary>
+            <param name="Message">The error message.</param>
+            <param name="ActivityId">The Id of the activity that caused the error, if any.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Models.WorkflowValidationError.#ctor(System.String,System.String)">
+            <summary>
+            Represents a validation error.
+            </summary>
+            <param name="Message">The error message.</param>
+            <param name="ActivityId">The Id of the activity that caused the error, if any.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowValidationError.Message">
+            <summary>The error message.</summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Models.WorkflowValidationError.ActivityId">
+            <summary>The Id of the activity that caused the error, if any.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionCreated">
+            <summary>
+            A notification that is sent when a workflow definition is created.
+            </summary>
+            <param name="WorkflowDefinition">The workflow definition.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionCreated.#ctor(Elsa.Workflows.Management.Entities.WorkflowDefinition)">
+            <summary>
+            A notification that is sent when a workflow definition is created.
+            </summary>
+            <param name="WorkflowDefinition">The workflow definition.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowDefinitionCreated.WorkflowDefinition">
+            <summary>The workflow definition.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionDeleted">
+            <summary>
+            A notification that is sent when a workflow definition is deleted.
+            </summary>
+            <param name="DefinitionId">The ID of the workflow definition.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionDeleted.#ctor(System.String)">
+            <summary>
+            A notification that is sent when a workflow definition is deleted.
+            </summary>
+            <param name="DefinitionId">The ID of the workflow definition.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowDefinitionDeleted.DefinitionId">
+            <summary>The ID of the workflow definition.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionDeleting">
+            <summary>
+            A notification that is sent when a workflow definition is about to be deleted.
+            </summary>
+            <param name="DefinitionId">The ID of the workflow definition.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionDeleting.#ctor(System.String)">
+            <summary>
+            A notification that is sent when a workflow definition is about to be deleted.
+            </summary>
+            <param name="DefinitionId">The ID of the workflow definition.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowDefinitionDeleting.DefinitionId">
+            <summary>The ID of the workflow definition.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionPublished">
+            <summary>
+            A notification that is sent when a workflow definition is published.
+            </summary>
+            <param name="WorkflowDefinition">The workflow definition.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionPublished.#ctor(Elsa.Workflows.Management.Entities.WorkflowDefinition)">
+            <summary>
+            A notification that is sent when a workflow definition is published.
+            </summary>
+            <param name="WorkflowDefinition">The workflow definition.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowDefinitionPublished.WorkflowDefinition">
+            <summary>The workflow definition.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionPublishing">
+            <summary>
+            A notification that is sent when a workflow definition is about to be published.
+            </summary>
+            <param name="WorkflowDefinition">The workflow definition.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionPublishing.#ctor(Elsa.Workflows.Management.Entities.WorkflowDefinition)">
+            <summary>
+            A notification that is sent when a workflow definition is about to be published.
+            </summary>
+            <param name="WorkflowDefinition">The workflow definition.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowDefinitionPublishing.WorkflowDefinition">
+            <summary>The workflow definition.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionRetracted">
+            <summary>
+            A notification that is sent when a workflow definition is retracted.
+            </summary>
+            <param name="WorkflowDefinition">The workflow definition.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionRetracted.#ctor(Elsa.Workflows.Management.Entities.WorkflowDefinition)">
+            <summary>
+            A notification that is sent when a workflow definition is retracted.
+            </summary>
+            <param name="WorkflowDefinition">The workflow definition.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowDefinitionRetracted.WorkflowDefinition">
+            <summary>The workflow definition.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionRetracting">
+            <summary>
+            A notification that is sent when a workflow definition is about to be retracted.
+            </summary>
+            <param name="WorkflowDefinition">The workflow definition.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionRetracting.#ctor(Elsa.Workflows.Management.Entities.WorkflowDefinition)">
+            <summary>
+            A notification that is sent when a workflow definition is about to be retracted.
+            </summary>
+            <param name="WorkflowDefinition">The workflow definition.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowDefinitionRetracting.WorkflowDefinition">
+            <summary>The workflow definition.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionsDeleted">
+            <summary>
+            A notification that is sent when workflow definitions are deleted.
+            </summary>
+            <param name="DefinitionIds">The IDs of the workflow definitions.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionsDeleted.#ctor(System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            A notification that is sent when workflow definitions are deleted.
+            </summary>
+            <param name="DefinitionIds">The IDs of the workflow definitions.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowDefinitionsDeleted.DefinitionIds">
+            <summary>The IDs of the workflow definitions.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionsDeleting">
+            <summary>
+            A notification that is sent when workflow definitions are about to be deleted.
+            </summary>
+            <param name="DefinitionIds">The IDs of the workflow definitions.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionsDeleting.#ctor(System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            A notification that is sent when workflow definitions are about to be deleted.
+            </summary>
+            <param name="DefinitionIds">The IDs of the workflow definitions.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowDefinitionsDeleting.DefinitionIds">
+            <summary>The IDs of the workflow definitions.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionDeleted">
+            <summary>
+            A notification that is sent when a workflow definition version is deleted.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionDeleted.#ctor(Elsa.Workflows.Management.Entities.WorkflowDefinition)">
+            <summary>
+            A notification that is sent when a workflow definition version is deleted.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionDeleting">
+            <summary>
+            A notification that is sent when a workflow definition version is about to be deleted.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionDeleting.#ctor(Elsa.Workflows.Management.Entities.WorkflowDefinition)">
+            <summary>
+            A notification that is sent when a workflow definition version is about to be deleted.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionsDeleted">
+            <summary>
+            A notification that is sent when specific workflow definition versions are deleted.
+            </summary>
+            <param name="Ids">The IDs of the workflow definitions.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionsDeleted.#ctor(System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            A notification that is sent when specific workflow definition versions are deleted.
+            </summary>
+            <param name="Ids">The IDs of the workflow definitions.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionsDeleted.Ids">
+            <summary>The IDs of the workflow definitions.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionsDeleting">
+            <summary>
+            A notification that is sent when specific workflow definition versions are about to be deleted.
+            </summary>
+            <param name="Ids">The IDs of the workflow definitions.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionsDeleting.#ctor(System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            A notification that is sent when specific workflow definition versions are about to be deleted.
+            </summary>
+            <param name="Ids">The IDs of the workflow definitions.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowDefinitionVersionsDeleting.Ids">
+            <summary>The IDs of the workflow definitions.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowInstanceSaved">
+            <summary>
+            A notification that is sent when a workflow instance is saved.
+            </summary>
+            <param name="WorkflowInstance">The workflow instance.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowInstanceSaved.#ctor(Elsa.Workflows.Management.Entities.WorkflowInstance)">
+            <summary>
+            A notification that is sent when a workflow instance is saved.
+            </summary>
+            <param name="WorkflowInstance">The workflow instance.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowInstanceSaved.WorkflowInstance">
+            <summary>The workflow instance.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowInstancesDeleted">
+            <summary>
+            A notification that is sent when workflow instances are deleted.
+            </summary>
+            <param name="Ids">The IDs of the workflow instances.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowInstancesDeleted.#ctor(System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            A notification that is sent when workflow instances are deleted.
+            </summary>
+            <param name="Ids">The IDs of the workflow instances.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowInstancesDeleted.Ids">
+            <summary>The IDs of the workflow instances.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Notifications.WorkflowInstancesDeleting">
+            <summary>
+            A notification that is sent when workflow instances are about to be deleted.
+            </summary>
+            <param name="Ids">The IDs of the workflow instances.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Notifications.WorkflowInstancesDeleting.#ctor(System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            A notification that is sent when workflow instances are about to be deleted.
+            </summary>
+            <param name="Ids">The IDs of the workflow instances.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Notifications.WorkflowInstancesDeleting.Ids">
+            <summary>The IDs of the workflow instances.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Options.DslIntegrationOptions">
+            <summary>
+            Options for the DSL integration.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Options.DslIntegrationOptions.FunctionActivityDescriptors">
+            <summary>
+            A collection of function activity descriptors that are available to the DSL.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Options.ManagementOptions">
+            <summary>
+            Options for the management module.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Options.ManagementOptions.ActivityTypes">
+            <summary>
+            A collection of activity types that are available to the system.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Options.ManagementOptions.VariableDescriptors">
+            <summary>
+            A collection of types that are available to the system as variable types.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Options.ManagementOptions.CompressionAlgorithm">
+            <summary>
+            The format to use for compressing workflow state.
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Options.ManagementOptions.LogPersistenceMode">
+            <summary>
+            The default Log Persistence Mode to use for all the system
+            </summary>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Options.ManagementOptions.IsReadOnlyMode">
+            <summary>
+            A mode that does not allow editing workflows.
+            </summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Providers.DefaultExpressionDescriptorProvider">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Providers.DefaultExpressionDescriptorProvider.GetDescriptors">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Providers.TypedActivityProvider">
+            <summary>
+            Provides activity descriptors based on a list of activity types registered in the <see cref="T:Elsa.Workflows.Management.Options.ManagementOptions"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Providers.TypedActivityProvider.#ctor(Microsoft.Extensions.Options.IOptions{Elsa.Workflows.Management.Options.ManagementOptions},Elsa.Workflows.Contracts.IActivityDescriber)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elsa.Workflows.Management.Providers.TypedActivityProvider"/> class.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Providers.TypedActivityProvider.GetDescriptorsAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest">
+            Represents parameters for creating a workflow instance.
+        </member>
+        <member name="P:Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest.Workflow">
+            The workflow definition to create an instance of.
+        </member>
+        <member name="P:Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest.CorrelationId">
+            The correlation ID of the workflow, if any.
+        </member>
+        <member name="P:Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest.Input">
+            The input to the workflow instance, if any.
+        </member>
+        <member name="P:Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest.Properties">
+            Any properties to assign to the workflow instance.
+        </member>
+        <member name="P:Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest.WorkflowInstanceId">
+            A pre-created workflow instance ID that the new workflow instance should use. If not provided, a new ID will be generated.
+        </member>
+        <member name="P:Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest.ParentWorkflowInstanceId">
+            The ID of the parent workflow instance, if any.
+        </member>
+        <member name="T:Elsa.Workflows.Management.Requests.ValidateWorkflowRequest">
+            <summary>
+            A request to validate a workflow definition.
+            </summary>
+            <param name="Workflow">The workflow materialized from the definition.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Requests.ValidateWorkflowRequest.#ctor(Elsa.Workflows.Activities.Workflow)">
+            <summary>
+            A request to validate a workflow definition.
+            </summary>
+            <param name="Workflow">The workflow materialized from the definition.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Requests.ValidateWorkflowRequest.Workflow">
+            <summary>The workflow materialized from the definition.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Responses.ValidateWorkflowResponse">
+            <summary>
+            Provides a response to a <see cref="T:Elsa.Workflows.Management.Requests.ValidateWorkflowRequest"/>.
+            </summary>
+            <param name="ValidationErrors">The validation errors, if any.</param>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Responses.ValidateWorkflowResponse.#ctor(System.Collections.Generic.ICollection{Elsa.Workflows.Management.Models.WorkflowValidationError})">
+            <summary>
+            Provides a response to a <see cref="T:Elsa.Workflows.Management.Requests.ValidateWorkflowRequest"/>.
+            </summary>
+            <param name="ValidationErrors">The validation errors, if any.</param>
+        </member>
+        <member name="P:Elsa.Workflows.Management.Responses.ValidateWorkflowResponse.ValidationErrors">
+            <summary>The validation errors, if any.</summary>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.ActivityRegistryPopulator">
+            <summary>
+            Populates the <see cref="T:Elsa.Workflows.Contracts.IActivityRegistry"/> with descriptors provided by <see cref="T:Elsa.Workflows.Contracts.IActivityProvider"/>s. 
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.ActivityRegistryPopulator.#ctor(System.Collections.Generic.IEnumerable{Elsa.Workflows.Contracts.IActivityProvider},Elsa.Workflows.Contracts.IActivityRegistry)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.ActivityRegistryPopulator.PopulateRegistryAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.ActivityRegistryPopulator.PopulateRegistryAsync(System.Type,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.ActivityRegistryPopulator.AddToRegistry(System.Type,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.CachingWorkflowDefinitionService">
+            <summary>
+            Decorates an <see cref="T:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService"/> with caching capabilities.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.CachingWorkflowDefinitionService.#ctor(Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService,Elsa.Workflows.Management.Contracts.IWorkflowDefinitionCacheManager)">
+            <summary>
+            Decorates an <see cref="T:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService"/> with caching capabilities.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.CachingWorkflowDefinitionService.MaterializeWorkflowAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.CachingWorkflowDefinitionService.FindWorkflowDefinitionAsync(System.String,Elsa.Common.Models.VersionOptions,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.CachingWorkflowDefinitionService.FindWorkflowDefinitionAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.CachingWorkflowDefinitionService.FindWorkflowDefinitionAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.CachingWorkflowDefinitionService.FindWorkflowGraphAsync(System.String,Elsa.Common.Models.VersionOptions,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.CachingWorkflowDefinitionService.FindWorkflowGraphAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.CachingWorkflowDefinitionService.FindWorkflowGraphAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.CompressionCodecResolver">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.CompressionCodecResolver.#ctor(System.Collections.Generic.IEnumerable{Elsa.Workflows.Management.Contracts.ICompressionCodec})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elsa.Workflows.Management.Services.CompressionCodecResolver"/> class.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.CompressionCodecResolver.Resolve(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.ExpressionDescriptorRegistry">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.ExpressionDescriptorRegistry.#ctor(System.Collections.Generic.IEnumerable{Elsa.Expressions.Contracts.IExpressionDescriptorProvider})">
+            Represents a registry of expression descriptors.
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.ExpressionDescriptorRegistry.Add(Elsa.Expressions.Models.ExpressionDescriptor)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.ExpressionDescriptorRegistry.AddRange(System.Collections.Generic.IEnumerable{Elsa.Expressions.Models.ExpressionDescriptor})">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.ExpressionDescriptorRegistry.ListAll">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.ExpressionDescriptorRegistry.Find(System.Func{Elsa.Expressions.Models.ExpressionDescriptor,System.Boolean})">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.ExpressionDescriptorRegistry.Find(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.WorkflowDefinitionCacheManager">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionCacheManager.#ctor(Elsa.Caching.ICacheManager,Elsa.Workflows.Contracts.IHasher)">
+            <inheritdoc />
+        </member>
+        <member name="P:Elsa.Workflows.Management.Services.WorkflowDefinitionCacheManager.Cache">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionCacheManager.CreateWorkflowDefinitionVersionCacheKey(System.String,Elsa.Common.Models.VersionOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionCacheManager.CreateWorkflowDefinitionFilterCacheKey(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionCacheManager.CreateWorkflowVersionCacheKey(System.String,Elsa.Common.Models.VersionOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionCacheManager.CreateWorkflowVersionCacheKey(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionCacheManager.CreateWorkflowFilterCacheKey(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionCacheManager.CreateWorkflowDefinitionVersionCacheKey(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionCacheManager.CreateWorkflowDefinitionChangeTokenKey(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionCacheManager.EvictWorkflowDefinitionAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.WorkflowDefinitionImporter">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionImporter.#ctor(Elsa.Workflows.Contracts.IActivitySerializer,Elsa.Workflows.Management.Contracts.IWorkflowDefinitionPublisher,Elsa.Workflows.Management.Mappers.VariableDefinitionMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elsa.Workflows.Management.Services.WorkflowDefinitionImporter"/> class.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionImporter.ImportAsync(Elsa.Workflows.Management.Models.SaveWorkflowDefinitionRequest,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.WorkflowDefinitionManager">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionManager.#ctor(Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore,Elsa.Mediator.Contracts.INotificationSender,Elsa.Workflows.Management.Contracts.IWorkflowDefinitionPublisher,Elsa.Workflows.Contracts.IIdentityGenerator,Elsa.Workflows.Contracts.IActivitySerializer,Elsa.Workflows.Contracts.IActivityVisitor)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionManager.DeleteByDefinitionIdAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionManager.DeleteByIdAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionManager.BulkDeleteByDefinitionIdsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionManager.BulkDeleteByIdsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionManager.DeleteVersionAsync(System.String,System.Int32,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionManager.DeleteVersionAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionManager.RevertVersionAsync(System.String,System.Int32,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionManager.UpdateReferencesInConsumingWorkflows(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionManager.EnsureLastVersionIsLatestAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Ensures that the last version of a workflow definition is marked as "IsLatest = true".
+            </summary>
+            <param name="definitionId">The definition ID.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.WorkflowDefinitionPublisher">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionPublisher.#ctor(Elsa.Workflows.Management.Contracts.IWorkflowDefinitionService,Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore,Elsa.Mediator.Contracts.INotificationSender,Elsa.Workflows.Contracts.IIdentityGenerator,Elsa.Workflows.Contracts.IActivitySerializer,Elsa.Mediator.Contracts.IRequestSender,Elsa.Common.Contracts.ISystemClock)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionPublisher.New(Elsa.Workflows.Contracts.IActivity)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionPublisher.PublishAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionPublisher.PublishAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionPublisher.RetractAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionPublisher.RetractAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionPublisher.GetDraftAsync(System.String,Elsa.Common.Models.VersionOptions,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionPublisher.SaveDraftAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.WorkflowDefinitionService">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionService.#ctor(Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore,Elsa.Workflows.Contracts.IWorkflowGraphBuilder,System.Func{System.Collections.Generic.IEnumerable{Elsa.Workflows.Management.Contracts.IWorkflowMaterializer}})">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionService.MaterializeWorkflowAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionService.FindWorkflowDefinitionAsync(System.String,Elsa.Common.Models.VersionOptions,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionService.FindWorkflowDefinitionAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionService.FindWorkflowDefinitionAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionService.FindWorkflowGraphAsync(System.String,Elsa.Common.Models.VersionOptions,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionService.FindWorkflowGraphAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowDefinitionService.FindWorkflowGraphAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.WorkflowInstanceFactory">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceFactory.#ctor(Elsa.Workflows.Contracts.IIdentityGenerator,Elsa.Common.Contracts.ISystemClock)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceFactory.CreateWorkflowState(Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceFactory.CreateWorkflowInstance(Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.WorkflowInstanceManager">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceManager.#ctor(Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore,Elsa.Workflows.Management.Contracts.IWorkflowInstanceFactory,Elsa.Mediator.Contracts.INotificationSender,Elsa.Workflows.Management.Mappers.WorkflowStateMapper,Elsa.Workflows.Contracts.IWorkflowStateExtractor,Elsa.Workflows.Contracts.IWorkflowStateSerializer)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceManager.FindByIdAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceManager.SaveAsync(Elsa.Workflows.Management.Entities.WorkflowInstance,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceManager.SaveAsync(Elsa.Workflows.State.WorkflowState,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceManager.SaveAsync(Elsa.Workflows.WorkflowExecutionContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceManager.DeleteAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceManager.BulkDeleteAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceManager.ExtractWorkflowState(Elsa.Workflows.WorkflowExecutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceManager.SerializeWorkflowStateAsync(Elsa.Workflows.State.WorkflowState,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowInstanceManager.CreateWorkflowInstanceAsync(Elsa.Workflows.Management.Requests.CreateWorkflowInstanceRequest,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.WorkflowSerializer">
+            <summary>
+            A serializer that parses JSON.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowSerializer.#ctor(Elsa.Workflows.Contracts.IApiSerializer,Elsa.Workflows.Management.Mappers.WorkflowDefinitionMapper)">
+            <summary>
+            A serializer that parses JSON.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowSerializer.Serialize(Elsa.Workflows.Activities.Workflow)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowSerializer.Deserialize(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Services.WorkflowValidator">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowValidator.#ctor(Elsa.Mediator.Contracts.IRequestSender)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elsa.Workflows.Management.Services.WorkflowValidator"/> class.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Services.WorkflowValidator.ValidateAsync(Elsa.Workflows.Activities.Workflow,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore">
+            <summary>
+            A decorator for <see cref="T:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore"/> that caches workflow definitions.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.#ctor(Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore,Elsa.Caching.ICacheManager,Elsa.Workflows.Contracts.IHasher)">
+            <summary>
+            A decorator for <see cref="T:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore"/> that caches workflow definitions.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.FindAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.FindAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.FindManyAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.FindManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.FindManyAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.FindManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.FindSummariesAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.FindSummariesAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.FindSummariesAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.FindSummariesAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.FindLastVersionAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.SaveAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.SaveManyAsync(System.Collections.Generic.IEnumerable{Elsa.Workflows.Management.Entities.WorkflowDefinition},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.DeleteAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.AnyAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.CountDistinctAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.CachingWorkflowDefinitionStore.GetIsNameUnique(System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore">
+            <summary>
+            A memory implementation of <see cref="T:Elsa.Workflows.Management.Contracts.IWorkflowDefinitionStore"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.#ctor(Elsa.Common.Services.MemoryStore{Elsa.Workflows.Management.Entities.WorkflowDefinition})">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.FindAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.FindAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.FindManyAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.FindManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.FindManyAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.FindManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.FindSummariesAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.FindSummariesAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.FindSummariesAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.FindSummariesAsync``1(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,Elsa.Workflows.Management.Filters.WorkflowDefinitionOrder{``0},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.FindLastVersionAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.SaveAsync(Elsa.Workflows.Management.Entities.WorkflowDefinition,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.SaveManyAsync(System.Collections.Generic.IEnumerable{Elsa.Workflows.Management.Entities.WorkflowDefinition},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.DeleteAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.AnyAsync(Elsa.Workflows.Management.Filters.WorkflowDefinitionFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.CountDistinctAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowDefinitionStore.GetIsNameUnique(System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore">
+            <summary>
+            A non-persistent memory store for saving and loading <see cref="T:Elsa.Workflows.Management.Entities.WorkflowInstance"/> entities.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.#ctor(Elsa.Common.Services.MemoryStore{Elsa.Workflows.Management.Entities.WorkflowInstance})">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.FindAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.FindManyAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.FindManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Common.Models.PageArgs,Elsa.Workflows.Management.Filters.WorkflowInstanceOrder{``0},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.FindManyAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.FindManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Workflows.Management.Filters.WorkflowInstanceOrder{``0},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.CountAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.SummarizeManyAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.SummarizeManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Common.Models.PageArgs,Elsa.Workflows.Management.Filters.WorkflowInstanceOrder{``0},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.SummarizeManyAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.SummarizeManyAsync``1(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Workflows.Management.Filters.WorkflowInstanceOrder{``0},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.FindManyIdsAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.FindManyIdsAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Common.Models.PageArgs,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.FindManyIdsAsync``1(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,Elsa.Common.Models.PageArgs,Elsa.Workflows.Management.Filters.WorkflowInstanceOrder{``0},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.SaveAsync(Elsa.Workflows.Management.Entities.WorkflowInstance,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.SaveManyAsync(System.Collections.Generic.IEnumerable{Elsa.Workflows.Management.Entities.WorkflowInstance},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Workflows.Management.Stores.MemoryWorkflowInstanceStore.DeleteAsync(Elsa.Workflows.Management.Filters.WorkflowInstanceFilter,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Extensions.ActivityFactoryExtensions">
+            <summary>
+            Provides a set of extension methods for <see cref="T:Elsa.Workflows.Contracts.IActivityFactory"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.ActivityFactoryExtensions.Create``1(Elsa.Workflows.Contracts.IActivityFactory,Elsa.Workflows.Models.ActivityConstructorContext)">
+            <summary>
+            Creates an activity of the specified type.
+            </summary>
+            <param name="activityFactory">The activity factory.</param>
+            <param name="context">The activity constructor context.</param>
+            <typeparam name="T">The type of the activity to create.</typeparam>
+            <returns>The created activity.</returns>
+        </member>
+        <member name="T:Elsa.Extensions.ModuleExtensions">
+            <summary>
+            Provides extensions to the specified <see cref="T:Elsa.Features.Services.IModule"/>/
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.ModuleExtensions.UseWorkflowManagement(Elsa.Features.Services.IModule,System.Action{Elsa.Workflows.Management.Features.WorkflowManagementFeature})">
+            <summary>
+            Adds the workflow management feature to the specified module. 
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.ModuleExtensions.UseWorkflowDefinitions(Elsa.Workflows.Management.Features.WorkflowManagementFeature,System.Action{Elsa.Workflows.Management.Features.WorkflowDefinitionsFeature})">
+            <summary>
+            Adds the default workflow management feature to the specified module. 
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.ModuleExtensions.UseWorkflowInstances(Elsa.Workflows.Management.Features.WorkflowManagementFeature,System.Action{Elsa.Workflows.Management.Features.WorkflowInstancesFeature})">
+            <summary>
+            Adds the workflow instance feature to workflow management module. 
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.ModuleExtensions.UseDslIntegration(Elsa.Workflows.Management.Features.WorkflowManagementFeature,System.Action{Elsa.Workflows.Management.Features.DslIntegrationFeature})">
+            <summary>
+            Adds the Elsa DSL integration feature.
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.ModuleExtensions.AddActivitiesFrom``1(Elsa.Features.Services.IModule)">
+            <summary>
+            Adds all types implementing <see cref="T:Elsa.Workflows.Contracts.IActivity"/> to the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.ModuleExtensions.AddActivity``1(Elsa.Features.Services.IModule)">
+            <summary>
+            Adds the specified activity type to the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.ModuleExtensions.RemoveActivity``1(Elsa.Features.Services.IModule)">
+            <summary>
+            Removes the specified activity type from the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.ModuleExtensions.AddVariableType``1(Elsa.Features.Services.IModule,System.String)">
+            <summary>
+            Adds the specified variable type to the system.
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.ModuleExtensions.AddVariableTypeAndAlias``1(Elsa.Features.Services.IModule,System.String,System.String)">
+            <summary>
+            Adds a variable type and its alias to the specified module.
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.ModuleExtensions.UseCache(Elsa.Workflows.Management.Features.WorkflowManagementFeature,System.Action{Elsa.Workflows.Management.Features.CachingWorkflowDefinitionsFeature})">
+            <summary>
+            Adds caching stores feature to the workflow management feature.
+            </summary>
+        </member>
+        <member name="T:Elsa.Extensions.WorkflowExtensions">
+            <summary>
+            Provides a set of extension methods for <see cref="T:Elsa.Workflows.Activities.Workflow"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.WorkflowExtensions.WithVersion(Elsa.Workflows.Activities.Workflow,Elsa.Common.Models.VersionOptions)">
+            <summary>
+            Returns true if the specified workflow matches the specified version options.
+            </summary>
+            <param name="workflow">The workflow to check.</param>
+            <param name="version">The version options.</param>
+            <returns>True if the workflow matches the version options; otherwise, false.</returns>
+        </member>
+        <member name="M:Elsa.Extensions.WorkflowExtensions.WithVersion(System.Collections.Generic.IEnumerable{Elsa.Workflows.Activities.Workflow},Elsa.Common.Models.VersionOptions)">
+            <summary>
+            Applies the specified version options to the query.
+            </summary>
+            <param name="query">The query to apply the version options to.</param>
+            <param name="version">The version options.</param>
+            <returns>The query.</returns>
+        </member>
+        <member name="M:Elsa.Extensions.WorkflowExtensions.WithVersion(System.Linq.IQueryable{Elsa.Workflows.Activities.Workflow},Elsa.Common.Models.VersionOptions)">
+            <summary>
+            Applies the specified version options to the query.
+            </summary>
+            <param name="query">The query to apply the version options to.</param>
+            <param name="version">The version options.</param>
+            <returns>The query.</returns>
+        </member>
+        <member name="T:Elsa.Extensions.WorkflowInstanceStoreExtensions">
+            <summary>
+            Provides a set of extension methods for <see cref="T:Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.WorkflowInstanceStoreExtensions.FindAsync(Elsa.Workflows.Management.Contracts.IWorkflowInstanceStore,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Finds a workflow instance matching the specified ID.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions">
+            <summary>
+            Provides extension methods to <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> for various kinds of services and providers. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddActivityProvider``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers a <see cref="T:Elsa.Workflows.Contracts.IActivityProvider"/>.
+            </summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.ExperimentalAttribute">
+            <summary>
+            Indicates that an API is experimental and it may change in the future.
+            </summary>
+            <remarks>
+            This attribute allows call sites to be flagged with a diagnostic that indicates that an experimental
+            feature is used. Authors can use this attribute to ship preview features in their assemblies.
+            </remarks>
+        </member>
+        <member name="M:System.Diagnostics.CodeAnalysis.ExperimentalAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Diagnostics.CodeAnalysis.ExperimentalAttribute"/> class,
+            specifying the ID that the compiler will use when reporting a use of the API the attribute applies to.
+            </summary>
+            <param name="diagnosticId">The ID that the compiler will use when reporting a use of the API the attribute applies to.</param>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.ExperimentalAttribute.DiagnosticId">
+            <summary>
+            Gets the ID that the compiler will use when reporting a use of the API the attribute applies to.
+            </summary>
+            <value>The unique diagnostic ID.</value>
+            <remarks>
+            The diagnostic ID is shown in build output for warnings and errors.
+            <para>This property represents the unique ID that can be used to suppress the warnings or errors, if needed.</para>
+            </remarks>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.ExperimentalAttribute.UrlFormat">
+            <summary>
+            Gets or sets the URL for corresponding documentation.
+            The API accepts a format string instead of an actual URL, creating a generic URL that includes the diagnostic ID.
+            </summary>
+            <value>The format string that represents a URL to corresponding documentation.</value>
+            <remarks>An example format string is <c>https://contoso.com/obsoletion-warnings/{0}</c>.</remarks>
+        </member>
+        <member name="M:System.Runtime.CompilerServices.CollectionBuilderAttribute.#ctor(System.Type,System.String)">
+            <summary>
+            Initialize the attribute to refer to the <paramref name="methodName"/> method on the <paramref name="builderType"/> type.
+            </summary>
+            <param name="builderType">The type of the builder to use to construct the collection.</param>
+            <param name="methodName">The name of the method on the builder to use to construct the collection.</param>
+            <remarks>
+            <paramref name="methodName"/> must refer to a static method that accepts a single parameter of
+            type <see cref="T:System.ReadOnlySpan`1"/> and returns an instance of the collection being built containing
+            a copy of the data from that span.  In future releases of .NET, additional patterns may be supported.
+            </remarks>
+        </member>
+        <member name="P:System.Runtime.CompilerServices.CollectionBuilderAttribute.BuilderType">
+            <summary>
+            Gets the type of the builder to use to construct the collection.
+            </summary>
+        </member>
+        <member name="P:System.Runtime.CompilerServices.CollectionBuilderAttribute.MethodName">
+            <summary>
+            Gets the name of the method on the builder to use to construct the collection.
+            </summary>
+            <remarks>
+            This should match the metadata name of the target method.
+            For example, this might be ".ctor" if targeting the type's constructor.
+            </remarks>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.RequiresLocationAttribute">
+            <summary>
+            Reserved for use by a compiler for tracking metadata.
+            This attribute should not be used by developers in source code.
+            </summary>
+        </member>
+    </members>
+</doc>

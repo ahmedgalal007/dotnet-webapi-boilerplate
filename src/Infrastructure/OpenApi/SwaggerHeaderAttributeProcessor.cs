@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Ardalis.Specification.EntityFrameworkCore;
 using NSwag;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
@@ -33,7 +34,6 @@ public class SwaggerHeaderAttributeProcessor : IOperationProcessor
                 }
             });
         }
-
         return true;
     }
 }

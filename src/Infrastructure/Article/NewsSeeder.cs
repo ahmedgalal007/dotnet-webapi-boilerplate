@@ -3,7 +3,6 @@ using FSH.WebApi.Domain.Catalog;
 using FSH.WebApi.Infrastructure.Catalog;
 using FSH.WebApi.Infrastructure.Persistence.Context;
 using FSH.WebApi.Infrastructure.Persistence.Initialization;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Logging;
 using Serilog.Core;
 using System;

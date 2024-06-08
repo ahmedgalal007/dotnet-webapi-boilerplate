@@ -51,6 +51,8 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Databases\Host\" />
+      <Folder Include="PostMan\Collections\" />
+      <Folder Include="PostMan\Environments\" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Update="Roslynator.Analyzers" Version="4.12.0">

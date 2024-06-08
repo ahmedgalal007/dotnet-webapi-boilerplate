@@ -1,7 +1,8 @@
 {
   "CorsSettings": {
     "Angular": "http://localhost:4200",
-    "Blazor": "https://localhost:5002;https://www.mydomain.my",
-    "React": "http://localhost:3000"
+    "Blazor": "https://localhost:5002;https://www.mydomain.my;https://localhost:7052;https://localhost:7113",
+    "React": "http://localhost:3000",
+    "Elsa": "*"
   }
 }

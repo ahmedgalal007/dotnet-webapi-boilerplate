@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Asp.Versioning;
 using FSH.WebApi.Infrastructure.Auth;
 using FSH.WebApi.Infrastructure.BackgroundJobs;
 using FSH.WebApi.Infrastructure.Caching;
@@ -18,6 +19,7 @@ using FSH.WebApi.Infrastructure.Persistence.Initialization;
 using FSH.WebApi.Infrastructure.SecurityHeaders;
 using FSH.WebApi.Infrastructure.SEO;
 using FSH.WebApi.Infrastructure.Validations;
+using FSH.WebApi.Infrastructure.Workflow;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +39,7 @@ public static class Startup
         MapsterSettings.Configure();
         return services
             .AddApiVersioning()
+            .AddElsaWorkflow(config)
             .AddAuth(config)
             .AddBackgroundJobs(config)
             .AddCaching(config)
@@ -47,7 +50,7 @@ public static class Startup
             .AddPOLocalization(config)
             .AddMailing(config)
             .AddMediatR(c => c.RegisterServicesFromAssemblyContaining(typeof(Startup)))
-            // .AddMediatR(c => c.RegisterServicesFromAssemblyContaining(typeof(Assembly.GetExecutingAssembly()))))
+            // AddMediatR(c => c.RegisterServicesFromAssemblyContaining(typeof(Assembly.GetExecutingAssembly()))))
             .AddMultitenancy()
             .AddNotifications(config)
             .AddOpenApiDocumentation(config)
@@ -58,13 +61,21 @@ public static class Startup
             .AddServices();
     }
 
-    private static IServiceCollection AddApiVersioning(this IServiceCollection services) =>
+    private static IServiceCollection AddApiVersioning(this IServiceCollection services)
+    {
         services.AddApiVersioning(config =>
         {
             config.DefaultApiVersion = new ApiVersion(1, 0);
             config.AssumeDefaultVersionWhenUnspecified = true;
             config.ReportApiVersions = true;
+        })
+        .AddApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'VVV";
+            options.SubstituteApiVersionInUrl = true;
         });
+        return services;
+    }
 
     private static IServiceCollection AddHealthCheck(this IServiceCollection services) =>
         services.AddHealthChecks().AddCheck<TenantHealthCheck>("Tenant").Services;
@@ -93,8 +104,8 @@ public static class Startup
             .UseAuthorization()
             .UseRequestLogging(config)
             .UseHangfireDashboard(config)
+            .UseElsaWorkflow(config)
             .UseOpenApiDocumentation(config);
-
     public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder builder)
     {
         builder.MapControllers().RequireAuthorization();

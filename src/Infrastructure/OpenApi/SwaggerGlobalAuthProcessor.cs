@@ -44,16 +44,15 @@ public class SwaggerGlobalAuthProcessor : IOperationProcessor
             {
                 return true;
             }
-
             if (context.OperationDescription.Operation.Security?.Any() != true)
             {
                 (context.OperationDescription.Operation.Security ??= new List<OpenApiSecurityRequirement>()).Add(new OpenApiSecurityRequirement
-                {
                     {
-                        _name,
-                        Array.Empty<string>()
-                    }
-                });
+                        {
+                            _name,
+                            Array.Empty<string>()
+                        }
+                    });
             }
         }
 

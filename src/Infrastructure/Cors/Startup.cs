@@ -26,6 +26,8 @@ internal static class Startup
                 policy.AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
+                     // .WithExposedHeaders("*")
+                    .WithExposedHeaders("x-elsa-workflow-instance-id")
                     .WithOrigins(origins.ToArray())));
     }
 

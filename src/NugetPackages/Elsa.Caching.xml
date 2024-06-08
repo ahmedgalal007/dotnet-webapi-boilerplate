@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Elsa.Caching</name>
+    </assembly>
+    <members>
+        <member name="T:Elsa.Caching.ICacheManager">
+            <summary>
+            A thin wrapper around <see cref="T:Microsoft.Extensions.Caching.Memory.IMemoryCache"/>, allowing for centralized handling of cache entries.
+            </summary>
+        </member>
+        <member name="P:Elsa.Caching.ICacheManager.CachingOptions">
+            <summary>
+            Provides options for configuring caching.
+            </summary>
+        </member>
+        <member name="M:Elsa.Caching.ICacheManager.GetToken(System.String)">
+            <summary>
+            Gets a change token for the specified key.
+            </summary>
+        </member>
+        <member name="M:Elsa.Caching.ICacheManager.TriggerTokenAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Triggers the change token for the specified key.
+            </summary>
+        </member>
+        <member name="M:Elsa.Caching.ICacheManager.GetOrCreateAsync``1(System.Object,System.Func{Microsoft.Extensions.Caching.Memory.ICacheEntry,System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Gets an item from the cache, or creates it if it doesn't exist.
+            </summary>
+        </member>
+        <member name="T:Elsa.Caching.IChangeTokenSignaler">
+            <summary>
+            Provides change tokens for memory caches, allowing code to evict cache entries by triggering a signal.
+            </summary>
+        </member>
+        <member name="M:Elsa.Caching.IChangeTokenSignaler.GetToken(System.String)">
+            <summary>
+            Gets a change token for the specified key.
+            </summary>
+        </member>
+        <member name="M:Elsa.Caching.IChangeTokenSignaler.TriggerTokenAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Triggers the change token for the specified key.
+            </summary>
+        </member>
+        <member name="T:Elsa.Caching.Features.MemoryCacheFeature">
+            <summary>
+            Configures the MemoryCache.
+            </summary>
+        </member>
+        <member name="M:Elsa.Caching.Features.MemoryCacheFeature.#ctor(Elsa.Features.Services.IModule)">
+            <summary>
+            Configures the MemoryCache.
+            </summary>
+        </member>
+        <member name="P:Elsa.Caching.Features.MemoryCacheFeature.CachingOptions">
+            <summary>
+            A delegate to configure the <see cref="P:Elsa.Caching.Features.MemoryCacheFeature.CachingOptions"/>.
+            </summary>
+        </member>
+        <member name="M:Elsa.Caching.Features.MemoryCacheFeature.Apply">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Caching.Options.CachingOptions">
+            <summary>
+            Provides options for configuring caching.
+            </summary>
+        </member>
+        <member name="P:Elsa.Caching.Options.CachingOptions.CacheDuration">
+            <summary>
+            Gets or sets the duration for which cache entries are stored.
+            </summary>
+        </member>
+        <member name="T:Elsa.Caching.Services.CacheManager">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Caching.Services.CacheManager.#ctor(Microsoft.Extensions.Caching.Memory.IMemoryCache,Elsa.Caching.IChangeTokenSignaler,Microsoft.Extensions.Options.IOptions{Elsa.Caching.Options.CachingOptions})">
+            <inheritdoc />
+        </member>
+        <member name="P:Elsa.Caching.Services.CacheManager.CachingOptions">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Caching.Services.CacheManager.GetToken(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Caching.Services.CacheManager.TriggerTokenAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Caching.Services.CacheManager.GetOrCreateAsync``1(System.Object,System.Func{Microsoft.Extensions.Caching.Memory.ICacheEntry,System.Threading.Tasks.Task{``0}})">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Caching.Services.ChangeTokenSignaler">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Caching.Services.ChangeTokenSignaler.GetToken(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Elsa.Caching.Services.ChangeTokenSignaler.TriggerTokenAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Elsa.Extensions.ModuleExtensions">
+            <summary>
+            Provides methods to install and configure the distributed caching feature.
+            </summary>
+        </member>
+        <member name="M:Elsa.Extensions.ModuleExtensions.UseMemoryCache(Elsa.Features.Services.IModule,System.Action{Elsa.Caching.Features.MemoryCacheFeature})">
+            <summary>
+            Adds the <see cref="T:Elsa.Caching.Features.MemoryCacheFeature"/> feature to the system.
+            </summary>
+        </member>
+    </members>
+</doc>
