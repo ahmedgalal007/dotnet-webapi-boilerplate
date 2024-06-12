@@ -43,6 +43,7 @@ using Microsoft.Extensions.Logging;
 using FSH.WebApi.Application.Common.Localization;
 using System;
 using Jint;
+using Elsa.Workflows.Management.Stores;
 
 namespace FSH.WebApi.Infrastructure.Workflow;
 internal static class Startup
@@ -87,7 +88,6 @@ internal static class Startup
             })
             // .UseIdentity("48587230567A646D394B435A6277734A-4802fa49-e91e-45e8-b00f-b5492377e20b")
             .UseElsaDefaultAuthentication();
-            // Configure Management layer to use EF Core.
             elsa.UseWorkflowManagement(
                 management =>
                 {
@@ -106,7 +106,7 @@ internal static class Startup
                     //    management.UseCache();
 
                     // management.SetDefaultLogPersistenceMode(LogPersistenceMode.Inherit);
-                    // management.UseReadOnlyMode(false);
+                    management.UseReadOnlyMode(false);
                 });
             elsa.UseScheduling(scheduling =>
              {
@@ -120,9 +120,6 @@ internal static class Startup
              {
                  api.AddFastEndpointsAssembly<HttpHelloWorld>();
              });
-            // elsa.UseRealTimeWorkflows();
-            // Configure Runtime layer to use EF Core.
-            /*elsa.UseWorkflowRuntime(runtime => runtime.UseEntityFrameworkCore(R => R.UsePersistenceDb(storageSettings.StorageProvider, storageSettings.ConnectionString, config)));*/
             elsa.UseCSharp(options =>
              {
                  options.AppendScript("string Greet(string name) => $\"Hello {name}!\";");
@@ -147,117 +144,22 @@ internal static class Startup
                 };
             })
             .UseLiquid(liquid => liquid.FluidOptions = options => options.Encoder = HtmlEncoder.Default);
-            /*elsa.UseHttp(http =>
-            {
-                http.ConfigureHttpOptions = options => config.GetSection("ElsaSettings:Http").Bind(options);
-
-                // if (useCaching)
-                //    http.UseCache();
-            });
-            elsa.UseEmail(email => email.ConfigureOptions = options => config.GetSection("ElsaSettings:Smtp").Bind(options));*/
-
-            //var settings = config.GetSection($"{nameof(SecuritySettings)}:{nameof(JwtSettings)}").Get<JwtSettings>();
-            //elsa.UseIdentity(identity =>
-            //{
-
-            //    identity.TokenOptions = options => options.SigningKey = settings.Key; // This key needs to be at least 256 bits long.
-            //    // identity.TokenOptions = options => options.SigningKey = ""; // This key needs to be at least 256 bits long.
-            //    identity.UseAdminUserProvider();
-            //});
-
-            // Configure ASP.NET authentication/ authorization.
-            // elsa.UseDefaultAuthentication(auth => auth.UseAdminApiKey());
-
-            // elsa.UseDefaultAuthentication();
-
-            // elsa.UseElsaDefaultAuthentication(auth => auth.UseAdminApiKey());
-            // elsa.UseElsaDefaultAuthentication();
-
-            // elsa.UseLiquid();
-
-            // Setup a SignalR hub for real-time updates from the server.
-
-
-
-            // Add FastEndpoints.
-            //elsa.UseWorkflowsApi()
-
-            // Enable SAS tokens.
-            //.UseSasTokens()
-            //.UseRealTimeWorkflows()
-            //.UseWorkflowsApi()
-            //.UseScheduling();
-
-            //elsa.UseHttp(http => http.ConfigureHttpOptions = options =>
-            //{
-            //    options.BaseUrl = new Uri("https://localhost:5001");
-            //    options.BasePath = "/workflows";
-            //});
-            //elsa.AddWorkflow<HttpHelloWorld>();
-
-            // elsa.AddOpenApi();
-            ;
-            // Register custom activities from the application, if any.
 
             elsa.UseWorkflowContexts();
 
             elsa.AddOpenApi();
-            // elsa.AddSwagger();
-            // elsa.AddElsaOpenApi(config);
             elsa.AddFastEndpointsAssembly<HttpHelloWorld>();
         });
-        
-        //services.AddSwaggerGen(option =>
-        //{
-        //    // issue for Elsa fix
-        //    option.CustomSchemaIds(type => type.ToString());
-
-        //    // ¹w³]¨Ï¥ÎJWT token
-        //    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-        //    {
-        //        In = ParameterLocation.Header,
-        //        Description = "Enter: ApiKey [your API key]",
-        //        Name = "Authorization",
-        //        Type = SecuritySchemeType.ApiKey,
-        //        BearerFormat = "JWT",
-        //        Scheme = "Bearer"
-        //    });
-        //    option.AddSecurityRequirement(new OpenApiSecurityRequirement
-        //    {
-        //        {
-        //            new OpenApiSecurityScheme
-        //            {
-        //                Reference = new OpenApiReference
-        //                {
-        //                    Type = ReferenceType.SecurityScheme,
-        //                    Id = "Bearer"
-        //                }
-        //            },
-        //            new string[] { }
-        //        }
-        //    });
-        //});
         return services;
     }
 
     internal static IApplicationBuilder UseElsaWorkflow(this IApplicationBuilder app, IConfiguration config)
     {
-        // app.UseCors(CorsPolicy);
-        // Elsa API endpoints for designer.
         var routePrefix = app.ApplicationServices.GetRequiredService<IOptions<HttpActivityOptions>>().Value.ApiRoutePrefix;
         app.UseWorkflowsApi(routePrefix);
-        // Captures unhandled exceptions and returns a JSON response.
         app.UseJsonSerializationErrorHandler();
-
-        // Elsa HTTP Endpoint activities.
         app.UseWorkflows();
-
-        // Swagger API documentation.
-        // app.UseOpenApi();
-        return app; // .UseSwaggerUI();
-        //return app.UseWorkflowsApi() // Use Elsa API endpoints
-        //            .UseWorkflows() // Use Elsa middleware to handle HTTP requests mapped to HTTP Endpoint activities
-        //            .UseWorkflowsSignalRHubs(); // Optional SignalR integration. Elsa Studio uses SignalR to receive real-time updates from the server
+        return app;
     }
 
     public static EFCoreWorkflowRuntimePersistenceFeature UsePersistenceDb(this EFCoreWorkflowRuntimePersistenceFeature feature, string dbProvider, string connectionString, IConfiguration config) =>
