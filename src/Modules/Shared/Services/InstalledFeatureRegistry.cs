@@ -1,11 +1,7 @@
-﻿using FSH.WebApi.Modules.Shared.Abstraction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Soft.Square.Modules.Shared.Abstraction;
+using Soft.Square.Modules.Shared.Contracts;
 
-namespace FSH.WebApi.Modules.Shared.Services;
+namespace Soft.Square.Modules.Shared.Services;
 
 /// <inheritdoc />
 public class InstalledFeatureRegistry : IInstalledFeatureRegistry

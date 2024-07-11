@@ -34,7 +34,7 @@ public class CategorySeeder : ICustomSeeder
             // As an example, I am using a JSON file to populate the database.
 
             Category obj1 = Category.Create(cultureCode: "ar", name: "تصنيف 1", description: string.Empty, color: "#fff");
-            obj1.Update(cultureCode: "en", name: "Category 1", description: string.Empty, null);
+            obj1.Update(cultureCode: "en", name: "Category 1", description: string.Empty, null, null);
 
             //Category obj = new Category("تصنيف 1", "", "#fff", "ar")
             //{

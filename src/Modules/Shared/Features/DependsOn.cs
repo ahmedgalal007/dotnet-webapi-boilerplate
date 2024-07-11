@@ -1,5 +1,5 @@
 ﻿
-namespace FSH.WebApi.Modules.Shared.Features;
+namespace Soft.Square.Modules.Shared.Features;
 
 /// <summary>
 /// Specifies that the feature depends on another feature.

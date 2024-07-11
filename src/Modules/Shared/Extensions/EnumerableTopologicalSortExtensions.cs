@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FSH.WebApi.Modules.Shared.Extensions;
+﻿
+namespace Soft.Square.Modules.Shared.Extensions;
 
 /// <summary>
 /// Adds extension methods to sort collections by their dependencies, also known as a topological sort.

@@ -34,13 +34,14 @@ namespace Domain.Test.Article
             string? name = null;
             string? description = null;
             string? color = null;
-
+            List<LocalizedCategory>? locals = null;
             // Act
             var result = category.Update(
                 cultureCode,
                 name,
                 description,
-                color);
+                color,
+                locals);
 
             // Assert
             Assert.Fail();

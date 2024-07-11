@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace FSH.WebApi.Modules.Shared.Abstraction;
+namespace Soft.Square.Modules.Shared.Contracts;
 /// <summary>
 /// A thin abstraction on top of <see cref="IServiceCollection"/> to help organize features and dependencies. 
 /// </summary>

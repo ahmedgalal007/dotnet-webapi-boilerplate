@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace FSH.WebApi.Modules.Shared.Features;
+namespace Soft.Square.Modules.Shared.Contracts;
 
 public record AuthorizeLoggingEndpointContext(/*HttpContext HttpContext, Workflow Workflow,*/ string? Policy = default);
 public interface ILoggingEndpointAuthorizationHandler

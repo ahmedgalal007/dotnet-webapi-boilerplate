@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Soft.Square.Modules.Shared.Abstraction;
 
-namespace FSH.WebApi.Modules.Shared.Abstraction;
+namespace Soft.Square.Modules.Shared.Contracts;
 
 /// <summary>
 /// Represents a registry of installed features.

@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Soft.Square.Modules.Shared.Contracts;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 
-namespace FSH.WebApi.Modules.Shared.Abstraction;
+namespace Soft.Square.Modules.Shared.Abstraction;
 
 
 /// <summary>

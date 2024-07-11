@@ -1,4 +1,6 @@
 ﻿using FSH.WebApi.Domain.Common.Localizations;
+using FSH.WebApi.Domain.Keywords;
+using FSH.WebApi.Domain.ValueObjects;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -33,7 +35,7 @@ public class Category : LocalizedEntity<LocalizedCategory>, IAggregateRoot
         return category;
     }
 
-    public Category Update(string? cultureCode, string? name, string? description, string? color)
+    public Category Update(string? cultureCode, string? name, string? description, string? color, List<LocalizedCategory>? locals)
     {
         // if (string.IsNullOrWhiteSpace(cultureCode))
             // cultureCode = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
@@ -75,8 +77,60 @@ public class Category : LocalizedEntity<LocalizedCategory>, IAggregateRoot
         return this;
     }
 
-    //protected override LocalizedCategory CreateLocal(string cultureCode)
-    //{
-    //    return LocalizedCategory.Create(Id, cultureCode, string.Empty, string.Empty);
-    //}
+    public override void UpdateLocals(ICollection<LocalizedCategory> list)
+    {
+        base.UpdateLocals(list);
+        foreach (var item in list.Where(e => e.Id != null || e.Id != default))
+        {
+            // AddOrUpdateLocal(item);
+
+            UpdateLocalOfCategory(item);
+        }
+    }
+
+    public Category AddOrUpdateLocal(string cultureCode, string name, string? description, bool enabled = true, bool isDefault= false)
+    {
+        LocalizedCategory localizedCategory = GetLocal(cultureCode) ?? LocalizedCategory.Create(this.Id, cultureCode, name, description, enabled, isDefault);
+
+        AddOrUpdateLocal(localizedCategory);
+
+        return this;
+    }
+
+    public Category AddOrUpdateLocal(LocalizedCategory local)
+    {
+        bool isCreate = local.Id == Guid.Empty || local.Id == default || GetLocal(local.CulturCode) == null;
+        if (isCreate)
+        {
+            AddLocalToCategory(local);
+        }
+        else
+        {
+            UpdateLocalOfCategory(local);
+        }
+
+        return this;
+    }
+
+    public Category AddLocalToCategory(LocalizedCategory local)
+    {
+        if (local.Id == Guid.Empty || local.Id == default || GetLocal(local.CulturCode) == null)
+        {
+            Locals.Add(local);
+            AddLanguage(local.CulturCode);
+
+            return this;
+        }
+
+        throw new Exception(string.Format("Translation {0} already exists.", local.CulturCode));
+    }
+
+    public Category UpdateLocalOfCategory(LocalizedCategory local)
+    {
+        LocalizedCategory? localizedCategory = GetLocal(local.CulturCode) ?? throw new Exception(string.Format("Teanslation {0} not existing try to Add it.", local.CulturCode));
+        localizedCategory.Update(local.Name, local.Description, local.Enabled, local.IsDefault);
+        SetLanguagesFromLocals();
+
+        return this;
+    }
 }

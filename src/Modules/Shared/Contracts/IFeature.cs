@@ -1,12 +1,6 @@
 ﻿using JetBrains.Annotations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FSH.WebApi.Modules.Shared.Abstraction;
+namespace Soft.Square.Modules.Shared.Contracts;
 
 /// <summary>
 /// Represents a feature.

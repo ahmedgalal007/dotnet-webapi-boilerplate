@@ -1,12 +1,8 @@
-﻿using FSH.WebApi.Modules.Shared.Abstraction;
+﻿using Soft.Square.Modules.Shared.Abstraction;
+using Soft.Square.Modules.Shared.Contracts;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FSH.WebApi.Modules.Shared.Features;
+namespace Soft.Square.Modules.Shared.Features;
 public class LogFeature : FeatureBase
 {
     public LogFeature(IModule module) : base(module)

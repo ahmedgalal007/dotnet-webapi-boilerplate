@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace FSH.WebApi.Modules.Shared.Abstraction;
+namespace Soft.Square.Modules.Shared.Abstraction;
 
 /// <summary>
 /// Represents a feature descriptor.

@@ -1,4 +1,4 @@
-﻿using FSH.WebApi.Modules.Shared.Abstraction;
+﻿using Soft.Square.Modules.Shared.Abstraction;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -12,11 +12,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using FSH.WebApi.Modules.Shared.Services;
-using FSH.WebApi.Modules.Shared.Features;
-using FSH.WebApi.Modules.Shared.Extensions;
+using Soft.Square.Modules.Shared.Services;
+using Soft.Square.Modules.Shared.Features;
+using Soft.Square.Modules.Shared.Extensions;
+using Soft.Square.Modules.Shared.Contracts;
 
-namespace FSH.WebApi.Modules.Shared;
+namespace Soft.Square.Modules.Shared;
 
 /// <inheritdoc />
 public class Module : IModule

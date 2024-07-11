@@ -1,8 +1,9 @@
-﻿namespace FSH.WebApi.Application.Article.Categories;
+﻿using FSH.WebApi.Application.Common.Localization;
 
-public class LocalizedCategoryDto : IDto
+namespace FSH.WebApi.Application.Article.Categories;
+
+public class LocalizedCategoryDto : LocalizedDto
 {
-    public string culturCode { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 }

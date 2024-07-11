@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FSH.WebApi.Modules.Shared.Features;
+﻿
+namespace Soft.Square.Modules.Shared.Features;
 
 /// <summary>
 /// Specifies that the feature is enabled automatically when the specified feature is enabled.

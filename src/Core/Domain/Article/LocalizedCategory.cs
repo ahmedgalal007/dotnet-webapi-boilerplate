@@ -14,7 +14,7 @@ public class LocalizedCategory : AuditableLocalizedEntity
     public string Description { get; private set; } = string.Empty;
 
 
-    public static LocalizedCategory Create(Guid categoryId, string cultureCode, string name, string description)
+    public static LocalizedCategory Create(Guid categoryId, string cultureCode, string name, string description, bool enabled=true, bool isDefault = false)
     {
         return new LocalizedCategory()
         {
@@ -22,6 +22,8 @@ public class LocalizedCategory : AuditableLocalizedEntity
             CulturCode = cultureCode,
             Name = name,
             Description = description,
+            Enabled = enabled,
+            IsDefault = isDefault
         };
     }
 
@@ -35,10 +37,12 @@ public class LocalizedCategory : AuditableLocalizedEntity
         };
     }
 
-    public LocalizedCategory Update(string? name, string? description)
+    public LocalizedCategory Update(string? name, string? description,bool enabled=true, bool isDefault=false)
     {
         if (name is not null && Name.Equals(name) is not true) Name = name;
         if (description is not null && Description.Equals(description) is not true) Description = description;
+        if (Enabled.Equals(enabled) is not true) Enabled = enabled;
+        if (IsDefault.Equals(isDefault) is not true) IsDefault = isDefault;
         return this;
     }
 
