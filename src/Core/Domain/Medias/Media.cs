@@ -13,8 +13,8 @@ public class Media : MediaBaseEntity<LocalizedMedia>, IAggregateRoot
     public virtual IEnumerable<Album>? Albums { get; set; } = new List<Album>();
     public virtual IEnumerable<News>? News { get; set; } = new List<News>();
 
-    //protected override LocalizedMedia CreateLocal(string cultureCode)
-    //{
-    //    return LocalizedMedia.Create();
-    //}
+    protected virtual LocalizedMedia CreateLocal(string cultureCode)
+    {
+        return LocalizedMedia.Create();
+    }
 }

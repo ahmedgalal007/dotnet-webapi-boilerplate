@@ -23,54 +23,56 @@ public class LookupService : ILookupService
         _context = context;
     }
 
-    public static List<Lookup> Lookups = new List<Lookup> {
-        new Lookup{ EName = "Category", EType= typeof(Category), TitleFieldName = "Name" },
-        new Lookup{ EName = "Keyword", EType= typeof(Keyword)},
-        new Lookup{ EName = "UserName", EType= typeof(ApplicationUser), TitleFieldName="UserName"},
-        new Lookup{ EName = "UserEmail", EType= typeof(ApplicationUser), TitleFieldName="Email"},
-        new Lookup{ EName = "Role", EType= typeof(ApplicationRole)},
-        new Lookup{ EName = "RoleClaims", EType= typeof(ApplicationRoleClaim)}
+    public static List<Lookup> Lookups = new()
+    {
+        new() { EName = "Category", EType = typeof(Category), TitleFieldName = "Name" },
+        new() { EName = "Keywords", EType = typeof(Keyword)},
+        new() { EName = "UserName", EType = typeof(ApplicationUser), TitleFieldName = "UserName"},
+        new() { EName = "UserEmail", EType = typeof(ApplicationUser), TitleFieldName = "Email"},
+        new() { EName = "Role", EType = typeof(ApplicationRole)},
+        new() { EName = "RoleClaims", EType = typeof(ApplicationRoleClaim)}
     };
 
-    public List<KeyValuePair<TID, string>> Search<TID>(string entityName, string query, bool queryGetAll=false, TID? parentId = default)
+    public async Task<List<KeyValuePair<TID, string>>> Search<TID>(string entityName, string query, bool queryGetAll = false, TID? parentId = default)
     {
         List<KeyValuePair<TID, string>> result = new List<KeyValuePair<TID, string>>();
 
         if (!Lookups.Any(e => e.EName == entityName)) return result;
-        Lookup lookup = Lookups.FirstOrDefault(e => e.EName == entityName)!;
+        Lookup lookup = Lookups.Find(e => e.EName == entityName)!;
 
-        var _qry = _context.Query(lookup.EName, lookup.EType);
+        var qry = _context.Query(lookup.EName, lookup.EType);
+        // var qry = _context.Query(lookup.EName);
 
-        if (string.IsNullOrEmpty(query) && ! queryGetAll)
+        if (string.IsNullOrEmpty(query) && !queryGetAll)
         {
             return result;
         }
         else
         {
-            _qry = _qry.Where($"{lookup.TitleFieldName} like %{query}% ");
+            qry = qry.Where($"{lookup.TitleFieldName} like '%{query}%' ");
         }
-        result = ParseResult<TID>(_qry, lookup);
-        return result;
+
+        return await ParseResult<TID>(qry, lookup);
     }
 
-    private List<KeyValuePair<TID, string>> ParseResult<TID>(IQueryable qry, Lookup lookup)
+    private static async Task<List<KeyValuePair<TID, string>>> ParseResult<TID>(IQueryable qry, Lookup lookup)
     {
         List<KeyValuePair<TID, string>> result = new List<KeyValuePair<TID, string>>();
-        foreach (dynamic row in qry.ToDynamicList()) {
-            var _key = row[lookup.IDFieldName];
-            var _value = row[lookup.TitleFieldName];
-            if (_key != null && _value != null) result.Add(new KeyValuePair<TID, string>(_key, _value));
+        foreach (dynamic row in await qry.ToDynamicListAsync())
+        {
+            var key = row[lookup.IDFieldName];
+            var value = row[lookup.TitleFieldName];
+            if (key != null && value != null) result.Add(new KeyValuePair<TID, string>(key, value));
         }
+
         return result;
     }
-
-
 }
 
 public class Lookup
 {
     internal string EName { get; set; } = string.Empty;
-    internal Type EType { get; set; }
+    internal Type EType { get; set; } = typeof(object);
     internal string IDFieldName { get; set; } = "Id";
     internal string TitleFieldName { get; set; } = "Title";
 }
