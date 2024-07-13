@@ -1,18 +1,20 @@
-﻿using Fluid.Parser;
+﻿using ClosedXML;
+using Fluid.Parser;
 using FSH.WebApi.Application.Common.Interfaces;
 using FSH.WebApi.Domain.Article;
+using FSH.WebApi.Domain.Common.Contracts;
 using FSH.WebApi.Domain.Keywords;
 using FSH.WebApi.Infrastructure.Common.Extensions;
 using FSH.WebApi.Infrastructure.Identity;
 using FSH.WebApi.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
+using Namotion.Reflection;
 using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace FSH.WebApi.Infrastructure.Common.Services;
 public class LookupService : ILookupService
@@ -26,7 +28,7 @@ public class LookupService : ILookupService
     public static List<Lookup> Lookups = new()
     {
         new() { EName = "Category", EType = typeof(Category), TitleFieldName = "Name" },
-        new() { EName = "Keywords", EType = typeof(Keyword)},
+        new() { EName = "Keyword", EType = typeof(Keyword)},
         new() { EName = "UserName", EType = typeof(ApplicationUser), TitleFieldName = "UserName"},
         new() { EName = "UserEmail", EType = typeof(ApplicationUser), TitleFieldName = "Email"},
         new() { EName = "Role", EType = typeof(ApplicationRole)},
@@ -40,7 +42,16 @@ public class LookupService : ILookupService
         if (!Lookups.Any(e => e.EName == entityName)) return result;
         Lookup lookup = Lookups.Find(e => e.EName == entityName)!;
 
-        var qry = _context.Query(lookup.EName, lookup.EType);
+        IQueryable qry = _context.Query(lookup.EType).AsQueryable()!;
+
+        MethodInfo IncludeMethod = qry.GetType().GetMethod("Include");
+        if (IncludeMethod != null)
+        {
+            IncludeMethod.Invoke(qry, new object[] { "locals" });
+        }
+
+        if (!qry.HasProperty(lookup.IDFieldName)) throw new Exception(string.Format("The Entity '[{0}]' doesn't have a Key property with name '{1}' ", lookup.EName, lookup.IDFieldName));
+        if (!qry.HasProperty(lookup.TitleFieldName)) throw new Exception(string.Format("The Entity '[{0}]' doesn't have a Title property with name '{1}' ", lookup.EName, lookup.TitleFieldName));
         // var qry = _context.Query(lookup.EName);
 
         if (string.IsNullOrEmpty(query) && !queryGetAll)
@@ -49,7 +60,8 @@ public class LookupService : ILookupService
         }
         else
         {
-            qry = qry.Where($"{lookup.TitleFieldName} like '%{query}%' ");
+            var clause = $"{lookup.TitleFieldName} like '%{query}%' ";
+            qry = qry.Where(clause).AsQueryable();
         }
 
         return await ParseResult<TID>(qry, lookup);

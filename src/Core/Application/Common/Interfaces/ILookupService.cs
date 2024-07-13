@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Application.Common.Interfaces;
-public interface ILookupService : ITransientService
+public interface ILookupService : IScopedService
 {
     Task<List<KeyValuePair<TID, string>>> Search<TID>(string entityName, string query, bool queryGetAll = false, TID? parentId = default);
 }
