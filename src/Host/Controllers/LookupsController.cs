@@ -18,9 +18,9 @@ public class LookupsController : VersionedApiController
     [AllowAnonymous]
     // [MustHavePermission(FSHAction.Search, FSHResource.Brands)]
     [OpenApiOperation("Search brands using available filters.", "")]
-    public Task<List<KeyValuePair<string,string>>> SearchAsync(LookupRequest request)
+    public Task<List<KeyValuePair<Guid,string>>> SearchAsync(LookupRequest request)
     {
-        return _lookupService.Search<string>(request.EntityName, request.Query);
+        return _lookupService.Search(request.EntityName, request.Query);
     }
 }
 

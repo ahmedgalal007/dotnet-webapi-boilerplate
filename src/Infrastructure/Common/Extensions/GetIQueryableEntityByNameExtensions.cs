@@ -14,4 +14,5 @@ public static class GetIQueryableEntityByNameExtensions
     public static IQueryable Query(this DbContext context, Type entityType) =>
         (IQueryable)SetMethod.MakeGenericMethod(entityType)?.Invoke(context, null) ??
         throw new Exception($"Type not found: {entityType.FullName}");
+
 }
