@@ -13,11 +13,11 @@ public abstract class AuditableLocalizedEntity : AuditableLocalizedEntity<Defaul
 }
 public abstract class AuditableLocalizedEntity<T> : AuditableEntity<T>
 {
-    public string CulturCode { get; protected set; }
+    public string CulturCode { get; protected set; } = string.Empty;
 
-    public bool Enabled { get; protected set; }
+    public bool Enabled { get; protected set; } = false;
            
-    public bool IsDefault { get; protected set; }
+    public bool IsDefault { get; protected set; } = true;
 
     public abstract AuditableLocalizedEntity<T> Create(string cultureCode,bool enabled = false, bool isDefault = false);
 

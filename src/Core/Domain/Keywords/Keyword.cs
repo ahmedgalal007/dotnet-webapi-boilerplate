@@ -8,12 +8,12 @@ namespace FSH.WebApi.Domain.Keywords;
 
 public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
 {
-    private Keyword()
+    public Keyword()
     {
     }
 
-    public string? Slug { get; set; }
-    public string? Color { get; set; }
+    public string? Slug { get; set; } = string.Empty;
+    public string? Color { get; set; } = string.Empty;
 
     public bool? IsCreativeWork { get; set; } = false;
     public bool? IsEvent { get; set; } = false;
@@ -21,9 +21,9 @@ public class Keyword : LocalizedEntity<LocalizedKeyword>, IAggregateRoot
     public bool? IsPerson { get; set; } = false;
     public bool? IsPlace { get; set; } = false;
     public bool? IsProduct { get; set; } = false;
-    public virtual IEnumerable<News>? News { get; set; } = default;
-    public virtual IEnumerable<Media>? Medias { get; set; } = default;
-    public virtual IEnumerable<Album>? Albums { get; set; }
+    public virtual IEnumerable<News>? News { get; set; } = new List<News>();
+    public virtual IEnumerable<Media>? Medias { get; set; } = new List<Media>();
+    public virtual IEnumerable<Album>? Albums { get; set; } = new List<Album>();
 
     // public virtual IEnumerable<KeywordSchema>? Schemas { get; set; }
 

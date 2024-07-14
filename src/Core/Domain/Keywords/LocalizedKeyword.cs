@@ -7,7 +7,7 @@ public sealed class LocalizedKeyword : AuditableLocalizedEntity
     {
     }
 
-    public Guid KeywordId { get; private set; }
+    public Guid KeywordId { get; private set; } = Guid.NewGuid();
     // public string CulturCode { get; set; } = string.Empty;
     public string Title { get; private set; } = string.Empty;
     public string? Description { get; private set; } = string.Empty;
