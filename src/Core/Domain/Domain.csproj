@@ -5,6 +5,12 @@
         <AssemblyName>FSH.WebApi.Domain</AssemblyName>
     </PropertyGroup>
     <ItemGroup>
+      <None Remove="CustomFields\Fields\DefaultElement.cs.txt" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Include="CustomFields\Fields\DefaultElement.cs.txt" />
+    </ItemGroup>
+    <ItemGroup>
         <PackageReference Include="NewId" Version="4.0.1" />
     </ItemGroup>
     <ItemGroup>
@@ -18,6 +24,8 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Common\Lookups\" />
+      <Folder Include="CustomFields\ListViews\" />
+      <Folder Include="CustomFields\ListForms\" />
       <Folder Include="Shifts\" />
       <Folder Include="Vocabularies\" />
       <Folder Include="Tasks\" />

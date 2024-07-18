@@ -1,0 +1,26 @@
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Diagnostics.Metrics;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+
+//namespace FSH.WebApi.Domain.CustomFields.Fields;
+//internal class DefaultElement
+//{
+//    public string TypeName { get; set; }
+//    public string TypeDisplayName { get; set; }
+//    public string InternalType { get; set; }
+//    public string SQLType { get; set; }
+//    public string ParentType { get; set; }
+//    public bool UserCreatable { get; set; }
+//    public bool Sortable { get; set; }
+//    public bool Filterable { get; set; }
+//    public RenderPattern HeaderPattern { get; set; }
+//    public RenderPattern DisplayPattern { get; set; }
+//    public RenderPattern EditPattern { get; set; }
+//    public RenderPattern NewPattern { get; set; }
+//    public RenderPattern PreviewDisplayPattern { get; set; }
+//    public RenderPattern PreviewEditPattern { get; set; }
+//    public RenderPattern PreviewNewPattern { get; set; }
+//}

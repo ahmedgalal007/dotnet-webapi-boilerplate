@@ -25,8 +25,8 @@ public class LookupsController : ControllerBase
         var result = await _lookupService.Search(request.EntityName, request.Query);
         return result.Adapt<List<LookupResponse>>();
     }
-
 }
+
 public class LookupResponse
 {
     public Guid Id { get; set; }

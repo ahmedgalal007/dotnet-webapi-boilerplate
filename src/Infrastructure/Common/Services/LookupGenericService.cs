@@ -1,20 +1,7 @@
-﻿using DocumentFormat.OpenXml.InkML;
-using Elsa.Expressions.Models;
-using Elsa.Workflows.Models;
-using Finbuckle.MultiTenant;
+﻿using Finbuckle.MultiTenant;
 using FSH.WebApi.Application.Common.Interfaces;
 using FSH.WebApi.Application.Common.Persistence;
-using FSH.WebApi.Domain.Article;
-using FSH.WebApi.Domain.Common.Contracts;
-using FSH.WebApi.Infrastructure.Persistence.Context;
-using FSH.WebApi.Infrastructure.Persistence.Repository;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace FSH.WebApi.Infrastructure.Common.Services;
 public class LookupGenericService : ILookupService
@@ -26,62 +13,92 @@ public class LookupGenericService : ILookupService
 
     public async Task<List<LookupResult>> Search(string entityName, string query, bool queryGetAll = false, string lang = "ar-EG", Guid? parentId = default)
     {
-        string categorySQL = GenerateSQL(entityName: "Category", childEntityName:"LocalizedCategory", localizedFieldId: "CategoryId", schema: "Article", IsLocalized: true, TitleFieldName: "Name", CulturCode: lang);
-        string keywordSQL = GenerateSQL(entityName: "Keyword", childEntityName: "LocalizedKeyword", localizedFieldId: "KeywordId", schema: "Article", IsLocalized: true, TitleFieldName: "Title", CulturCode: lang);
+        string categorySQL = GenerateSQL(schema: "Article", entityName: "Category", childEntityName: "LocalizedCategory", localizedFieldId: "CategoryId", IsLocalized: true, TitleFieldName: "Name", CulturCode: lang);
+        string keywordSQL = GenerateSQL(schema: "Article", entityName: "Keyword", childEntityName: "LocalizedKeyword", localizedFieldId: "KeywordId",  IsLocalized: true, TitleFieldName: "Title", CulturCode: lang);
+
+        var sqlQueryParams = new
+        {
+            Query = query,
+            CultureCode = lang,
+
+            // tenant = _tenantInfo?.Identifier ?? MultitenancyConstants.Root.Id,
+            tenant = _tenantInfo?.Identifier ?? "root",
+        };
+
+        async Task<List<LookupResult>> Apply(string sql, object queryParams) => (await _repository.QueryAsync<LookupResult>(
+                        sql: sql, queryParams, cancellationToken: new CancellationToken())).ToList();
 
         return entityName switch
         {
-            "Category" => (await _repository.QueryAsync<LookupResult>(
-                categorySQL,
-                new
-                {
-                    Query = query,
-                    CultureCode = lang,
-                    tenant = _tenantInfo?.Identifier ?? "root",
-                },
-                cancellationToken: new CancellationToken()
-            )).ToList(),
-            "Keyword" => (await _repository.QueryAsync<LookupResult>(
-                keywordSQL,
-                new
-                {
-                    Query = query,
-                    CultureCode = lang,
-                    tenant = _tenantInfo?.Identifier ?? "root",
-                },
-                cancellationToken: new CancellationToken()
-            )).ToList(),
+            "Category" => await Apply(categorySQL, sqlQueryParams),
+            "Keyword" => await Apply(keywordSQL, sqlQueryParams),
             _ => new List<LookupResult>()
         };
     }
 
-    private string GenerateSQL(string entityName, string childEntityName, string localizedFieldId, string schema = "", bool IsLocalized = false , string? ParentFieldName = null, string LocalsFieldName="Locals", string TitleFieldName = "Title", string IdFieldName = "Id",string CulturCode="ar-EG") =>
-        $" SELECT C.{IdFieldName} as Id , {(IsLocalized ? "L." : "C.")}{TitleFieldName} as Title" +
-        $" FROM {(string.IsNullOrWhiteSpace(schema) ? entityName : schema + "." + entityName)} C" +
-        $"{(IsLocalized ? " LEFT JOIN " + (string.IsNullOrWhiteSpace(schema)? childEntityName : schema + "." + childEntityName) + " L  ON C." + IdFieldName + " = L." + localizedFieldId + " " : string.Empty) }" +
-        $" WHERE {(IsLocalized ? "L." : "C.")}{TitleFieldName} Like N'%' + @Query + '%'" +
-        $"{(IsLocalized ? " AND L.CulturCode = @CultureCode" : string.Empty)}" +
-        $"{(string.IsNullOrWhiteSpace(ParentFieldName) ? string.Empty : " AND C." + ParentFieldName + " = @ParentId ")}" +
-        $" AND C.\"TenantId\" = @tenant";
+    private string GenerateSQL(
+                               string entityName,
+                               string childEntityName,
+                               string localizedFieldId,
+                               string schema = "",
+                               bool IsLocalized = false,
+                               string? ParentFieldName = null,
+                               string LocalsFieldName = "Locals",
+                               string TitleFieldName = "Title",
+                               string IdFieldName = "Id",
+                               string CulturCode = "ar-EG")
+    {
+        string
+            refP = "C.",
+            refC = IsLocalized ? "L." : refP,
+            jointClause = IsLocalized ? " LEFT JOIN " + (string.IsNullOrWhiteSpace(schema) ? childEntityName : schema + "." + childEntityName) + " L  ON " + refP + IdFieldName + " = " + refC + localizedFieldId : string.Empty,
+            localizeFilter = IsLocalized ? " AND " + refC + "CulturCode = @CultureCode" : string.Empty,
+            selectClause = $" SELECT {refP + IdFieldName} as Id , {refC + TitleFieldName} as Title";
 
+        return selectClause +
+                $" FROM {(!string.IsNullOrWhiteSpace(schema) ? schema + "." + entityName : entityName)} C" +
+                $"{jointClause}" +
+                $" WHERE {refC + TitleFieldName} Like N'%' + @Query + '%'" +
+                $"{localizeFilter}" +
+                $"{(string.IsNullOrWhiteSpace(ParentFieldName) ? string.Empty : " AND C." + ParentFieldName + " = @ParentId ")}" +
+                $" AND C.\"TenantId\" = @tenant";
+    }
 }
 
-public class LookupFilter 
+public class LookupFilter
 {
-    public string FieldName { get; set; }
-    public string Value { get; set; }
+    public string FieldName { get; set; } = string.Empty;
+    public string Value { get; set; } = string.Empty;
+    public EnumFilterComparer Comparer { get; set; } = EnumFilterComparer.Equals;
 }
 
-public enum EnumLookupFilterExp
+public class EnumFilterComparer
 {
-    Equals = 0,
-    GreaterThan = 1,
-    LessThan = 2,
-    Contains = 3,
-    NotEquals = 4,
+    private EnumFilterComparer(string value) { Value = value; }
+
+    public string Value { get; private set; }
+
+    public static EnumFilterComparer Equals { get { return new EnumFilterComparer("= {0}"); } }
+    public static EnumFilterComparer GreaterThan { get { return new EnumFilterComparer("> {0}"); } }
+    public static EnumFilterComparer GreaterThanOrEquales { get { return new EnumFilterComparer(">= {0}"); } }
+    public static EnumFilterComparer LessThan { get { return new EnumFilterComparer("< {0}"); } }
+    public static EnumFilterComparer LessThanOrEquales { get { return new EnumFilterComparer("<= {0}"); } }
+    public static EnumFilterComparer Contains { get { return new EnumFilterComparer("Like N'%' + {0} + '%'"); } }
+    public static EnumFilterComparer StartsWith { get { return new EnumFilterComparer("Like N'{0}' + '%'"); } }
+    public static EnumFilterComparer EndsWith { get { return new EnumFilterComparer("Like N'%' + {0}"); } }
+    public static EnumFilterComparer NotEquals { get { return new EnumFilterComparer("!=  + {0}"); } }
+    public static EnumFilterComparer IsNull { get { return new EnumFilterComparer("IS NULL"); } }
+
+    public override string ToString()
+    {
+        return Value.Replace("N'", string.Empty).Replace("'", string.Empty).Replace("", string.Empty).Replace("", string.Empty).Replace("", string.Empty);
+    }
+
+    public string GenerateFilter(string FieldName, string filterValue)
+    {
+        return FieldName + " " + string.Format(Value, filterValue);
+    }
 }
-
-
 
 #region Trash
 
@@ -103,7 +120,7 @@ public enum EnumLookupFilterExp
 //                                     e.Id,
 //                                     e.Locals.FirstOrDefault(e => e.CulturCode == lang).Title
 //                                 );
-//  
+//
 // "Category" => await _context.Categories
 //                     .Include(e => e.Locals)
 //                     .Where(c => c.Locals
