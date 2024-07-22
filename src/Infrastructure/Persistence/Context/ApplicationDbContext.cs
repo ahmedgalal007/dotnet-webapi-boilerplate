@@ -4,6 +4,7 @@ using FSH.WebApi.Application.Common.Events;
 using FSH.WebApi.Application.Common.Interfaces;
 using FSH.WebApi.Domain.Article;
 using FSH.WebApi.Domain.Catalog;
+using FSH.WebApi.Domain.DynamicSchemas;
 using FSH.WebApi.Domain.Keywords;
 using FSH.WebApi.Domain.Medias;
 using FSH.WebApi.Domain.Medias.Images;
@@ -11,6 +12,8 @@ using FSH.WebApi.Domain.Medias.Videos;
 using FSH.WebApi.Domain.Storage;
 // using FSH.WebApi.Domain.Common.Localizations;
 using FSH.WebApi.Infrastructure.Persistence.Configuration;
+using FSH.WebApi.Infrastructure.Persistence.DynamicSchemas;
+// using FSH.WebApi.Infrastructure.Persistence.DynamicSchemas.Scaffold;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using File = FSH.WebApi.Domain.Storage.File;
@@ -20,11 +23,13 @@ namespace FSH.WebApi.Infrastructure.Persistence.Context;
 public class ApplicationDbContext : BaseDbContext
 {
     private readonly Action<ModelBuilder> _buildAction;
-    public ApplicationDbContext(ITenantInfo currentTenant, DbContextOptions options, ICurrentUser currentUser, ISerializerService serializer, IOptions<DatabaseSettings> dbSettings, IEventPublisher events, Action<ModelBuilder> buildAction)
+    public ApplicationDbContext(ITenantInfo currentTenant, DbContextOptions<ApplicationDbContext> options, ICurrentUser currentUser, ISerializerService serializer, IOptions<DatabaseSettings> dbSettings, IEventPublisher events, Action<ModelBuilder> buildAction)
         : base(currentTenant, options, currentUser, serializer, dbSettings, events)
     {
         _buildAction = buildAction;
     }
+
+    public List<MetadataEntity> MetadataEntities = new List<MetadataEntity>();
 
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Brand> Brands => Set<Brand>();
@@ -39,7 +44,7 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<Image> Images => Set<Image>();
     public DbSet<LocalizedImage> LocalizedImages => Set<LocalizedImage>();
     public DbSet<Video> Videos => Set<Video>();
-    public DbSet<LocalizedImage> LocalizedVideos => Set<LocalizedImage>();
+    public DbSet<LocalizedVideo> LocalizedVideos => Set<LocalizedVideo>();
 
     // public DbSet<Culture> Cultures => Set<Culture>();
 
@@ -49,7 +54,6 @@ public class ApplicationDbContext : BaseDbContext
 
         modelBuilder.HasDefaultSchema(SchemaNames.Catalog);
         _buildAction(modelBuilder);
-
         // modelBuilder.Entity<Domain.Common.Localizations.Culture>().ToTable("Culture", tableBuilder => { tableBuilder.Property(x => x.Code).HasColumnName("Code"); }).HasKey(x => x.Code);
         // modelBuilder.Entity<Domain.Common.Localizations.Localization>().HasOne(x => x.Culture).WithOne().HasForeignKey<Domain.Common.Localizations.Localization>(x => x.CultureCode);
         // modelBuilder.Entity<LocalizationSet>().HasMany(x => x.Localizations).WithOne(x => x.LocalizationSet).HasForeignKey(x => x.LocalizationSetId).OnDelete(DeleteBehavior.Cascade);

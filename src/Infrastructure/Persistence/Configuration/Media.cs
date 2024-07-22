@@ -208,15 +208,15 @@ public class LocalizedImageConfig : IEntityTypeConfiguration<LocalizedImage>
         // builder.HasOne<LocalizedMedia>().WithOne();
     }
 }
-public class LocalizedVideoConfig : IEntityTypeConfiguration<LocalizedImage>
+public class LocalizedVideoConfig : IEntityTypeConfiguration<LocalizedVideo>
 {
-    public void Configure(EntityTypeBuilder<LocalizedImage> builder)
+    public void Configure(EntityTypeBuilder<LocalizedVideo> builder)
     {
         // builder.IsMultiTenant();
         builder.ToTable("LocalizedMedia", nameof(SchemaNames.Media));
         builder.HasDiscriminator(e => e.TypeName)
         //.HasValue<LocalizedImage>("LocalizedImage");
-        .HasValue<LocalizedImage>("LocalizedVideo");
+        .HasValue<LocalizedVideo>("LocalizedVideo");
 
         // builder.HasOne<LocalizedMedia>().WithOne();
     }

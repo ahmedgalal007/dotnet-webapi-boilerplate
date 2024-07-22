@@ -15,6 +15,7 @@ using FSH.WebApi.Infrastructure.Multitenancy;
 using FSH.WebApi.Infrastructure.Notifications;
 using FSH.WebApi.Infrastructure.OpenApi;
 using FSH.WebApi.Infrastructure.Persistence;
+using FSH.WebApi.Infrastructure.Persistence.DynamicSchemas;
 using FSH.WebApi.Infrastructure.Persistence.Initialization;
 using FSH.WebApi.Infrastructure.SecurityHeaders;
 using FSH.WebApi.Infrastructure.SEO;
@@ -89,7 +90,8 @@ public static class Startup
             .InitializeDatabasesAsync(cancellationToken);
     }
 
-    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IConfiguration config) =>
+    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IConfiguration config)
+    {
         builder
             .UseRequestLocalization()
             .UseStaticFiles()
@@ -105,7 +107,10 @@ public static class Startup
             .UseRequestLogging(config)
             .UseHangfireDashboard(config)
             .UseElsaWorkflow(config)
-            .UseOpenApiDocumentation(config);
+            .UseOpenApiDocumentation(config)
+            .UseDynamicDbContext();
+        return builder;
+    }
     public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder builder)
     {
         builder.MapControllers().RequireAuthorization();
