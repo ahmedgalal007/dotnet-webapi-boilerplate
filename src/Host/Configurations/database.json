@@ -1,4 +1,7 @@
 {
+  "ConnectionStrings": {
+    "DynamicSchema": "Data Source=DESKTOP-S12TPIH\\MSSQLSERVER2017;Initial Catalog=rootTenantDynamic;Integrated Security=false;User ID=sa;Password=Sico007_;MultipleActiveResultSets=True;TrustServerCertificate=True"
+  },
   //"DatabaseSettings": {
   //  "DBProvider": "postgresql",
   //  "ConnectionString": "Host=localhost;Port=5432;Database=fshDb;Username=postgres;Password=admin;Include Error Detail=true"

@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Serilog;
+using System.Configuration;
 
 namespace FSH.WebApi.Infrastructure.Persistence;
 
@@ -56,30 +57,33 @@ internal static class Startup
                 // m.UseDatabase(databaseSettings.DBProvider, databaseSettings.ConnectionString);
                 // .ReplaceService<IModelCacheKeyFactory, DynamicDbCacheKeyFactory>()
                 // .ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>();
-                switch (databaseSettings.DBProvider.ToLowerInvariant())
-                {
-                    case DbProviderKeys.Npgsql:
-                        m.UseNpgsql(databaseSettings.ConnectionString);
-                        break;
-                    case DbProviderKeys.SqlServer:
-                        m.UseSqlServer(databaseSettings.ConnectionString);
-                        break;
-                    case DbProviderKeys.MySql:
-                        m.UseMySql(
-                            databaseSettings.ConnectionString,
-                            ServerVersion.AutoDetect(databaseSettings.ConnectionString),
-                            e => e.SchemaBehavior(MySqlSchemaBehavior.Ignore));
-                        break;
-                    case DbProviderKeys.Oracle:
-                        m.UseOracle(databaseSettings.ConnectionString);
-                        break;
-                    case DbProviderKeys.SqLite:
-                        m.UseSqlite(databaseSettings.ConnectionString);
-                        break;
+                var config = p.GetService<IConfiguration>();
+                m.UseSqlServer(config.GetConnectionString("DynamicSchema"));
 
-                    default:
-                        throw new InvalidOperationException($"DB Provider {databaseSettings.DBProvider} is not supported.");
-                }
+                // switch (databaseSettings.DBProvider.ToLowerInvariant())
+                // {
+                //     case DbProviderKeys.Npgsql:
+                //         m.UseNpgsql(databaseSettings.ConnectionString);
+                //         break;
+                //     case DbProviderKeys.SqlServer:
+                //         m.UseSqlServer(databaseSettings.ConnectionString);
+                //         break;
+                //     case DbProviderKeys.MySql:
+                //         m.UseMySql(
+                //             databaseSettings.ConnectionString,
+                //             ServerVersion.AutoDetect(databaseSettings.ConnectionString),
+                //             e => e.SchemaBehavior(MySqlSchemaBehavior.Ignore));
+                //         break;
+                //     case DbProviderKeys.Oracle:
+                //         m.UseOracle(databaseSettings.ConnectionString);
+                //         break;
+                //     case DbProviderKeys.SqLite:
+                //         m.UseSqlite(databaseSettings.ConnectionString);
+                //         break;
+                   
+                //     default:
+                //         throw new InvalidOperationException($"DB Provider {databaseSettings.DBProvider} is not supported.");
+                // }
             });
     }
 
