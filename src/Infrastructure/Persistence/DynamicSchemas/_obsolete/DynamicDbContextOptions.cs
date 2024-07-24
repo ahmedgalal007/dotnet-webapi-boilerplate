@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace FSH.WebApi.Infrastructure.Persistence.DynamicSchemas;
+namespace FSH.WebApi.Infrastructure.Persistence.DynamicSchemas._obsolete;
 
 public class DynamicDbContextOptions : DatabaseSettings
 {

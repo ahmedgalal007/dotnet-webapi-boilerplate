@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 
-namespace FSH.WebApi.Infrastructure.Persistence.DynamicSchemas;
+namespace FSH.WebApi.Infrastructure.Persistence.DynamicSchemas._obsolete;
 
 public class DbSchemaAwareMigrationAssembly : MigrationsAssembly
 {
@@ -24,7 +24,7 @@ public class DbSchemaAwareMigrationAssembly : MigrationsAssembly
     {
         _context = currentContext.Context;
     }
-    
+
 
     //public override Migration CreateMigration(TypeInfo migrationClass,
     //     string activeProvider)

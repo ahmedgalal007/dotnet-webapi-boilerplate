@@ -23,7 +23,11 @@ public static class Startup
                     // The database is created automatically if it does not exist, if exist will be updated to latest model changes
                     // Pay attention if you are using a PaaS database, like Azure; it will be created automatically using the default SKU and this might affect your costs.
                     dbContext.Database.EnsureCreated();
-                    dbContext.MigrateToLatestVersionAsync(new DbMigrationsOptions { AutomaticMigrationDataLossAllowed = true });
+                    dbContext.MigrateToLatestVersionAsync(
+                        new DbMigrationsOptions {
+                            AutomaticMigrationDataLossAllowed = false,
+                            ResetDatabaseSchema =false,
+                            AutomaticMigrationsEnabled = true });
 
                     //at this stage dabatabase containse latest changes
                     // Todo entity was mapped via Fluent API

@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FSH.WebApi.Infrastructure.Persistence.DynamicSchemas.Models;
-public class SPFieldBase
+public class SPTextField 
 {
     public Guid Id { get; set; } = Guid.NewGuid();
-    public string? Name { get; set; } = string.Empty;
+    public string? Description { get; set; } = string.Empty;
+    public new string? Name { get; set; } = string.Empty;
 
     // public Type TypeName { get; set; } = typeof(object);
 }

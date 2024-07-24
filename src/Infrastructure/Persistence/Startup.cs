@@ -58,7 +58,8 @@ internal static class Startup
                 // .ReplaceService<IModelCacheKeyFactory, DynamicDbCacheKeyFactory>()
                 // .ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>();
                 var config = p.GetService<IConfiguration>();
-                m.UseSqlServer(config.GetConnectionString("DynamicSchema"));
+                m.UseSqlServer(config.GetConnectionString("DynamicSchema"))
+                .ReplaceService<IModelCacheKeyFactory, DynamicDbCacheKeyFactory>();
 
                 // switch (databaseSettings.DBProvider.ToLowerInvariant())
                 // {

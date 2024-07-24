@@ -1,10 +1,15 @@
-﻿using FSH.WebApi.Domain.DynamicSchemas;
+﻿
+using FSH.WebApi.Domain.Article;
+using FSH.WebApi.Domain.DynamicSchemas;
+using FSH.WebApi.Domain.Keywords;
 using FSH.WebApi.Infrastructure.Multitenancy;
 using FSH.WebApi.Infrastructure.Persistence.Context;
+using FSH.WebApi.Infrastructure.Persistence.DynamicSchemas.Assemblies;
 using FSH.WebApi.Infrastructure.Persistence.DynamicSchemas.Models;
 // using FSH.WebApi.Infrastructure.Persistence.DynamicSchemas.Scaffold;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +21,9 @@ public class DynamicDbContext : DbContext
     string _version;
     public DynamicDbContext(DbContextOptions<DynamicDbContext> options) : base(options)
     {
-        _metaDataEntityList = new List<MetadataEntity>(){
+        var ClassFactory = new DynamicClassFactory(typeof(DynamicDbContext).FullName + "Models");
+        List<MetadataEntity> metaDataList = new List<MetadataEntity>()
+        {
             new MetadataEntity
             {
                 Name = "SPField",
@@ -27,9 +34,45 @@ public class DynamicDbContext : DbContext
                 },
                 SchemaName = "DEntities",
                 TableName = "SPField",
-                EntityType = typeof(SPFieldBase),
-            }
+                EntityType = typeof(SPFieldBase)
+            },
+            new MetadataEntity
+            {
+                Name = "SPTextField",
+                Properties = new()
+                {
+                    new MetadataEntityProperty { Name = "Id", Type = typeof(Guid).FullName!,  ColumnName = "Id", IsNavigation = false },
+                    // new MetadataEntityProperty { Name = "Name", Type = typeof(string).FullName!,  ColumnName ="Name", IsNavigation=false },
+                    new MetadataEntityProperty { Name = "Description", Type = typeof(string).FullName!,  ColumnName ="Description", IsNavigation=false }
+
+                },
+                SchemaName = "DEntities",
+                TableName = "SPTextField",
+                EntityType = typeof(SPTextField)
+            },
+            //new MetadataEntity
+            //{
+            //    Name = "Keyword",
+            //    Properties = new()
+            //    {
+            //        new MetadataEntityProperty { Name = "Id", Type = typeof(Guid).FullName!,  ColumnName = "Id", IsNavigation = false },
+            //        new MetadataEntityProperty { Name = "Title", Type = typeof(string).FullName!,  ColumnName ="Title", IsNavigation=false },
+            //        // new MetadataEntityProperty { Name = "Locals", Type = typeof(List<LocalizedKeyword>).FullName!,  ColumnName ="Locals", IsNavigation = true, NavigationType = typeof(LocalizedKeyword).FullName }
+            //    },
+            //    SchemaName = "DEntities",
+            //    TableName = "keyword",
+            //}
         };
+        var EntityTypes = new Dictionary<string, Type>();
+
+        //foreach (var entity in metaDataList)
+        //{
+        //    var entityType = ClassFactory.CreateDynamicType<dynamic>(entity.Name, entity.Properties.Select(e => new DictionaryEntry(e.Name, typeof(DynamicDbContext).Assembly.GetType(e.Type))) as Dictionary<string, Type>);
+        //    entity.EntityType = entityType;
+
+        //}
+
+        _metaDataEntityList = metaDataList;
     }
 
     public List<MetadataEntity> _metaDataEntityList = new List<MetadataEntity>();
