@@ -19,6 +19,13 @@ namespace FSH.WebApi.Infrastructure.Persistence.DynamicSchemas;
 public class DynamicDbContext : DbContext
 {
     string _version;
+
+    public List<MetadataEntity> _metaDataEntityList = new List<MetadataEntity>();
+
+    static DynamicDbContext()
+    {
+
+    }
     public DynamicDbContext(DbContextOptions<DynamicDbContext> options) : base(options)
     {
         var ClassFactory = new DynamicClassFactory(typeof(DynamicDbContext).FullName + "Models");
@@ -75,12 +82,11 @@ public class DynamicDbContext : DbContext
         _metaDataEntityList = metaDataList;
     }
 
-    public List<MetadataEntity> _metaDataEntityList = new List<MetadataEntity>();
 
     public void AddMetadata(MetadataEntity metadataEntity) => _metaDataEntityList.Add(metadataEntity);
     public void SetMetadata(List<MetadataEntity> metadataEntities) => _metaDataEntityList = metadataEntities;
 
-    public MetadataEntity GetMetadaEntity(Type type) => _metaDataEntityList.FirstOrDefault(p => p.EntityType == type);
+    public MetadataEntity GetMetadataEntity(Type type) => _metaDataEntityList.FirstOrDefault(p => p.EntityType == type);
 
 
     public void SetContextVersion(string version) => _version = version;
@@ -99,6 +105,7 @@ public class DynamicDbContext : DbContext
         modelBuilder.HasDefaultSchema("DEntities");
         foreach (var metadataEntity in _metaDataEntityList)
         {
+            // modelBuilder.Model.AddEntityType("", metadataEntity.EntityType);
             modelBuilder.Entity(metadataEntity.EntityType).ToTable(metadataEntity.TableName, metadataEntity.SchemaName).HasKey("Id");
 
             foreach (var metaDataEntityProp in metadataEntity.Properties)
